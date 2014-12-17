@@ -34,7 +34,7 @@
  * DIV_MAX_FILENAME_SIZE        The max size of file name or dir name in your operating system
  */
 
-if (!defined('PACKAGES'))                  define('PACKAGES', './php/');
+if (!defined('PACKAGES'))                  define('PACKAGES', './app/');
 if (!defined('DIV_DEFAULT_TPL_FILE_EXT'))  define('DIV_DEFAULT_TPL_FILE_EXT', 'tpl.html');
 if (!defined('DIV_DEFAULT_DATA_FILE_EXT')) define('DIV_DEFAULT_DATA_FILE_EXT', 'json');
 if (!defined('DIV_MAX_PARSE_CYCLES'))      define('DIV_MAX_PARSE_CYCLES', 100);

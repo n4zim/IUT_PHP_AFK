@@ -68,7 +68,7 @@ class AFK {
 	}
 
 	public function view($view, $data = NULL) {
-		$view = 'php/view/'.$view.'.tpl.html';
+		$view = Config::$paths['views'].$view.'.tpl.html';
 		if(empty($data)) $data = array();
 		if(!file_exists($view)) exit('View '.$view.' not found.');
 
