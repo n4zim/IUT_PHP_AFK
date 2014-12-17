@@ -70,11 +70,6 @@ class AFK {
 		}
 	}
 
-	public function loadModel($name) {
-		//include 'controller/'.$name.'.class.php';
-		$this->models[$name] = $name;
-	}
-
 	public function view($view, $data = NULL) {
 		$view = Config::$path['views'].$view.'.tpl.html';
 		if(empty($data)) $data = array();
@@ -89,6 +84,10 @@ class AFK {
         try {
             $this->db = new PDO(Config::$dbInfo['driver'], Config::$dbInfo['username'], Config::$dbInfo['password']);
 			$this->db->exec('SET CHARACTER SET utf8');
+			
+			// If we are in website debug mode, we display PDO errors
+			if(Config::$debug) 
+    			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         } catch(Exception $e) {
             exit('Erreur de connexion : ' . $e->getMessage());
         }
