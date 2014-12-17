@@ -3,6 +3,8 @@
  * Configuration class for the website
  **/
 class Config {
+    public static $debug = true;
+
     public static  $dbInfo = array(
         'driver' => 'mysql:host=db.nerdbox.fr;dbname=afk',
         'username' => 'afk',
@@ -14,7 +16,7 @@ class Config {
     );
 
     public static $listing = array(
-        'usersPerPage' => 1000
+        'usersPerPage' => 25
     );
 
     public static $path = array(
