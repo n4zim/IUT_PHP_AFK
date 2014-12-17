@@ -27,10 +27,7 @@ class AFK {
 	}
 
 	private function AFK() {
-		//$this->db = $db;
-		$this->route[''] = $this->route['home'] = $this->route['index'] = 'Home';
-		$this->route['about'] = 'about';
-
+		$this->createRoutes();
 		// Auto load des controlleurs et des modèles
 		spl_autoload_register(function ($class) {
 			$filename = $class.'.class.php';
@@ -42,6 +39,11 @@ class AFK {
 			else if(file_exists(Config::$path['model'].$filename))
 				include Config::$path['model'].$filename;
 		});
+	}
+
+	private function createRoutes() {
+		$this->route[''] = $this->route['home'] = $this->route['index'] = 'Home';
+		$this->route['users'] = $this->route['user'] = 'User';
 	}
 
 	public function router($request) {
