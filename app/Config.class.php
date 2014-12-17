@@ -13,7 +13,13 @@ class Config {
         'hostname' => 'localhost'
     );
 
-    public static $paths = array(
-        'views' => 'app/view/'
+    public static $listing = array(
+        'usersPerPage' => 1000
+    );
+
+    public static $path = array(
+        'views' => 'app/view/',
+        'controller' => 'app/controller/',
+        'model' => 'app/model/'
     );
 }
