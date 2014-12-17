@@ -1,0 +1,18 @@
+{% layout/layout.tpl %}
+{{content
+{$count} utilisateurs :<br />
+<br />
+Page {$page} sur {$pageCount}<br />
+
+<br />
+[$users]
+    Username : {$Username}<br />
+    Mail : {$Mail}<br />
+    Sexe : {$Gender}<br />
+    Faction : {$Faction}<br />
+    <hr />
+@empty@
+    Aucun utilisateur trouvé
+[/$users]
+
+content}}
