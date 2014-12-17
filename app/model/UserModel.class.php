@@ -10,14 +10,26 @@ class UserModel extends Model {
 
         $req = 'SELECT `Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, `Avatar`, `Faction`
                 FROM `User`
-                LIMIT :min, :max
-                ORDER BY `Username` ASC';
+                LIMIT :min, :max';
 
         $statement = $this->db->prepare($req);
-        $statement->execute(array(':min' => $min, ':max' => $max));
-        $result = $statement->fetchAll();
+        $statement->bindValue('min', $min, PDO::PARAM_INT);
+        $statement->bindValue('max', $max, PDO::PARAM_INT);
+        $statement->execute();
 
+        $result = $statement->fetchAll();
         return $result;
+    }
+
+    public function countUsers() {
+        $req = 'SELECT COUNT(`Id`) AS `Count`
+                FROM `User`';
+
+        $statement = $this->db->prepare($req);
+        $statement->execute();
+
+        $result = $statement->fetch();
+        return $result['Count'];
     }
 
     public function getUser($id = null) {
