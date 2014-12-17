@@ -13,6 +13,9 @@ class Home extends Controller {
     }
 
     public function yolo() {
-        $this->afk->view('yolo', array('test' => 'swag'));
+        $user = new UserModel();
+        $users = print_r($user->getUser(1), true);
+        
+        $this->afk->view('yolo', array('users' => $users));
     }
 }
