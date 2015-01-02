@@ -1,8 +1,9 @@
 <!doctype html>
 <html>
 <head>
-    <title>Nerd Framework</title>
+    <title>CookieCatch</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <style>
         .pagenums .act {
             background-color: red;
@@ -10,15 +11,8 @@
     </style>
 </head>
 <body>
-    head<br />
-    head<br />
-    head<hr />
-
+    <section id="content">
     (( content ))
-    
-    <hr />
-    foot<br />
-    foot<br />
-    foot
+    </section>
 </body>
 </html>
