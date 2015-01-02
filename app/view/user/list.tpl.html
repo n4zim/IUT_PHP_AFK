@@ -2,8 +2,12 @@
 {{content
 {$count} utilisateurs :<br />
 <br />
-Page {$page} sur {$pageCount}<br />
-
+[[_empty
+   {% comp/pagination.tpl %}
+   {= baseLink: "?action=users" =}
+   {= page: {$page} =}
+   {= pageCount: {$pageCount} =}
+_empty]]
 <br />
 [$users]
     Username : {$Username}<br />
