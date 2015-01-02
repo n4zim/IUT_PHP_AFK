@@ -6,7 +6,7 @@ class Config {
     public static $debug = true;
 
     public static  $dbInfo = array(
-        'driver' => 'mysql:host=db.nerdbox.fr;dbname=afk',
+        'driver' => 'mysql:host=sereth.nerdbox.fr;dbname=afk',
         'username' => 'afk',
         'password' => 'antrhofurryswag2014'
     );
