@@ -53,29 +53,74 @@ header #user {
 }
 
 
-
 /* Profil */
 #content #profile {
 	width: 100%;
-	height: 20em;
+	height: 300px;
 	margin-top: 30px;
-	background-color: #000;
+	background-color: #EFF;
 }
 
-#content #events {
+#profile .thumbnail {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+}
+
+#profile .thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+
+.pblock {
+	display: flex;
 	width: 100%;
-	height: 10em;
+	height: 150px;
 	margin-top: 40px;
-	background-color: #001;
+	background-color: #DFF;
 }
 
-#content #followed {
-	width: 100%;
-	height: 10em;
-	margin-top: 40px;
-	background-color: #002;
+.pblock div {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	box-orient: vertical;
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
 }
 
+.pblock #title {
+	flex: 1;
+	text-align: left;
+	vertical-align: middle;
+	font-size: 3em;
+	margin-left: 20px;
+	min-width: 4.5em;
+}
+
+.pblock #content {
+	flex: 3;
+	display: inline-block;
+	width: 200px;
+	background-color: #AFF;
+	display: flex;
+}
+
+.pblock #content div {
+	flex: 2;
+	margin-left: 10px;
+	margin-right: 10px;
+}
 
 
 #content h1 {
