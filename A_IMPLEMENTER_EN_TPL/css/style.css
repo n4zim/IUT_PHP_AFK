@@ -66,17 +66,19 @@ header #user {
   width: 300px;
   height: 300px;
   overflow: hidden;
+  margin-left: 80px;
 }
 
 #profile .thumbnail img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 100%;
-  width: auto;
-  -webkit-transform: translate(-50%,-50%);
-      -ms-transform: translate(-50%,-50%);
-          transform: translate(-50%,-50%);
+	border-radius: 100%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 100%;
+	width: auto;
+	-webkit-transform: translate(-50%,-50%);
+	  -ms-transform: translate(-50%,-50%);
+	      transform: translate(-50%,-50%);
 }
 
 .pblock {
