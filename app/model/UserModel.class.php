@@ -8,8 +8,10 @@ class UserModel extends Model {
         $min = $page * Config::$listing['usersPerPage'];
         $max = $min + Config::$listing['usersPerPage'];
 
-        $req = 'SELECT `Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, `Avatar`, `Faction`
+        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, `Avatar`, `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`
                 FROM `User`
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                ORDER BY `Username`
                 LIMIT :min, :max';
 
         $statement = $this->db->prepare($req);
