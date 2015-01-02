@@ -3,6 +3,11 @@
 <head>
     <title>Nerd Framework</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <style>
+        .pagenums .act {
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
     head<br />
