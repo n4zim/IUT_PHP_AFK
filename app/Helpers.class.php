@@ -14,6 +14,66 @@ class Helpers {
     return preg_replace("/\.\/(.*)/i", "$url/$1", $filename);
     }
 
+    public static function toFullGender($gender) {
+        switch(strtoupper($gender)) {
+            case 'M':
+                return 'homme';
+                break;
+            case 'F':
+                return 'femme';
+                break;
+            default:
+                return 'autre';
+                break; 
+        }
+    }
+
+    public static function makeUrl($action, $method = null, $args = null, $htmlencode = true) {
+        $sep = ($htmlencode) ? '&amp;' : '&';
+        $url = Config::$app['baseurl'].'index.php?';
+        $url .= 'action='.$action;
+
+        if($method != null) {
+            $url .= $sep;
+            $url .= 'method='.$method;
+        }
+
+        if($args != null) {
+            if(is_array($args)) {
+                foreach ($args as $key => $value) {
+                    $url .= $sep;
+                    if(!is_int($key)) {
+                        $url .= rawurlencode($key).'=';
+                    }
+                    
+                    $url .= rawurlencode($value);
+                }
+
+            } else {
+                $url .= $sep.$args;
+            }
+        }
+
+        return $url;
+    }
+
+    public static function notify($title, $message, $type = 'info') {
+        $_SESSION['n.title'] = $title;
+        $_SESSION['n.message'] = $message;
+        $_SESSION['n.type'] = $type;
+    }
+
+    public static function unsetNotification() {
+        unset($_SESSION['n.title']);
+        unset($_SESSION['n.message']);
+        unset($_SESSION['n.type']);
+    }
+
+    public static function redirect($action, $method = null, $args = null, $message = '') {
+        header('Location: '.Helpers::makeUrl($action, $method, $args, false));
+        exit($message);
+    }
+
     public static function processDBText($text) {
         $text = utf8_encode($text);
         $text = htmlentities($text, ENT_NOQUOTES, "UTF-8");
