@@ -48,3 +48,9 @@ header #user {
 	text-align: right;
 	font-size: 1.5em;
 }
+
+header #user img {
+	margin-left: 10px;
+	height: 30px;
+	vertical-align: bottom;
+}
