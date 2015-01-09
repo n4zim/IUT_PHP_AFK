@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CookieCatch - Messagerie</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/msg.css">
+  <link rel="stylesheet" href="css/top.css">
+
+  <script>
+    window.console = window.console || function(t) {};
+    window.open = function(){ console.log('window.open is disabled.'); };
+    window.print = function(){ console.log('window.print is disabled.'); };
+    if (false) { window.ontouchstart = function(){}; }
+  </script>
+  <script src="http://assets.codepen.io/assets/libs/prefixfree.min-de773054e90c52a3c2631c944681b64e.js"></script>
+</head>
+<body>
+
+  <header>
+    <div id="title">CookieCatch</div>
+    <div id="user">
+      Bienvenue Michel
+      <a href="#"><img src="img/profile.png"></a>
+      <a href="#"><img src="img/disconnect.png"></a>
+    </div>
+  </header>
+
+
+  <div class="container app">
+    <aside class="sidebar">
+      <nav class="main-nav">
+        <ul>
+          
+          <li class="active">
+            <br><a href="#" class="btn btn-primary">Nouveau message</a>
+            
+            <ul>
+              <li class="active"><a href="#">Inbox <span class="btn btn-primary">25</span></a></li>
+              <li><a href="#">Drafts</a></li>
+              <li><a href="#">Sent</a></li>
+              <li><a href="#">Trash</a></li>
+              <li><a href="#">Junk Mail</a></li>
+            </ul>
+            <ul class="labels">
+              <li><a href="#">Clients <span class="btn btn-primary label"></span></a></li>
+              <li><a href="#">Friends <span class="btn btn-primary label"></span></a></li>
+              <li><a href="#">Family <span class="btn btn-primary label"></span></a></li>
+              <li><a href="#">Dribbble <span class="btn btn-primary label"></span></a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </nav>
+    </aside>
+    <div class="main">
+      <div class="container">
+        <div class="messages">
+          <ul class="message-list">
+       
+            <li class="new">
+              <input type="checkbox" />
+              <div class="preview">
+                <h3>Jeremy Clarkson <small>Jul 15</small></h3>
+                <p>The brand new season of Top Gear</p>
+              </div>
+            </li>
+      
+            <li class="active">
+              <input type="checkbox" />
+              <div class="preview">
+                <h3>Eureka.com <small>Jul 14</small></h3>
+                <p><strong>Interface design - </strong>Hi Greg ...</p>
+              </div>
+            </li>
+    
+            <li class="">
+              <input type="checkbox" />
+              <div class="preview">
+                <h3>Jeremy Legrand <small>Jul 13</small></h3>
+                <p><strong>CSS Responsive - </strong>Here is my hack to ...</p>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+        <section class="message">
+          <h2><span class="icon icon-star-large"></span> The brand new season of Top Gear <span class="icon icon-reply-large"></span><span class="icon icon-delete-large"></span></h2>
+          <div class="meta-data">
+            <p>
+              <img src="http://placehold.it/40x40" class="avatar" alt="" />
+              Jeremy Clarkson to <span class="user">me</span>
+              <span class="date">July 15, 2013</span>
+            </p>
+          </div>
+          <div class="body">
+            <p>Hi Greg,</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam modi possimus dignissimos maxime ipsa unde voluptatum consectetur harum debitis dolorum quas quibusdam vero iusto ducimus blanditiis. Enim autem illo praesentium est quis ab voluptate sequi quia magnam deleniti vero dicta iste. Harum velit asperiores expedita inventore error nulla eius nostrum voluptas aspernatur at quia eaque ipsa deserunt quas doloribus totam incidunt mollitia iure! Libero laudantium nobis necessitatibus veniam autem molestias distinctio voluptas quos aliquam vitae. Consequuntur adipisci natus hic sed rerum dolore cumque numquam illum rem at quaerat reprehenderit iste quis maiores fuga voluptates delectus suscipit dicta nulla itaque placeat.</p>
+            <p>Cheers</p>
+          </div>
+          <div class="action">
+
+            <div class="textarea">
+              <textarea name="r"></textarea>
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
