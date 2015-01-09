@@ -1,0 +1,18 @@
+.pagenums .act {
+    background-color: red;
+}
+
+.notification {
+    background-color: #ddd;
+    border: 2px solid #777;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    padding: 20px;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.notification.error {
+    background-color: salmon;
+}
