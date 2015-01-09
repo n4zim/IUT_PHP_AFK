@@ -1,0 +1,13 @@
+{% layout/layout.tpl %}
+
+{{content
+{?( {$loginFailed} )?}
+Mauvais login/mot de passe
+{/?}
+
+<form  action="{$formAction}" method="POST">
+    login : <input type="text" name="username" value="Xorus" /><br />
+    passwd : <input type="password" name="password" value="test" /><br />
+    <input type="submit" />
+</form>
+content}}
