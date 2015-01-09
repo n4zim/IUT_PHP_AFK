@@ -45,4 +45,24 @@ class UserModel extends Model {
 
         return $result;
     }
+
+    /**
+     * Checks if an user exists with those credentials
+     * @return  User ID if login successful, false otherwise
+     **/
+    public function checkLogin($username, $password) {
+        $req = 'SELECT `Id`, `Username`, `Password`, `Salt` FROM `User`
+                WHERE `Username`=?';
+
+        $statement = $this->db->prepare($req);
+        $statement->execute(array($username));
+        $result = $statement->fetch();
+
+        $saltedPasswd = sha1($password.$result['Salt']);
+
+        if($saltedPasswd == $result['Password'])
+            return $result;
+
+        return FALSE;
+    }
 } 
