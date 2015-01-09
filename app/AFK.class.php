@@ -4,7 +4,6 @@ header('Content-Type: text/html; charset=utf-8');
 require_once('lib/div/div.php');
 require_once('Config.class.php');
 require_once('Layout.class.php');
-//require_once('Database.class.php');
 require_once('Model.class.php');
 require_once('Controller.class.php');
 require_once('Helpers.class.php');
@@ -39,11 +38,14 @@ class AFK {
 			else if(file_exists(Config::$path['model'].$filename))
 				include Config::$path['model'].$filename;
 		});
+
+		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
 	}
 
 	private function createRoutes() {
 		$this->route[''] = $this->route['home'] = $this->route['index'] = 'Home';
 		$this->route['users'] = $this->route['user'] = 'User';
+		$this->route['login'] = 'Login';
 	}
 
 	public function router($request) {
@@ -77,9 +79,26 @@ class AFK {
 		if(empty($data)) $data = array();
 		if(!file_exists($view)) exit('View '.$view.' not found.');
 
+		$data['layout'] = $this->prepareLayout();
+
 		$content = file_get_contents($view);
 		$page = new div($content, $data);
+
 		echo $page;
+	}
+
+	private function prepareLayout() {
+		$data = array('user' => false, 'notification' => false);
+		
+		if(isset($_SESSION['u.id']))
+			$data['user'] = array('id' => $_SESSION['u.id'], 'username' => $_SESSION['u.username']);
+
+		if(isset($_SESSION['n.message'])) {
+			$data['notification'] = array('message' => $_SESSION['n.message'], 'title' => $_SESSION['n.title'], 'type' => $_SESSION['n.type']);
+			Helpers::unsetNotification();
+		}
+
+		return $data;
 	}
 
 	private function initilizeDatabase() {
