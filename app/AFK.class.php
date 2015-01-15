@@ -3,7 +3,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 require_once('lib/div/div.php');
 require_once('Config.class.php');
-require_once('Layout.class.php');
 require_once('Model.class.php');
 require_once('Controller.class.php');
 require_once('Helpers.class.php');
@@ -43,16 +42,25 @@ class AFK {
 	}
 
 	private function createRoutes() {
-		$this->route[''] = $this->route['home'] = $this->route['index'] = 'Home';
-		$this->route['users'] = $this->route['user'] = 'User';
-		$this->route['login'] = 'Login';
+		$r = $this->route;
+
+		$r[''] = $r['home'] = $r['index'] = 'Home';
+		$r['users'] = $r['user'] = 'User';
+		$r['login'] = 'Login';
+		$r['register'] = 'Register';
+
+		$this->route = $r;
 	}
+
 
 	public function router($request) {
 		$queryArray = array();
 		parse_str($request, $queryArray);
 
+		// init route par défaut
 		$class = $this->route[''];
+
+		// recherche de la route
 		if(isset($queryArray['action'])) {
 			if(isset($this->route[$queryArray['action']])) {
 				$class = $this->route[$queryArray['action']];
