@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>CookieCatch</title>
-		<link rel="stylesheet" type="text/css" href="css/creationEvenement.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 	</head>
 
 	<body>
@@ -12,7 +12,7 @@
 			<h1>CookieCatch</h1>
 			<h2>Creation d'événement</h2>
 				<!-- <p>Vous devez vous connecter pour creer un événement.</p>--><!-- message si non connecte -->
-				<form method="post" action="creationEvenement.php"  >
+				<form method="post" action="creationEvenement.php" class="formAtTheLeft" >
 					<label for="event">Nom de l'événement</label><br />
 					<input type="text" name="event" id="event" size="60" /><br />
 					
@@ -36,7 +36,7 @@
 					<textarea name="eventDescription" id="eventDescription"
 						placeholder="Veuillez decrire clairement le fonctionnement de l'événement et les conditions de victoire pour que tout le monde comprenne." cols="54" rows="6"></textarea><br />
 					<p>Recompense initiale: 1000 cookies.<p/>
-					<br /><span id="submit"><input type="submit" value="Créer" class="action-button shadow animate red"></span><br />
+					<br /><span id="submit"><input type="submit" value="Créer" class="action-button shadow animate yellow"></span><br />
 				</form>
 		</section>
 
