@@ -1,0 +1,24 @@
+{% layout/layout.tpl %}
+
+{{content
+
+
+<h2>Reçus</h2>
+[$received]
+Lu : {$Read}<br />
+De {$Sender} à {$Recipient}<br />
+{$Message}<br />
+<em>Envoyé le {formatDateTime:Timestamp}</em>
+<hr />
+[/$received]
+
+<h2>Envoyés</h2>
+[$sent]
+Lu : {$Read}<br />
+De {$Sender} à {$Recipient}<br />
+{$Message}<br />
+<em>Envoyé le {formatDateTime:Timestamp}</em>
+<hr />
+[/$sent]
+
+content}}
