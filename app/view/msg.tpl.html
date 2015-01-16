@@ -1,0 +1,84 @@
+{% layout/layout.tpl %}
+
+{{head
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/msg.css">
+<script>
+window.console = window.console || function(t) {};
+window.open = function(){ console.log('window.open is disabled.'); };
+window.print = function(){ console.log('window.print is disabled.'); };
+if (false) { window.ontouchstart = function(){}; }
+</script>
+<script src="http://assets.codepen.io/assets/libs/prefixfree.min-de773054e90c52a3c2631c944681b64e.js"></script>
+head}}
+
+{{content
+<div id="jaihontedecettetechnique"></div>
+
+<div class="container app">
+<aside class="sidebar">
+  <nav class="main-nav">
+        <br><a href="#" class="btn btn-primary">Ecrire un message</a>
+        <ul>
+          <li class="active"><a href="#">Nouveaux <span class="btn btn-primary">25</span></a></li>
+          <li><a href="#">Lus</a></li>
+          <li><a href="#">Envoyés</a></li>
+        </ul>
+  </nav>
+</aside>
+<div class="main">
+  <div class="container">
+    <div class="messages">
+      <ul class="message-list">
+   
+        <li class="new">
+          <input type="checkbox" />
+          <div class="preview">
+            <h3>Jean-Paul <small>15 juin 2014</small></h3>
+            <p><strong>Site - </strong>OH REPOND</p>
+          </div>
+        </li>
+  
+        <li class="active">
+          <input type="checkbox" />
+          <div class="preview">
+            <h3>Jean-Paul <small>14 juin 2014</small></h3>
+            <p><strong>Site - </strong>Il est où le Dropbox du projet</p>
+          </div>
+        </li>
+
+        <li class="">
+          <input type="checkbox" />
+          <div class="preview">
+            <h3>Jean-Paul <small>13 juin 2014</small></h3>
+            <p><strong>Site - </strong>T'as avancé le projet ?</p>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+    <section class="message">
+      <h2><span class="icon icon-star-large"></span> Site <span class="icon icon-reply-large"></span><span class="icon icon-delete-large"></span></h2>
+      <div class="meta-data">
+        <p>
+          <img src="http://placehold.it/40x40" class="avatar" alt="" />
+          Jean-Paul à <span class="user">moi</span>
+          <span class="date">14 juin 2014</span>
+        </p>
+      </div>
+      <div class="body">
+        <p>Il est où le Dropbox du projet ?</p>
+        <p>... il est... là, là, là là là là !</p>
+      </div>
+      <div class="action">
+
+        <div class="textarea">
+          <textarea name="r"></textarea>
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</div>
+content}}

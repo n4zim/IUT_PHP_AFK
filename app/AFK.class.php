@@ -58,6 +58,7 @@ class AFK {
 		// Modifiers personalisés pour le moteur de templates
 		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
 		div::addCustomModifier('slugify:', 'Helpers::slugify');
+		div::addCustomModifier('formatDateTime:', 'Helpers::formatDateTime');
 	}
 
 	public function router($request) {
