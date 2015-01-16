@@ -73,7 +73,7 @@ class UserModel extends Model {
         return array("success" => true, "id" => $this->db->lastInsertId());
     }
 
-    public function editUser($data) {
+    public function editUser($user, $data) {
         $req = 'UPDATE `User` SET `Mail` = ?, `Gender` = ?, `Avatar` = ? WHERE `Id` = ?';
 
         $gender = (in_array($data['gender'], array('M', 'F')) ? $data['gender'] : null);
