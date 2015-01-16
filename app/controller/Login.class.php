@@ -12,15 +12,10 @@ class Login extends Controller {
         Login::checkIfNotLogguedIn();
 
         $this->afk->view('login/form', array(
-            'formAction' => Helpers::makeUrl('login', 'post'),
-            'loginFailed' => isset($args['bad'])
+            'formAction' => Helpers::makeUrl('login', 'post')
         ));
     }
 
-    /**
-     * 
-     *
-     **/
     public function post($args) {
         Login::checkIfNotLogguedIn();
 
@@ -31,8 +26,10 @@ class Login extends Controller {
         $usermodel = new UserModel();
         $r = $usermodel->checkLogin($_POST['username'], $_POST['password']);
 
-        if($r === FALSE)
-            Helpers::redirect('login', null, 'bad');
+        if($r === FALSE) {
+            Helpers::notify('Erreur', 'Mauvais login ou mot de passe', 'error');
+            Helpers::redirect('login');
+        }
 
         Login::loginUser($r);
         
