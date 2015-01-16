@@ -7,6 +7,7 @@ require_once('Model.class.php');
 require_once('Controller.class.php');
 require_once('Form.class.php');
 require_once('Helpers.class.php');
+require_once('Route.class.php');
 
 /**
  * Main class for the website, initializes the system
@@ -51,7 +52,7 @@ class AFK {
 	}
 
 	private function AFK() {
-		$this->createRoutes();
+		$this->route = Route::getRoutes();
 		// Auto load des controlleurs et des modèles
 		spl_autoload_register(function ($class) {
 			$filename = $class.'.class.php';
@@ -68,18 +69,6 @@ class AFK {
 		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
 		div::addCustomModifier('slugify:', 'Helpers::slugify');
 	}
-
-	private function createRoutes() {
-		$r = $this->route;
-
-		$r[''] = $r['home'] = $r['index'] = 'Home';
-		$r['users'] = $r['user'] = 'User';
-		$r['login'] = 'Login';
-		$r['register'] = 'Register';
-
-		$this->route = $r;
-	}
-
 
 	public function router($request) {
 		$queryArray = array();
