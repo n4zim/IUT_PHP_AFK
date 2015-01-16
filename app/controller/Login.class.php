@@ -34,7 +34,7 @@ class Login extends Controller {
         if($r === FALSE)
             Helpers::redirect('login', null, 'bad');
 
-        $this->loginUser($r);
+        Login::loginUser($r);
         
         Helpers::notify('Connexion effectuée', 'Vous êtes dès à présent connecté à votre compte.');
         Helpers::redirect('index');
@@ -51,7 +51,9 @@ class Login extends Controller {
         Helpers::redirect('index');
     }
 
-    private function loginUser($data) {
+    public static function loginUser($data) {
+        if(isset($data['routed'])) exit(); // prevent direct method calling
+
         $_SESSION['u.username'] = $data['Username'];
         $_SESSION['u.id'] = $data['Id'];
     }
