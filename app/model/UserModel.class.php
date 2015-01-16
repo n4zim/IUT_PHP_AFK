@@ -73,6 +73,26 @@ class UserModel extends Model {
         return array("success" => true, "id" => $this->db->lastInsertId());
     }
 
+    public function editUser($user, $data) {
+        $req = 'UPDATE `User` SET `Mail` = ?, `Gender` = ?, `Avatar` = ? WHERE `Id` = ?';
+
+        $gender = (in_array($data['gender'], array('M', 'F')) ? $data['gender'] : null);
+        $arr = array($data['mail'], $gender, $data['avatar'], $user);
+
+        $stmt = $this->db->prepare($req);
+
+        try {
+            $stmt->execute($arr);   
+        } catch (PDOException $e) {
+            if(!Config::$debug) $e = "";
+            if ($e->errorInfo[1] == 1062) {
+                return array("success" => false, "message" => "Erreur inconnue.<br/>".$e);
+            }
+        }
+
+        return array("success" => true);
+    }
+
     /**
      * Checks if an user exists with those credentials
      * @return User ID if login successful, false otherwise

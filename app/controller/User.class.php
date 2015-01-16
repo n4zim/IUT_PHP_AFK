@@ -45,9 +45,45 @@ class User extends Controller {
         $data['isMine'] = ($_SESSION['u.id'] == intval($args['id']));
         $data['lienEdit'] = Helpers::makeUrl('user', 'edit');
 
-        if(empty($data['user']))
-            exit('utilisateur introuvable');
+        if(empty($data['user'])) {
+            Helpers::notify('Erreur', 'Cet utilisateur n\'existe pas', 'error');
+            Helpers::redirect('');
+        }
 
         $this->afk->view('user/profile', $data);
+    }
+
+    public function edit($args) {
+        Login::setGoto('user', 'profile');
+        Login::checkIfLogguedIn();
+
+        $mandatoryFields = array('mail', 'gender', 'avatar');
+        $protectFields = array('mail', 'avatar');
+        $mandatoryFieldsNames = array('adresse email', 'sexe', 'URL de l\'avatar');
+
+        // check if all fields are set
+        $erreur = "";
+        foreach ($mandatoryFields as $key => $field) {
+            if(empty($_POST[$field]))
+                $erreur .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
+        }
+        if($erreur != "") $this->notifyError($erreur);
+
+        // protect fields
+        foreach ($protectFields as &$field) {
+            $_POST[$field] = htmlentities($_POST[$field]);
+        }
+
+        if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL))
+            $this->notifyError("L'adresse email n'est pas valide");
+
+        $usermodel = new UserModel();
+        $r = $usermodel->edit($_SESSION['u.id'], $_POST);
+
+        if($r['success']) {
+            Helpers::notify('Effectué', 'Modifications enregistrées');
+            Helpers::redirect('user', 'profile');
+        } else $this->notifyError('Erreur : '.$r['message']);
+
     }
 } 
