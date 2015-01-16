@@ -80,4 +80,16 @@ class Helpers {
           'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
         return strtolower(preg_replace('/([^.a-z0-9]+)/i', '-', $str));
     }
+
+    public static function formatSQLDate($date) {
+        return date('Y-m-d H:i:s', $date);
+    }
+
+    public static function formatDateTime($timestamp) {
+        $timestamp = intval($timestamp);
+        $str  = Helpers::nameDay($timestamp).' '.date('d', $timestamp).' '.Helpers::nameMonth($timestamp).' '.date('Y', $timestamp);
+        $str .= ' à ';
+        $str .= date('H:i:s', $timestamp);
+        return $str;
+    }
 }
