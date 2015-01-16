@@ -1,15 +1,12 @@
+/*pour toutes les pages*/
 #content h2 {
 	font-size: 30px;
 }
 
-.eventCreation{
+.forms{
 	text-align: left;
 }
-
-#rewardNumber {
-	margin-left: 40px;
-}
-
+/*creationEvenement*/
 #eventDescription{
 	outline: none;
 	resize: none;
