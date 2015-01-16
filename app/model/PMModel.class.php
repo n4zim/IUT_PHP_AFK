@@ -4,6 +4,25 @@ class PMModel extends Model {
         parent::__construct();
     }
 
+    public function getPMs($user) {
+        $req = 'SELECT `PM`.`Id`, `Sender`, `Recipient`, `SendDate`, `Read`, `FileName`,
+                    `S`.`UserName` AS `SenderName`, `R`.`UserName` AS `RecipientName`
+                FROM `PM`
+                JOIN `User` AS `S` ON `PM`.`Sender` = `S`.`Id`
+                JOIN `User` AS `R` ON `PM`.`Recipient` = `R`.`Id`
+                WHERE `Recipient` = :user OR `Sender` = :user';
+                
+        $st = $this->db->prepare($req);
+        $st->execute(array(':user' => $user));
+        $rs = $st->fetchAll();
+
+        foreach ($rs as &$message) {
+            $message = $this->parseMessage($message);
+        }
+
+        return $rs;
+    }
+
 // todo : réunir les 2 fonctions
     public function getReceived($user) {
         $req = 'SELECT `PM`.`Id`, `Sender`, `Recipient`, `SendDate`, `Read`, `FileName`,
@@ -12,6 +31,7 @@ class PMModel extends Model {
                 JOIN `User` AS `S` ON `PM`.`Sender` = `S`.`Id`
                 JOIN `User` AS `R` ON `PM`.`Recipient` = `R`.`Id`
                 WHERE `Recipient` = :user';
+
         $st = $this->db->prepare($req);
         $st->execute(array(':user' => $user));
         $rs = $st->fetchAll();
@@ -71,17 +91,14 @@ class PMModel extends Model {
 
     public function sendPM($from, $to, $message) {
         $req = 'INSERT INTO `PM` (`Sender`, `Recipient`, `SendDate`, `FileName`, `Read`) VALUES (?, ?, ?, ?, \'N\')';
+        
         if($from == $to) return false;
-        $folder = Config::$path['pm'];
-        $filename = uniqid().'.pm';
-        $filepath = $folder.'/'.$filename;
 
-        // creates the pm folder if it does not exists
-        if (!file_exists($folder))
-            mkdir($folder, 0777);
+        $filename = uniqid().'.pm';
+        $filepath = Config::$path['pm'].'/'.$filename;
 
         // creates the file
-        file_put_contents($filepath, htmlspecialchars($message));
+        file_put_contents($filepath, $message);
 
         $st = $this->db->prepare($req);
         $st->execute(array($from, $to, Helpers::formatSQLDate(time()), $filename));
