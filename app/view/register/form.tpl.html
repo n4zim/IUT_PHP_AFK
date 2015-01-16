@@ -25,10 +25,10 @@
     <br /><p>Choisissez votre faction</p>
     [$factions]
     <input type="radio" name="faction" value="{$Id}" id="faction-{slugify:Name}" />
-    <label for="faction-{slugify:Name}"><strong>{slugify:Name}</strong> : {$Description}</label><br />
+    <label for="faction-{slugify:Name}"><strong>{$Name}</strong> : {$Description}</label><br />
     [/$factions]
     <input type="radio" name="faction" value="-1" id="factionAuHasard" />
-    <label for="factionAuHasard">Je ne peux pas choisir!</label><br /><br />
+    <label for="factionAuHasard"><strong>Au hasard</strong> : Je ne peux pas choisir!</label><br /><br />
 
     <span id="submit"><input type="submit" value="Inscription" class="action-button shadow animate blue inscription"></span>
 </form>
