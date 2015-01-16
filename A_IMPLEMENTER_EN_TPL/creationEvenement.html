@@ -15,6 +15,9 @@
 				<form method="post" action="creationEvenement.php" class="formAtTheLeft" >
 					<label for="event">Nom de l'événement</label><br />
 					<input type="text" name="event" id="event" size="60" /><br />
+
+					<label for="eventType">Type d'événement</label><br />
+					<input type="text" name="eventType" id="eventType" size="60" /><br />
 					
 					<label for="beginningDate">Date de début (format: AAAA-MM-JJ)</label><br />
 					<input type="text" name="beginningDate" id="beginningDate" /><br />
@@ -28,9 +31,9 @@
 					<label for="endingHour">Heure de fin (format: hh:mm)</label><br />
 					<input type="text" name="endingHour" id="endingHour" /><br />
 
-					<label for="place">Lieu</label><br />
+					<label for="place">Lieu de rendez-vous</label><br />
 					<textarea name="place" id="place"
-						placeholder="Veuillez indiquer le lieu où se déroulera l'événement" cols="54" rows="3"></textarea><br />
+						placeholder="Veuillez indiquer le lieu où les participants se rassembleront." cols="54" rows="3"></textarea><br />
 
 					<label for="eventDescription">Description de l'événement</label><br />
 					<textarea name="eventDescription" id="eventDescription"
