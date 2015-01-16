@@ -5,6 +5,7 @@ require_once('lib/div/div.php');
 require_once('Config.class.php');
 require_once('Model.class.php');
 require_once('Controller.class.php');
+require_once('Form.class.php');
 require_once('Helpers.class.php');
 
 /**
@@ -12,10 +13,35 @@ require_once('Helpers.class.php');
  * Singleton
  **/
 class AFK { 
+    /**
+     * Handle to the database
+     *
+     * This handle gets initialized whenever a models needs it
+     * i.e. when you load a model "new MyModel();", it will call
+     * (in the Model superclass constructor) this class @see AFK::getDb()
+     * function which will initialize the connection when needed.
+     * 
+     * @var PDO
+     */
 	private $db = null;
+
+	/**
+	 * Array containing the site route
+	 * 
+	 * This array is configurable and gets initialized in the @see AFK::createRoutes()
+	 * 
+	 * @var array
+	 */
 	private $route;
+
+	/**
+	 * Stores the current app instance
+	 * 
+	 * Gets initialized by @see AFK::getInstance()
+	 * 
+	 * @var AFK
+	 */
 	private static $instance;
-	private $models = array();
 
 	// instance unique
 	public static function getInstance() {
@@ -31,14 +57,16 @@ class AFK {
 			$filename = $class.'.class.php';
 
 			if(file_exists(Config::$path['controller'].$filename)) {
-				include Config::$path['controller'].$filename;
+				include_once Config::$path['controller'].$filename;
 			}
 
 			else if(file_exists(Config::$path['model'].$filename))
-				include Config::$path['model'].$filename;
+				include_once Config::$path['model'].$filename;
 		});
 
+		// Modifiers personalisés pour le moteur de templates
 		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
+		div::addCustomModifier('slugify:', 'Helpers::slugify');
 	}
 
 	private function createRoutes() {
@@ -73,6 +101,8 @@ class AFK {
 		if(isset($queryArray['method']))
 			$method = $queryArray['method'];
 
+		$queryArray['routed'] = true;
+
 		$controller = new $class();
 		if($controller instanceOf Controller) {
 			if(method_exists($controller, $method))
@@ -105,6 +135,9 @@ class AFK {
 			$data['notification'] = array('message' => $_SESSION['n.message'], 'title' => $_SESSION['n.title'], 'type' => $_SESSION['n.type']);
 			Helpers::unsetNotification();
 		}
+
+		$data['loginLink'] = Helpers::makeUrl('user', 'login');
+		$data['registerLink'] = Helpers::makeUrl('register');
 
 		return $data;
 	}
