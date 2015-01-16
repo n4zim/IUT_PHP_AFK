@@ -5,12 +5,53 @@
 head}}
 
 {{content
-<h1><img src="http://www.epees.fr/479-253-home/heaume-henri-ii.jpg" title="heaume">page</h1>
 Présentation rapide<br />
 Formulaire de login<br />
 Derniers events<br />
 Nombre d'inscrits<br />
 Nombre de connectés<br />
 Nombre d'events<br />
-Bonjour test
+
+<section id="content">			
+			<div id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+
+			<div id="cookies">
+				<div id="lamas">
+					<span id="nom">Les Lamas</span><br>
+					<span id="cookies">10.000</span>
+				</div>
+				<div id="reblochon">
+					<span id="nom">Les Reblochons</span><br>
+					<span id="cookies">10.000</span>
+				</div>
+				<div id="ninjas">
+					<span id="nom">Les Ninjas</span><br>
+					<span id="cookies">10.000</span>
+				</div>
+				<div id="nyancat">
+					<span id="nom">Les NyanCats</span><br>
+					<span id="cookies">10.000</span>
+				</div>
+			</div>
+
+			<div id="users">
+				<span onclick="document.getElementById('box').style.display='none'; document.getElementById('filter').style.display='none'">
+				<a href="{$layout.loginLink}" class="action-button shadow animate green">Se connecter</a></span>
+				<a href="{$layout.registerLink}" class="action-button shadow animate blue">S'inscrire</a>
+			</div>
+
+			<div id="box" >
+			<div id="boxheader">
+			<span id="boxtitle"> Titre pour le contenu (image, formulaire ou autre)</span>
+			<span id="boxclose" onclick="document.getElementById('box').style.display='none';
+			     document.getElementById("shadowing").style.display='none'"> 
+			</span>
+			</div>
+			<div id="boxcontent"> Ceci est le contenu statique provisoire  de la boite.  </div>
+			</div>
+
+</section>
+
+
+
 content}}

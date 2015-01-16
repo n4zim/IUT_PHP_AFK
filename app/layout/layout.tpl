@@ -19,14 +19,12 @@
         </div>
     </header>
 @else@
-    <a href="{$layout.loginLink}">Login</a> 
-    <a href="{$layout.registerLink}">Register</a> 
     <h1>CookieCatch</h1>
 $layout.user?
 
 
 ?$layout.notification
-<div class="notification {$layout.notification.type}">
+<div class="notification {$layout.notification.type}" onclick="this.style.display = 'none';">
   ?$layout.notification.title
     <strong>{$layout.notification.title}</strong><br />
     {$layout.notification.message}
