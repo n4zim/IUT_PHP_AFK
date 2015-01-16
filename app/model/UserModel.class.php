@@ -19,8 +19,8 @@ class UserModel extends Model {
         $statement->bindValue('max', $max, PDO::PARAM_INT);
         $statement->execute();
 
-        $result = $statement->fetchAll();
-        return $result;
+        $results = $statement->fetchAll();
+        return $results;
     }
 
     public function countUsers() {
@@ -35,17 +35,19 @@ class UserModel extends Model {
     }
 
     public function getUser($id = null) {
-        $req = 'SELECT `Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, `Avatar`, `Faction`
+        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`,
+                IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`, 
+                `Faction`, `Faction`.`Name` AS `FactionName` 
                 FROM `User`
-                WHERE `Id`=:id';
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                WHERE `User`.`Id`=?';
 
         $statement = $this->db->prepare($req);
-        $statement->execute(array(':id' => $id));
-        $result = $statement->fetchAll();
+        $statement->execute(array($id));
+        $result = $statement->fetch();
 
         return $result;
     }
-
 
     public function register($data) {
         $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`) VALUES (?, ?, ?, ?, ?, ?);';
