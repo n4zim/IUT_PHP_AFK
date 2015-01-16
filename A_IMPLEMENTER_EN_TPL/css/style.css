@@ -7,6 +7,8 @@ body {
 	margin-left: 70px;
 	margin-right: 70px;
 	margin: 0;
+	background-color: #EDEDED;
+	background-image: url(../img/bg.png);
 }
 
 
@@ -99,12 +101,12 @@ body {
 	margin-right: 2%;
 
 	background-color: #DDD;
-	width: 20vh;
-	height: 20vh;
+	/*width: 20vh;*/
+	/*height: 20vh;*/
 	padding: 25px;
 
-	-moz-border-radius: 100%;
-	border-radius: 100%;
+	/*-moz-border-radius: 100%;*/
+	/*border-radius: 100%;*/
 }
 
 #cookies div #nom {
@@ -113,6 +115,25 @@ body {
 
 #cookies div #cookies {
 	font-size: 50px;
+}
+
+#cookies #lamas {
+	background: url(../img/lam.png);
+	background-repeat: no-repeat;
+}
+
+#cookies #ninjas {
+	background-image: url(../img/nin.jpg);
+	background-repeat: no-repeat;
+}
+
+#cookies #reblochon {
+	background-image: url(../img/reb.gif);
+}
+
+#cookies #nyancat {
+	background-image: url(../img/nya.png);
+	background-position: center;
 }
 
 /*#cookies div {

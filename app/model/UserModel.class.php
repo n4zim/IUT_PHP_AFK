@@ -46,9 +46,34 @@ class UserModel extends Model {
         return $result;
     }
 
+
+    public function register($data) {
+        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`) VALUES (?, ?, ?, ?, ?, ?);';
+
+        $salt = md5($data['username'].time());
+        $pass = sha1($data['password'].$salt);
+        $gender = (in_array($data['gender'], array('M', 'F')) ? $data['gender'] : null);
+
+        $arr = array($data['username'], $pass, $salt, $gender, $data['mail'], $data['faction']);
+
+        $stmt = $this->db->prepare($req);
+
+        try {
+            $stmt->execute($arr);   
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array("success" => false, "message" => "Utilisateur ou adresse e-mail déjà existant.");
+            } else {
+                return array("success" => false, "message" => "Erreur inconnue.");
+            }
+        }
+
+        return array("success" => true, "id" => $this->db->lastInsertId());
+    }
+
     /**
      * Checks if an user exists with those credentials
-     * @return  User ID if login successful, false otherwise
+     * @return User ID if login successful, false otherwise
      **/
     public function checkLogin($username, $password) {
         $req = 'SELECT `Id`, `Username`, `Password`, `Salt` FROM `User`

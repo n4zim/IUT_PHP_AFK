@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<title>CookieCatch</title>
+		<link rel="stylesheet" type="text/css" href="css/styleCarole.css"/>
+	</head>
+
+	<body>
+
+		<section id="content">
+			<h1>CookieCatch</h1>
+			<h2>Inscription</h2>
+
+				<form method="post" action="inscription.php" class="inscription">
+					<label for="pseudo">Pseudonyme</label><br />
+					<input type="text" name="pseudo" id="pseudo" class="inscription" /><br />
+					<label for="password">Mot de passe</label><br />
+					<input type="password" name="password" id="password" class="inscription" /><br />
+					<label for="password2">Confirmez votre mot de passe</label><br />
+					<input type="password" name="password2" id="password2" class="inscription" /><br />
+					<label for="email">E-mail</label><br />
+					<input type="email" name="email" id="email" class="inscription" /><br />
+
+					<br /><p>Choisissez votre faction</p>
+					<input type="radio" name="faction" value="reblochon" id="reblochon" class="inscription" />
+					<label for="reblochon">Le Reblochon recouvrira le monde!</label><br />
+					<input type="radio" name="faction" value="ninja" id="ninja" class="inscription" />
+					<label for="ninja">Les Ninjas vous auront avant que vous ne vous en rendiez compte...</label><br />
+					<input type="radio" name="faction" value="nyancat" id="nyancat" class="inscription" />
+					<label for="nyancat">Le Nyancat ne tombera pas!</label><br />
+					<input type="radio" name="faction" value="lama" id="lama" class="inscription" />
+					<label for="lama">Le Lama crache sur les autres factions.</label><br />
+					<input type="radio" name="faction" value="factionAuHasard" id="factionAuHasard" class="inscription" />
+					<label for="factionAuHasard">Je ne peux pas choisir!</label><br /><br />
+
+					<span id="submit"><input type="submit" value="Inscription" class="action-button shadow animate blue inscription"></span>
+				</form>
+		</section>
+
+	</body>
+
+</html>

@@ -5,6 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/dev.css"/>
+    (( head ))
 </head>
 <body>
 
@@ -20,11 +21,12 @@ $layout.notification?
 ?$layout.user
     <strong>{$layout.user.username}</strong> (#{$layout.user.id}) <a href="index.php?action=login&amp;method=out">Logout</a> 
 @else@
-    <a href="index.php?action=login">Login</a> 
+    <a href="{$layout.loginLink}">Login</a> 
+    <a href="{$layout.registerLink}">Register</a> 
 $layout.user?
 
-    <section id="content">
+    <div id="content">
     (( content ))
-    </section>
+    </div>
 </body>
 </html>
