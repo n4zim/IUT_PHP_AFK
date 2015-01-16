@@ -2,21 +2,26 @@
 <html>
 	<head>
 		<title>CookieCatch</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/connexion.css"/>
 	</head>
 
 	<body>
 
 		<section id="content">
 			<h1>CookieCatch</h1>
+			<h2>Connexion</h2>
 
-			<div id="connect">
-				<div id="username">Identifiant<br><input type="text" id="username"></div>
-				<div id="password">Mot de passe<br><input type="password" id="password"></div>
+			<!-- <p>Vous êtes déjà connecté.</p>--><!-- message si déjà connecte -->
 
-				<span id="submit"><input type="submit" value="Connexion"></span><br>
+			<form method="post" action="connexion.php" class="forms">
+				<label for="username">Identifiant</label><br />
+				<input type="text" name="username" id="username" /><br /><br />
+				<label for="password">Mot de passe</label><br />
+				<input type="password" name="password" id="password"/><br /><br />
+				<span id="submit"><input type="submit" value="Connexion" class="action-button shadow animate red"></span><br /><br />
+			</form>
 
-				<span id="links"><a href="inscription.html">S'inscrire ?</a> - <a href="oubli">Mot de passe oublié ?</a></span>
+				<span id="links"><a href="inscription.html">S'inscrire</a><!-- - <a href="forgotten.html">Mot de passe oublié ?</a></span> -->
 			</div>
 
 		</section>
