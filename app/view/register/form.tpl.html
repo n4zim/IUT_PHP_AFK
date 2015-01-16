@@ -1,0 +1,35 @@
+{% layout/layout.tpl %}
+
+{{content
+<form method="post" action="{$formAction}" class="inscription">
+    <label for="pseudo">Pseudonyme</label><br />
+    <input type="text" name="username" id="pseudo" /><br />
+
+    <label for="password">Mot de passe</label><br />
+    <input type="password" name="password" id="password" /><br />
+
+    <label for="password2">Confirmez votre mot de passe</label><br />
+    <input type="password" name="password2" id="password2" /><br />
+
+    <label for="email">E-mail</label><br />
+    <input type="email" name="mail" id="email" class="inscription" /><br />
+
+    <label for="gender">Sexe</label><br />
+    <input type="radio" name="gender" value="M" id="gender-male" />
+    <label for="gender-male">Homme</label>
+    <input type="radio" name="gender" value="F" id="gender-female" />
+    <label for="gender-female">Femme</label>
+    <input type="radio" name="gender" value="UNSPECIFIED" id="gender-null" />
+    <label for="gender-null">Non spécifié</label><br />
+
+    <br /><p>Choisissez votre faction</p>
+    [$factions]
+    <input type="radio" name="faction" value="{$Id}" id="faction-{slugify:Name}" />
+    <label for="faction-{slugify:Name}"><strong>{slugify:Name}</strong> : {$Description}</label><br />
+    [/$factions]
+    <input type="radio" name="faction" value="-1" id="factionAuHasard" />
+    <label for="factionAuHasard">Je ne peux pas choisir!</label><br /><br />
+
+    <span id="submit"><input type="submit" value="Inscription" class="action-button shadow animate blue inscription"></span>
+</form>
+content}}
