@@ -9,7 +9,7 @@ class Login extends Controller {
      * @param args Argument array. Used arguments : 
      **/
     public function index($args) {
-        $this->checkIfNotLogguedIn();
+        Login::checkIfNotLogguedIn();
 
         $this->afk->view('login/form', array(
             'formAction' => Helpers::makeUrl('login', 'post'),
@@ -22,7 +22,7 @@ class Login extends Controller {
      *
      **/
     public function post($args) {
-        $this->checkIfNotLogguedIn();
+        Login::checkIfNotLogguedIn();
 
         if(empty($_POST['username']) || empty($_POST['password'])) {
             echo 'missing data';
@@ -37,6 +37,13 @@ class Login extends Controller {
         Login::loginUser($r);
         
         Helpers::notify('Connexion effectuée', 'Vous êtes dès à présent connecté à votre compte.');
+
+        if(Login::getGoto() !== FALSE) {
+            header('Location: '.Login::getGoto()); 
+            Login::unsetGoto();
+            exit();
+        }
+
         Helpers::redirect('index');
     }
 
@@ -63,10 +70,34 @@ class Login extends Controller {
         unset($_SESSION['u.id']);
     }
 
-    private function checkIfNotLogguedIn() {
+    public static function checkIfLogguedIn() {
+        if(empty($_SESSION['u.id'])) {
+            Helpers::notify('Non connecté', 'Vous devez être connecté pour accéder à cette page', 'error');
+            
+            if(Login::getGoto() !== FALSE)
+                Helpers::redirect('login');
+
+            Helpers::redirect('index');
+        }
+    }
+
+    private static function checkIfNotLogguedIn() {
         if(isset($_SESSION['u.id'])) {
             Helpers::notify('Déjà connecté', 'Vous êtes déjà connecté.', 'error');
             Helpers::redirect('index');
         }
+    }
+
+    public static function setGoto($action, $method = null, $args = null) {
+        $_SESSION['l.goto'] = Helpers::makeUrl($action, $method, $args, false);
+    }
+
+    public static function unsetGoto() {
+        $_SESSION['l.goto'] = null;
+    }
+
+    public static function getGoto() {
+        if(isset($_SESSION['l.goto'])) return $_SESSION['l.goto'];
+        return FALSE;
     }
 } 
