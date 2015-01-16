@@ -19,7 +19,7 @@
 $layout.notification?
 
 ?$layout.user
-    <strong>{$layout.user.username}</strong> (#{$layout.user.id}) <a href="index.php?action=login&amp;method=out">Logout</a> 
+    <strong>{$layout.user.username}</strong> (#{$layout.user.id}) <a href="index.php?action=login&amp;method=out">Logout</a> - <a href="{$layout.profileLink}">Profil</a>
 @else@
     <a href="{$layout.loginLink}">Login</a> 
     <a href="{$layout.registerLink}">Register</a> 

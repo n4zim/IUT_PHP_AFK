@@ -136,8 +136,9 @@ class AFK {
 			Helpers::unsetNotification();
 		}
 
-		$data['loginLink'] = Helpers::makeUrl('user', 'login');
+		$data['loginLink'] = Helpers::makeUrl('login');
 		$data['registerLink'] = Helpers::makeUrl('register');
+		$data['profileLink'] = Helpers::makeUrl('user', 'profile');
 
 		return $data;
 	}

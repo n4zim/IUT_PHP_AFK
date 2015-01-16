@@ -1,0 +1,12 @@
+{% layout/layout.tpl %}
+
+{{content
+id = {$user.Id}<br />
+username : {$user.Username}<br />
+gender : {toGender:user.Gender}<br />
+avatar : <img src="{$user.Avatar}" alt="avatar" /><br />
+faction : #{$user.Faction} {$user.FactionName}<br />
+faction link : {$user.FactionLink} <br />
+
+<a href="{$lienEdit}">editer profil</a>
+content}}
