@@ -1,0 +1,16 @@
+#content h2 {
+	font-size: 30px;
+}
+
+.eventCreation{
+	text-align: left;
+}
+
+#rewardNumber {
+	margin-left: 40px;
+}
+
+#eventDescription{
+	outline: none;
+	resize: none;
+}
