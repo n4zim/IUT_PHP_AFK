@@ -1,8 +1,9 @@
 <!doctype html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>CookieCatch</title>
-		<link rel="stylesheet" type="text/css" href="css/styleCarole.css"/>
+		<link rel="stylesheet" type="text/css" href="css/creationEvenement.css"/>
 	</head>
 
 	<body>
@@ -10,7 +11,7 @@
 		<section id="content">
 			<h1>CookieCatch</h1>
 			<h2>Creation d'evenement</h2>
-
+				<!-- <p>Vous devez vous connecter pour creer un evenement.</p>--><!-- message si non connecte -->
 				<form method="post" action="eventCreation.php" class="eventCreation" id="eventCreationForm" >
 					<label for="event">Nom de l'evenement</label><br />
 					<input type="text" name="event" id="event" class="eventCreation" size="60" /><br />
@@ -27,13 +28,7 @@
 					<label for="eventDescription">Description de l'evenement</label><br />
 					<textarea name="eventDescription" id="eventDescription" class="eventCreation"
 						placeholder="Decrivez clairement le fonctionnement de l'evenement et les conditions de victoire pour que tout le monde comprenne." cols="47" rows="7"></textarea><br />
-					
-					<label for="reward">Recompense initiale</label><br />
-					<input type="number" min="0" max="500" step="100" value="100" oninput="this.form.rewardRange.value=this.value"
-						name="reward" id="rewardNumber" class="eventCreation" /><br />
-					<input type="range" min="0" max="500" step="100" value="100" oninput="this.form.rewardNumber.value=this.value"
-						name="rewardRange" id="rewardRange" class="eventCreation" /><br />
-						
+					<p>Recompense initiale: 1000 cookies.<p/><br />
 					<br /><span id="submit"><input type="submit" value="Creer" class="action-button shadow animate red"></span><br />
 				</form>
 		</section>
