@@ -55,3 +55,24 @@ header #user img {
 	height: 30px;
 	vertical-align: bottom;
 }
+
+.notification {
+	position: fixed;
+	bottom: 40px;
+	padding: 20px;
+	left: 40px;
+	text-align: center;
+	-moz-border-radius: 10px;
+	-webkit-boder-radius: 10px;
+	border-radius: 10px;
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+.notification.info {
+	background-color: green;
+}
+
+.notification.error {
+	background-color: red;
+}
