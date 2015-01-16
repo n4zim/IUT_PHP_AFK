@@ -3,11 +3,11 @@
 	font-size: 30px;
 }
 
-.forms{
+form {
 	text-align: left;
 }
 /*creationEvenement*/
-#eventDescription{
+form textarea{
 	outline: none;
 	resize: none;
 }

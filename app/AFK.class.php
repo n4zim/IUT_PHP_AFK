@@ -1,13 +1,4 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-
-require_once('lib/div/div.php');
-require_once('Config.class.php');
-require_once('Model.class.php');
-require_once('Controller.class.php');
-require_once('Form.class.php');
-require_once('Helpers.class.php');
-
 /**
  * Main class for the website, initializes the system
  * Singleton
@@ -51,7 +42,7 @@ class AFK {
 	}
 
 	private function AFK() {
-		$this->createRoutes();
+		$this->route = Route::getRoutes();
 		// Auto load des controlleurs et des modèles
 		spl_autoload_register(function ($class) {
 			$filename = $class.'.class.php';
@@ -68,18 +59,6 @@ class AFK {
 		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
 		div::addCustomModifier('slugify:', 'Helpers::slugify');
 	}
-
-	private function createRoutes() {
-		$r = $this->route;
-
-		$r[''] = $r['home'] = $r['index'] = 'Home';
-		$r['users'] = $r['user'] = 'User';
-		$r['login'] = 'Login';
-		$r['register'] = 'Register';
-
-		$this->route = $r;
-	}
-
 
 	public function router($request) {
 		$queryArray = array();
@@ -117,7 +96,7 @@ class AFK {
 		if(empty($data)) $data = array();
 		if(!file_exists($view)) exit('View '.$view.' not found.');
 
-		$data['layout'] = $this->prepareLayout();
+		$data['layout'] = Layout::prepareLayout();
 
 		$content = file_get_contents($view);
 		$page = new div($content, $data);
@@ -125,23 +104,6 @@ class AFK {
 		echo $page;
 	}
 
-	private function prepareLayout() {
-		$data = array('user' => false, 'notification' => false);
-		
-		if(isset($_SESSION['u.id']))
-			$data['user'] = array('id' => $_SESSION['u.id'], 'username' => $_SESSION['u.username']);
-
-		if(isset($_SESSION['n.message'])) {
-			$data['notification'] = array('message' => $_SESSION['n.message'], 'title' => $_SESSION['n.title'], 'type' => $_SESSION['n.type']);
-			Helpers::unsetNotification();
-		}
-
-		$data['loginLink'] = Helpers::makeUrl('login');
-		$data['registerLink'] = Helpers::makeUrl('register');
-		$data['profileLink'] = Helpers::makeUrl('user', 'profile');
-
-		return $data;
-	}
 
 	private function initilizeDatabase() {
         try {
