@@ -77,18 +77,6 @@ class PMModel extends Model {
 
     }
 
-    public function getPaste($slug) {
-        $req = 'SELECT `Slug`, `IP`, `Posted`, `Expires`, `Code`, `Paste`, `DeleteLink`
-                FROM `paste`
-                WHERE `Slug` = ?';
-
-        $st = $this->db->prepare($req);
-        $st->execute(array($slug));
-        $rs = $st->fetch();
-
-        return $rs;
-    }
-
     public function sendPM($from, $to, $message) {
         $req = 'INSERT INTO `PM` (`Sender`, `Recipient`, `SendDate`, `FileName`, `Read`) VALUES (?, ?, ?, ?, \'N\')';
         
@@ -103,57 +91,5 @@ class PMModel extends Model {
         $st = $this->db->prepare($req);
         $st->execute(array($from, $to, Helpers::formatSQLDate(time()), $filename));
 
-    }
-
-    public function addPaste($data) {
-        $req = 'INSERT INTO `paste` (`Slug`, `IP`, `Posted`, `Code`, `Paste`, `DeleteLink`) VALUES (?, ?, ?, ?, ?, ?)';
-        $slug = '';
-
-        $slug = 'vitjar';
-
-
-        $st = $this->db->prepare($req);
-
-        while(true) {
-            try {
-                $slug = $this->genSlug();
-
-                $d = array(
-                    $slug,
-                    $_SERVER['REMOTE_ADDR'],
-                    Helpers::formatSQLDate(time()),
-                    null,
-                    $data['paste'],
-                    ''
-                );
-
-                $st->execute($d);
-                break;
-            } catch (PDOException $e) {
-                if ($e->errorInfo[1] != 1062) {
-                    return false;
-                }
-            }
-        }
-
-        return $slug;
-    }
-
-    private function genSlug() {
-        $pw = '';
-        $c = 'bcdfghjklmnprstvwz'; //consonants except hard to speak ones
-        $v = 'aeiou'; //vowels
-        $a = $c.$v; //both
-         
-        //use two syllables...
-        for($i=0;$i < 2; $i++){
-        $pw .= $c[rand(0, strlen($c)-1)];
-        $pw .= $v[rand(0, strlen($v)-1)];
-        $pw .= $a[rand(0, strlen($a)-1)];
-        }
-        //... and add a nice number
-        //$pw .= rand(10,99);
-         
-        return $pw;
     }
 }
