@@ -36,7 +36,7 @@ class Login extends Controller {
 
         if(isset($_POST['remember'])) {
             $cookieVal = array('Username' => $r['Username'], 'Password' => $r['Password']);
-            setcookie("loginCookie", $cookieVal, time()+3600); 
+            setcookie("loginCookie", serialize($cookieVal), time()+3600);
         }
         
         Helpers::notify('Connexion effectuée', 'Vous êtes dès à présent connecté à votre compte.');
@@ -63,7 +63,7 @@ class Login extends Controller {
 
     public static function checkCookie() {
         if(isset($_COOKIE['loginCookie']) && empty($_SESSION['u.id'])) {
-            $c = $_COOKIE['loginCookie'];
+            $c = unserialize($_COOKIE['loginCookie']);
             
             if(empty($c['Username']) || empty($c['Password'])) {
                 unset($_COOKIE['loginCookie']);
@@ -73,11 +73,13 @@ class Login extends Controller {
             $usermodel = new UserModel();
             $r = $usermodel->checkLogin($c['Username'], $c['Password'], true);
 
-            echo 'LE COOKIE IL EST LÀ JE LE VOIS';
-            print_r($r);
+            if($r === FALSE) {
+                unset($_COOKIE['loginCookie']);
+            }
+
+            self::loginUser($r);
         }
 
-        var_dump($_COOKIE);
     }
 
     public static function loginUser($data) {
