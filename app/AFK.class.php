@@ -32,7 +32,7 @@ class AFK {
 	 * 
 	 * @var AFK
 	 */
-	private static $instance;
+	private static $instance = null;
 
 	// instance unique
 	public static function getInstance() {
@@ -59,8 +59,6 @@ class AFK {
 		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
 		div::addCustomModifier('slugify:', 'Helpers::slugify');
 		div::addCustomModifier('formatDateTime:', 'Helpers::formatDateTime');
-
-		$this->init();
 	}
 
 	private function init() {
@@ -68,6 +66,8 @@ class AFK {
 	}
 
 	public function router($request) {
+		$this->init();
+
 		$queryArray = array();
 		parse_str($request, $queryArray);
 
