@@ -21,7 +21,7 @@ class User extends Controller {
             array(
                 'count' => $count,
                 'users' => $users,
-                'page' => $pageNumber,
+                'pageNumber' => $pageNumber,
                 'pageCount' => $pages
             )
         );
