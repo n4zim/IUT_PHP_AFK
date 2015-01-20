@@ -11,9 +11,9 @@
 
 ?$layout.user
     <header>
-        <div id="title">CookieCatch</div>
+        <div id="title"><a href="index.php">CookieCatch</a></div>
         <div id="user">
-            Bienvenue {$layout.user.username}
+            Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
             <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
             <a href="index.php?action=login&amp;method=out"><img src="assets/img/disconnect.png"></a>
         </div>
