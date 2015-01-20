@@ -5,7 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/top.css"/>
-    (( head ))
+(( head ))
 </head>
 <body>
 
@@ -21,8 +21,6 @@
 @else@
     <h1>CookieCatch</h1>
 $layout.user?
-
-
 ?$layout.notification
 <div class="notification {$layout.notification.type}" onclick="this.style.display = 'none';">
   ?$layout.notification.title
@@ -31,9 +29,6 @@ $layout.user?
   $layout.notification.title?
 </div>
 $layout.notification?
-
-    <div id="content">
-    (( content ))
-    </div>
+    <div id="content">(( content ))</div>
 </body>
 </html>
