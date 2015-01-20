@@ -42,7 +42,7 @@ class Event extends Controller {
         $r = $eventModel->subscribeUser($_SESSION['u.id'], $args['id']);
 
         if($r['success'] === false) {
-            Helpers::notify('Erreur', 'Impossible de vous ajouter à cet évenement.<br />'.$r['message'], 'error');
+            Helpers::notify('Erreur', $r['message'], 'error');
             Helpers::redirect('event', 'view', array('id' => $args['id']));
         }
 
@@ -59,7 +59,7 @@ class Event extends Controller {
         $r = $eventModel->unsubscribeUser($_SESSION['u.id'], $args['id']);
 
         if($r['success'] === false) {
-            Helpers::notify('Erreur', 'Erreur :<br />'.$r['message'], 'error');
+            Helpers::notify('Erreur', $r['message'], 'error');
             Helpers::redirect('event', 'view', array('id' => $args['id']));
         }
 
