@@ -50,6 +50,11 @@ header #user {
 	font-size: 1.5em;
 }
 
+header #user a:link, header #user a:visited, header #user a:hover, header #user a:active {
+	text-decoration: none;
+	color: inherit;
+}
+
 header #user img {
 	margin-left: 10px;
 	height: 30px;
