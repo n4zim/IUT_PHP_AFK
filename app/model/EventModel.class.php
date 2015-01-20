@@ -35,7 +35,7 @@ class EventModel extends Model {
         }
 
         if(isset($id)) $statement->bindValue('id', $id);
-        if($allTime && empty($id)) $statement->bindValue('eventDate', Helpers::formatSQLDate(0));
+        if($allTime || empty($id)) $statement->bindValue('eventDate', Helpers::formatSQLDate(0));
         else $statement->bindValue('eventDate', Helpers::formatSQLDate(time()));
 
         if(isset($checkForUser)) $statement->bindValue('userId', $checkForUser);
