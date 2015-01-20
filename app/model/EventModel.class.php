@@ -1,6 +1,6 @@
 <?php
 class EventModel extends Model {
-    public function FactionModel() {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -16,9 +16,10 @@ class EventModel extends Model {
      **/
     public function getEvents($id = null, $allTime = false, $page = null, $checkForUser = null) {
         $clauseId = (isset($id)) ? ' AND `Id` = :id' : '';
-//        $clauseUser = (isset($checkForUser)) ? ' JOIN `'
-        $req = 'SELECT `Id`,  `Organizer`,  `Titre`,  `Description`,  `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward`
-                FROM `Event`
+        $clauseUser = (isset($checkForUser)) ? ', IF(`EventEntrant`.`User` IS NULL, 0, 1) AS `Subscribed`' : '';
+        $clauseUser2 = (isset($checkForUser)) ? ' LEFT JOIN `EventEntrant` ON `EventEntrant`.`Event`= `Id` AND `EventEntrant`.`User` = :userId' : '';
+        $req = 'SELECT `Id`,  `Organizer`,  `Titre`,  `Description`,  `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
+                FROM `Event`'.$clauseUser2.'
                 WHERE `EventDate` > :eventDate '.$clauseId.'
                 ORDER BY `EventDate` DESC';
         
@@ -36,6 +37,8 @@ class EventModel extends Model {
         if(isset($id)) $statement->bindValue('id', $id);
         if($allTime && empty($id)) $statement->bindValue('eventDate', Helpers::formatSQLDate(0));
         else $statement->bindValue('eventDate', Helpers::formatSQLDate(time()));
+
+        if(isset($checkForUser)) $statement->bindValue('userId', $checkForUser);
 
         $statement->execute();
 
