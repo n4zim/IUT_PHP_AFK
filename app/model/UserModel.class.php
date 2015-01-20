@@ -97,7 +97,7 @@ class UserModel extends Model {
      * Checks if an user exists with those credentials
      * @return User ID if login successful, false otherwise
      **/
-    public function checkLogin($username, $password) {
+    public function checkLogin($username, $password, $alreadySalted = false) {
         $req = 'SELECT `Id`, `Username`, `Password`, `Salt` FROM `User`
                 WHERE `Username`=?';
 
@@ -105,10 +105,11 @@ class UserModel extends Model {
         $statement->execute(array($username));
         $result = $statement->fetch();
 
-        $saltedPasswd = sha1($password.$result['Salt']);
+        $saltedPasswd = ($alreadySalted) ? $password : sha1($password.$result['Salt']);
 
-        if($saltedPasswd == $result['Password'])
-            return $result;
+        if($saltedPasswd == $result['Password']) {
+            return array('Username' => $username, 'Password' => $saltedPasswd, 'Id' => $result['Id']);
+        }
 
         return FALSE;
     }

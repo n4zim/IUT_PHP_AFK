@@ -1,0 +1,10 @@
+{% layout/layout.tpl %}
+
+{{content
+<h2>{$event.Titre}</h2><br />
+{br:event.Description}<br />
+Prévu pour le {formatDateTime:event.EventDate}<br />
+Posté le {formatDateTime:event.PostDate}<br />
+Récompense : {$event.Reward} cookies<br />
+<br />
+content}}

@@ -62,12 +62,12 @@ class User extends Controller {
         $mandatoryFieldsNames = array('adresse email', 'sexe', 'URL de l\'avatar');
 
         // check if all fields are set
-        $erreur = "";
+        $error = "";
         foreach ($mandatoryFields as $key => $field) {
             if(empty($_POST[$field]))
-                $erreur .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
+                $error .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
         }
-        if($erreur != "") $this->notifyError($erreur);
+        if($error != "") $this->notifyError($error);
 
         // protect fields
         foreach ($protectFields as &$field) {

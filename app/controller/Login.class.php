@@ -11,16 +11,12 @@ class Login extends Controller {
     public function index($args) {
         Login::checkIfNotLogguedIn();
 
+        print_r($_SESSION);
         $this->afk->view('login/form', array(
-            'formAction' => Helpers::makeUrl('login', 'post'),
-            'loginFailed' => isset($args['bad'])
+            'formAction' => Helpers::makeUrl('login', 'post')
         ));
     }
 
-    /**
-     * 
-     *
-     **/
     public function post($args) {
         Login::checkIfNotLogguedIn();
 
@@ -31,10 +27,17 @@ class Login extends Controller {
         $usermodel = new UserModel();
         $r = $usermodel->checkLogin($_POST['username'], $_POST['password']);
 
-        if($r === FALSE)
-            Helpers::redirect('login', null, 'bad');
+        if($r === FALSE) {
+            Helpers::notify('Erreur', 'Mauvais login ou mot de passe', 'error');
+            Helpers::redirect('login');
+        }
 
         Login::loginUser($r);
+
+        if(isset($_POST['remember'])) {
+            $cookieVal = array('Username' => $r['Username'], 'Password' => $r['Password']);
+            setcookie("loginCookie", serialize($cookieVal), time()+3600);
+        }
         
         Helpers::notify('Connexion effectuée', 'Vous êtes dès à présent connecté à votre compte.');
 
@@ -49,25 +52,49 @@ class Login extends Controller {
 
     public function out() {
         if(!isset($_SESSION['u.id'])) {
-            Helpers::notify('Pas connecté', 'Impossible de vous déconnecter car vous êtes déjà deconnecté.', 'error');
+            Helpers::notify('Pas connecté', 'Impossible de vous déconnecter car vous êtes déjà deconnecté (votre session a probablement expiré).', 'error');
             Helpers::redirect('index');
         }
 
-        $this->logoutUser();
+        Login::logoutUser();
         Helpers::notify('Déconnecté', 'Votre session à bien été fermée.');
         Helpers::redirect('index');
     }
 
-    public static function loginUser($data) {
-        if(isset($data['routed'])) exit(); // prevent direct method calling
+    public static function checkCookie() {
+        if(isset($_COOKIE['loginCookie']) && empty($_SESSION['u.id'])) {
+            $c = unserialize($_COOKIE['loginCookie']);
+            
+            if(empty($c['Username']) || empty($c['Password'])) {
+                unset($_COOKIE['loginCookie']);
+                return;
+            }
+            
+            $usermodel = new UserModel();
+            $r = $usermodel->checkLogin($c['Username'], $c['Password'], true);
 
+            if($r === FALSE) {
+                unset($_COOKIE['loginCookie']);
+            }
+
+            self::loginUser($r);
+        }
+
+    }
+
+    public static function loginUser($data) {
         $_SESSION['u.username'] = $data['Username'];
         $_SESSION['u.id'] = $data['Id'];
     }
 
-    private function logoutUser() {
+    public static function logoutUser($args) {
+        // unset session vars
         unset($_SESSION['u.username']);
         unset($_SESSION['u.id']);
+
+        // remove cookies if any
+        if(isset($_COOKIE['loginCookie']))
+            setcookie('loginCookie', '', time() - 3600);
     }
 
     public static function checkIfLogguedIn() {
@@ -93,7 +120,7 @@ class Login extends Controller {
     }
 
     public static function unsetGoto() {
-        $_SESSION['l.goto'] = null;
+        unset($_SESSION['l.goto']);
     }
 
     public static function getGoto() {

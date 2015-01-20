@@ -32,7 +32,7 @@ class AFK {
 	 * 
 	 * @var AFK
 	 */
-	private static $instance;
+	private static $instance = null;
 
 	// instance unique
 	public static function getInstance() {
@@ -61,7 +61,13 @@ class AFK {
 		div::addCustomModifier('formatDateTime:', 'Helpers::formatDateTime');
 	}
 
+	private function init() {
+		Login::checkCookie();
+	}
+
 	public function router($request) {
+		$this->init();
+
 		$queryArray = array();
 		parse_str($request, $queryArray);
 
@@ -81,15 +87,39 @@ class AFK {
 		if(isset($queryArray['method']))
 			$method = $queryArray['method'];
 
-		$queryArray['routed'] = true;
-
+		// instantiate a new class using some PHP magic
 		$controller = new $class();
+		// check if the newly instanciated class extends a controller
 		if($controller instanceOf Controller) {
-			if(method_exists($controller, $method))
-				$controller->$method($queryArray);
+			if($this->checkIfMethodRoutable($class, $method)) {
+				$controller->$method($queryArray); // call Controller->method()
+			}
 			else
 				$this->error404($queryArray, 'Method not found');
 		}
+	}
+
+	/**
+	 * Checks if we can route to a method of a class (the method must be public and non static)
+	 * 
+	 * This is used to prevent routing to static methods of class since PHP allows calling
+	 * a static method on a non static object (e.g doing $classInstance->staticMethod()
+	 * instead of Class::staticMethod())
+	 * 
+	 * Without this, the user would be able to call any method from a controller e.g
+	 * ?action=Controller&method=staticMethod or ?action=Controller&method=private
+	 * (which would have crashed the program because we can't call a private method)
+	 * 
+	 * @param $class String The class name
+	 * @param $method String The method name
+	 * @return true if callable
+	 * @return false if not callable
+	 **/
+	private function checkIfMethodRoutable($class, $method) {
+		$c = new ReflectionClass($class);
+		$method = $c->getMethod($method);
+
+		return !$method->isStatic() && $method->isPublic();
 	}
 
 	public function view($view, $data = NULL) {

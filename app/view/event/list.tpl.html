@@ -1,0 +1,11 @@
+{% layout/layout.tpl %}
+
+{{content
+[$events]
+<a href="{$Url}">Titre : {$Titre}</a><br />
+{br:Description}<br />
+Prévu pour le {formatDateTime:EventDate}<br />
+Récompense : {$Reward} cookies<br />
+<br />
+[/$events]
+content}}
