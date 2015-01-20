@@ -117,11 +117,18 @@ class AFK {
 	 **/
 	private function checkIfMethodRoutable($class, $method) {
 		$c = new ReflectionClass($class);
-		$method = $c->getMethod($method);
+		try {
+			$method = $c->getMethod($method);
+		} catch (ReflectionException $e) {
+			return false;
+		}
 
 		return !$method->isStatic() && $method->isPublic();
 	}
 
+	/**
+	 * 
+	 **/
 	public function view($view, $data = NULL) {
 		$view = Config::$path['views'].$view.'.tpl.html';
 		if(empty($data)) $data = array();
