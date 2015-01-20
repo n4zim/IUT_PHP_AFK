@@ -167,4 +167,18 @@ class Login extends Controller {
         if(isset($_SESSION['l.goto'])) return $_SESSION['l.goto'];
         return FALSE;
     }
+
+
+    /**
+     * Checks wether or not the current loggued in user can admin.
+     * Redirects to index if it's not the case.
+     **/
+    public static function checkIfAdmin() {
+        Login::checkIfLogguedIn();
+        $lm = new UserModel();
+        if(!$lm->canUser($_SESSION['u.id'], 'admin')) {
+            Helpers::notify('Droits inssufisants', 'Vous ne pouvez pas accéder à cette page.', 'error');
+            Helpers::redirect('index');
+        }
+    }
 } 
