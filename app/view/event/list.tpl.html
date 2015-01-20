@@ -8,4 +8,8 @@ Prévu pour le {formatDateTime:EventDate}<br />
 Récompense : {$Reward} cookies<br />
 <br />
 [/$events]
+[[_empty
+   {% comp/pagination.tpl %}
+   {= baseLink: "?action=events&amp;p=" =}
+_empty]]
 content}}

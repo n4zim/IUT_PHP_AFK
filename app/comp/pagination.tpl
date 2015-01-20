@@ -1,24 +1,19 @@
 <!--{ Module : Pagination }-->
 <div class="pagination">
-Page {$page} sur {$pageCount}<br />
-
-{?( {$page} > 1 )?}
-<a href="{$baseLink}&amp;p=(# {$page} - 1 #)">&laquo;</a>
-{/?}
-
+Page {$pageNumber} sur {$pageCount}<br />
+{?( {$pageCount} > 1 )?}{?( {$pageNumber} > 1 )?}<a href="{$baseLink}(# {$pageNumber} - 1 #)">&laquo;</a>{/?}
 <span class="pagenums">
 [:1,{$pageCount}:]
-    {?({$value} != {$page})?}
-        <a href="{$baseLink}&amp;p=(# {$value} #)" class="p">{$value}</a>
+    {?({$value} != {$pageNumber})?}
+        <a href="{$baseLink}(# {$value} #)" class="p">{$value}</a>
     @else@
         <span class="p act">{$value}</span>
     {/?}
-    
     {?({$value} < {$pageCount})?}<span class="sep">-</span>{/?}
 [/]
-</span>
+</span>{/?}
 
-{?({$page} < {$pageCount})?}
-<a href="{$baseLink}&amp;p=(# {$page} + 1 #)">&raquo;</a>
+{?({$pageNumber} < {$pageCount})?}
+<a href="{$baseLink}(# {$pageNumber} + 1 #)">&raquo;</a>
 {/?}
 </div>

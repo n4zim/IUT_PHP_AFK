@@ -1,5 +1,5 @@
 {% layout/layout.tpl %}
-
+{= pageTitle: "Voir un évenement" =}
 {{content
 <h2>{$event.Titre}</h2><br />
 {br:event.Description}<br />
@@ -7,4 +7,9 @@ Prévu pour le {formatDateTime:event.EventDate}<br />
 Posté le {formatDateTime:event.PostDate}<br />
 Récompense : {$event.Reward} cookies<br />
 <br />
+{?({$event.Subscribed} == 0)?}
+<a href="{$subLink}">S'inscrire</a>
+@else@
+<a href="{$unsubLink}">Se désinscrire</a>
+{/?}
 content}}

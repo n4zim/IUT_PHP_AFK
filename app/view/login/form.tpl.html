@@ -1,10 +1,6 @@
 {% layout/layout.tpl %}
 
 {{content
-{?( {$loginFailed} )?}
-Mauvais login/mot de passe
-{/?}
-
 <form action="{$formAction}" method="POST">
     <label for="f-text-username">Nom d'utilisateur</label> <input id="f-text-username" name="username" type="text" value="Xorus" /><br />
     <label for="f-password-password">Mot de passe</label> <input id="f-password-password" name="password" type="password" value="test" /><br />
