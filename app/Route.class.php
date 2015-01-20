@@ -8,6 +8,7 @@ class Route {
         $r['register'] = 'Register';
         $r['pm'] = 'PM';
         $r['event'] = 'Event';
+        $r['admin'] = 'Admin';
 
         return $r;
     }
