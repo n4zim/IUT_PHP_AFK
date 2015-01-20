@@ -4,15 +4,21 @@ class Event extends Controller {
         parent::__construct();
     }
 
-    public function index() {
+    public function index($args) {
+        $page = (isset($args['page'])) ? intval($args['page']) : 0;
         $eventModel = new EventModel();
-        $events = $eventModel->getEvents();
+        $events = $eventModel->getEvents(null, false, $page);
 
         foreach ($events as &$event) {
             $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
         }
 
-        $this->afk->view('event/list', array('events' => $events));
+        // pagination
+        $count = $eventModel->countEvents();
+        $pageCount = ceil($count / Config::$listing['usersPerPage']);
+        $pageNumber = (isset($args['p']) && intval($args['p']) <= $pageCount) ? intval($args['p']) : 1;
+
+        $this->afk->view('event/list', array('events' => $events, 'pageCount' => $pageCount, 'pageNumber' => $pageNumber));
     }
 
     public function view($args) {
@@ -23,7 +29,7 @@ class Event extends Controller {
 
         $eventModel = new EventModel();
         $event = $eventModel->getEvents($args['id']);
-        
+
         $this->afk->view('event/view', array('event' => $event));
     }
 }
