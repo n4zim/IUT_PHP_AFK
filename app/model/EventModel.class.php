@@ -10,11 +10,13 @@ class EventModel extends Model {
      * @param $id Event id, shows all upcoming event if null or unspecified
      * @param $allTime Show passed events if true. False by default.
      * @param $page Page number, do not paginate if null.
+     * @param $currentUser If supplied, will also add a field to say if this User (id) is subscribed to the event or not
      * 
      * @return Associative Array containing fields from Event table
      **/
-    public function getEvents($id = null, $allTime = false, $page = null) {
+    public function getEvents($id = null, $allTime = false, $page = null, $checkForUser = null) {
         $clauseId = (isset($id)) ? ' AND `Id` = :id' : '';
+//        $clauseUser = (isset($checkForUser)) ? ' JOIN `'
         $req = 'SELECT `Id`,  `Organizer`,  `Titre`,  `Description`,  `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward`
                 FROM `Event`
                 WHERE `EventDate` > :eventDate '.$clauseId.'
@@ -59,5 +61,52 @@ class EventModel extends Model {
 
         $result = $statement->fetch();
         return $result['Count'];
+    }
+
+    /**
+     * Subscribes an user to an event
+     * 
+     * @param $user User Id
+     * @param $event Event Id
+     * @return array('success' => true)
+     * @return array('success' => false, 'message' => 'description de l\'erreur')
+     **/
+    public function subscribeUser($user, $event) {
+        $req = 'INSERT INTO `EventEntrant` (`Event`, `User`, `JoinDate`) VALUES (?, ?, NOW())';
+        $st = $this->db->prepare($req);
+
+        try {
+            $st->execute(array($event, $user));
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array("success" => false, "message" => "Utilisateur déjà inscrit à cet évenement.");
+            } else {
+                return array("success" => false, "message" => "Erreur inconnue.");
+            }
+        }
+
+        return array("success" => true);
+    }
+
+    /**
+     * Unsubscribes an user frmm an event
+     * 
+     * @param $user User Id
+     * @param $event Event Id
+     * @return array('success' => true)
+     * @return array('success' => false, 'message' => 'description de l\'erreur')
+     **/
+    public function unsubscribeUser($user, $event) {
+        $req = 'DELETE FROM `EventEntrant` WHERE `Event` = ? AND `User` = ?';
+        $st = $this->db->prepare($req);
+        $st->execute(array($event, $user));
+
+        if($st->rowCount() < 1)
+            return array('success' => false, 'message' => 'Vous n\'étiez pas inscrit à cet évenement');
+        return array('success' => true);
+    }
+
+    public function getSubscribed($user) {
+
     }
 }
