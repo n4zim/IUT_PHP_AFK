@@ -6,9 +6,8 @@ class Login extends Controller {
 
     /**
      * Main method, shows login form
-     * @param args Argument array. Used arguments : 
      **/
-    public function index($args) {
+    public function index() {
         Login::checkIfNotLogguedIn();
 
         print_r($_SESSION);
@@ -17,7 +16,10 @@ class Login extends Controller {
         ));
     }
 
-    public function post($args) {
+    /**
+     * When the login form gets validated
+     **/
+    public function post() {
         Login::checkIfNotLogguedIn();
 
         if(empty($_POST['username']) || empty($_POST['password'])) {
@@ -50,6 +52,9 @@ class Login extends Controller {
         Helpers::redirect('index');
     }
 
+    /**
+     * Logout action
+     */
     public function out() {
         if(!isset($_SESSION['u.id'])) {
             Helpers::notify('Pas connecté', 'Impossible de vous déconnecter car vous êtes déjà deconnecté (votre session a probablement expiré).', 'error');
@@ -61,6 +66,9 @@ class Login extends Controller {
         Helpers::redirect('index');
     }
 
+    /**
+     * Checks if cookie is present and tries to login if so
+     **/
     public static function checkCookie() {
         if(isset($_COOKIE['loginCookie']) && empty($_SESSION['u.id'])) {
             $c = unserialize($_COOKIE['loginCookie']);
@@ -82,12 +90,20 @@ class Login extends Controller {
 
     }
 
+    /**
+     * Sets the session for an user
+     * 
+     * @param $data User info array (corresponding to the User table in DB)
+     **/
     public static function loginUser($data) {
         $_SESSION['u.username'] = $data['Username'];
         $_SESSION['u.id'] = $data['Id'];
     }
 
-    public static function logoutUser($args) {
+    /**
+     * Resets the session vars to logout an user
+     **/
+    public static function logoutUser() {
         // unset session vars
         unset($_SESSION['u.username']);
         unset($_SESSION['u.id']);
@@ -97,6 +113,11 @@ class Login extends Controller {
             setcookie('loginCookie', '', time() - 3600);
     }
 
+    /**
+     * Checks if an user is logged in.
+     * If not, redirect him to login form, which will then redirect
+     * to the Login::getGoto() page or the index
+     **/
     public static function checkIfLogguedIn() {
         if(empty($_SESSION['u.id'])) {
             Helpers::notify('Non connecté', 'Vous devez être connecté pour accéder à cette page', 'error');
@@ -108,6 +129,10 @@ class Login extends Controller {
         }
     }
 
+    /**
+     * Checks if an user is not loggued in
+     * Redirects to the index
+     */
     private static function checkIfNotLogguedIn() {
         if(isset($_SESSION['u.id'])) {
             Helpers::notify('Déjà connecté', 'Vous êtes déjà connecté.', 'error');
@@ -115,14 +140,29 @@ class Login extends Controller {
         }
     }
 
+    /**
+     * Sets the destination after login, uses Helpers::makeUrl()
+     * 
+     * @param $action Controller route (see Helpers::makeUrl())
+     * @param $method Method (see Helpers::makeUrl())
+     * @param $args Arguments (see Helpers::makeUrl())
+     */
     public static function setGoto($action, $method = null, $args = null) {
         $_SESSION['l.goto'] = Helpers::makeUrl($action, $method, $args, false);
     }
 
+    /**
+     * Unsets the login successful destination
+     **/
     public static function unsetGoto() {
         unset($_SESSION['l.goto']);
     }
 
+    /**
+     * Gets the login sucessful destination
+     * @return String : destination
+     * @return FALSE if not set
+     **/
     public static function getGoto() {
         if(isset($_SESSION['l.goto'])) return $_SESSION['l.goto'];
         return FALSE;
