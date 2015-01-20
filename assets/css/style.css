@@ -98,6 +98,11 @@ body {
 	min-width: 4.5em;
 }
 
+#title a:link, #title a:visited, #title a:hover, #title a:active {
+	text-decoration: none;
+	color: inherit;
+}
+
 .pblock #content {
 	flex: 3;
 	display: inline-block;
