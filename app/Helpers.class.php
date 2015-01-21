@@ -123,14 +123,11 @@ class Helpers {
 
         $message .= "\n\n--".$limite."\n";
         $message .= 'Content-Type: text/html; charset=utf-8' . "\n\n";
-        $message .= "Content-Transfer-Encoding: 8bit;\n\n";
         $message .= <<<EOT
 <!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="http://afk.nerdbox.fr/assets/css/style.css"/>
-(( head ))
 </head>
 <body>
 EOT;
@@ -138,6 +135,6 @@ EOT;
 
         $message .= "\n--".$limite."--";
 
-        var_dump(mail($to, $title, $message, $header));
+        mail($to, $title, $message, $header);
     }
 }
