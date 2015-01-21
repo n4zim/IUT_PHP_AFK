@@ -16,6 +16,7 @@
             <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
             <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png"></a>
             <a href="{$layout.friendlistLink}">amis</a>
+            <a href="{$layout.pmLink}">msg ({$layout.pmUnread})</a>
         </div>
     </header>
 @else@
