@@ -30,16 +30,21 @@ class Faction extends Controller {
         }
 
         $factionModel = new FactionModel();
-        $factions = $factionModel->getFactions($args['id']);
+        $userModel = new UserModel();
+        $faction = $factionModel->getFactions($args['id']);
+        $members = $userModel->getUsers(null, $args['id']);
 
-        foreach ($factions as &$faction) {
-            $factions['Url'] = Helpers::makeUrl('faction', 'view', array('id' => $factions['Id']));
-            $factions['Score'] = $factionModel->getTotalScore($factions['Id']); // optimize me (use db directly in getFactions to get score)
+        $faction['Url'] = Helpers::makeUrl('faction', 'view', array('id' => $faction['Id']));
+        $faction['Score'] = $factionModel->getTotalScore($faction['Id']); // optimize me (use db directly in getFactions to get score)
+
+        foreach ($members as &$user) {
+            $user['Url'] = Helpers::makeUrl('user', 'profile', array('id' => $user['Id']));
         }
 
-        $this->afk->view('faction/list', 
+        $this->afk->view('faction/view', 
             array(
-                'factions' => $factions
+                'faction' => $faction,
+                'members' => $members
             )
         );
     }
