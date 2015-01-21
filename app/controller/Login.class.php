@@ -10,7 +10,6 @@ class Login extends Controller {
     public function index() {
         Login::checkIfNotLogguedIn();
 
-        print_r($_SESSION);
         $this->afk->view('login/form', array(
             'formAction' => Helpers::makeUrl('login', 'post')
         ));
@@ -107,6 +106,7 @@ class Login extends Controller {
         // unset session vars
         unset($_SESSION['u.username']);
         unset($_SESSION['u.id']);
+        unset($_SESSION['l.goto']);
 
         // remove cookies if any
         if(isset($_COOKIE['loginCookie']))

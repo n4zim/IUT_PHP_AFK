@@ -27,7 +27,7 @@ class EventModel extends Model {
      **/
     public function getEvents($id = null, $allTime = false, $page = null, $checkForUser = null, $limit = null, $order = '') {
         $clauseId = (isset($id)) ? ' AND `Id` = :id' : '';
-        $clauseUser = (isset($checkForUser)) ? ', IF(`EventEntrant`.`User` IS NULL, 0, 1) AS `Subscribed`' : '';
+        $clauseUser = (isset($checkForUser)) ? ', IF(`EventEntrant`.`User` IS NULL, 0, 1) AS `Subscribed`' : ', \'0\' AS `Subscribed`';
         $clauseUser2 = (isset($checkForUser)) ? ' LEFT JOIN `EventEntrant` ON `EventEntrant`.`Event`= `Id` AND `EventEntrant`.`User` = :userId' : '';
         $req = 'SELECT `Id`,  `Organizer`,  `Titre`,  `Description`,  `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
                 FROM `Event`'.$clauseUser2.'
