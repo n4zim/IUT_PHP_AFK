@@ -51,7 +51,7 @@ class User extends Controller {
         $data['user'] = $usermodel->getUser(intval($args['id']));
         $data['user']['FactionLink'] = Helpers::makeUrl('faction', 'view', array('id' => $data['user']['Faction']));
         $data['isMine'] = ($_SESSION['u.id'] == intval($args['id']));
-        $data['lienEdit'] = Helpers::makeUrl('user', 'edit');
+        if($_SESSION['u.id'] == intval($args['id'])) $data['lienEdit'] = Helpers::makeUrl('user', 'edit');
         $data['MPUrl'] = Helpers::makeUrl('pm', 'write', array('id' => $data['user']['Id']));
 
         if(empty($data['user'])) {
@@ -60,6 +60,17 @@ class User extends Controller {
         }
 
         $this->afk->view('user/profile', $data);
+    }
+
+    public function editform() {
+
+    }
+
+    public function testMail() {
+        $msg  = "<h1>Bienvenue à CookieCatch</h1>\n\n";
+        $msg .= "<p>Votre inscription s'est déroulée avec succès.<br />\n"
+        $msg .= "Votre identifiant de connexion est : <strong>".'Xorus'."</strong></p>\n";
+        Helpers::sendMail('jdpepi@gmail.com', 'Bienvenue à CookieCatch !', $msg);
     }
 
     public function edit($args) {

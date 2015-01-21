@@ -83,12 +83,13 @@ class PMModel extends Model {
             'Sender' => $data['SenderName'],
             'RecipientId' => $data['Recipient'],
             'Recipient' => $data['RecipientName'],
+            'RecipientProfile' => Helpers::makeUrl('user', 'profile', array('id' => $data['Recipient'])),
+            'SenderProfile' => Helpers::makeUrl('user', 'profile', array('id' => $data['Sender'])),
             'Read' => ($data['Read'] == 'Y') ? true : false,
             'Message' => $message,
             'Timestamp' => strtotime($data['SendDate']),
             'Url' => Helpers::makeUrl('pm', 'view', array('id' => $data['Id']))
         );
-
     }
 
     public function sendPM($from, $to, $message) {

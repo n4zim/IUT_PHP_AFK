@@ -60,6 +60,7 @@ class Helpers {
         exit($message);
     }
 
+
     public static function nameMonth($date) {
         $m = date('m', $date);
         $mois = array('janvier', 'f&eacute;vrier', 'mars', 'avril', 
@@ -96,5 +97,47 @@ class Helpers {
     public static function formatPM($text) {
         // todo : parse markdown
         return nl2br($text);
+    }
+
+    public static function sendMail($to, $title, $html, $textcontent = null) {
+        $from = Config::$app['mailFrom'];
+
+        $limite = "_----------=_parties_".md5(uniqid (rand()));
+
+        $header  = "Reply-to: ".$from."\n";
+        $header .= "From: ".$from."\n";
+        $header .= "X-Sender: <".Config::$app['hostname'].">\n";
+        $header .= "X-Mailer: PHP\n";
+        $header .= "X-auth-smtp-user: ".$from." \n";
+        $header .= "X-abuse-contact: ".$from." \n";
+        $header .= "Date: ".date("D, j M Y G:i:s O")."\n";
+        $header .= "MIME-Version: 1.0\n";
+        $header .= "Content-Type: multipart/alternative; boundary=\"".$limite."\"";
+
+        $message = "";
+
+        $message .= "--".$limite."\n";
+        $message .= 'Content-Type: text/plain; charset=utf-8' . "\n\n";
+        $message .= "Content-Transfer-Encoding: 8bit\n\n";
+        $message .= (isset($textcontent) ? $textcontent : strip_tags($html));
+
+        $message .= "\n\n--".$limite."\n";
+        $message .= 'Content-Type: text/html; charset=utf-8' . "\n\n";
+        $message .= "Content-Transfer-Encoding: 8bit;\n\n";
+        $message .= <<<EOT
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="http://afk.nerdbox.fr/assets/css/style.css"/>
+(( head ))
+</head>
+<body>
+EOT;
+        $message .= $html.'<body></html>';
+
+        $message .= "\n--".$limite."--";
+
+        mail($to, $title, $message, $header);
     }
 }
