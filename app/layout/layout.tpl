@@ -8,14 +8,14 @@
 (( head ))
 </head>
 <body>
-
 ?$layout.user
     <header>
         <div id="title"><a href="index.php">CookieCatch</a></div>
         <div id="user">
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
             <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
-            <a href="index.php?action=login&amp;method=out"><img src="assets/img/disconnect.png"></a>
+            <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png"></a>
+            <a href="{$layout.friendlistLink}">amis</a>
         </div>
     </header>
 @else@

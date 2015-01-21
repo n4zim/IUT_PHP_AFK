@@ -1,0 +1,16 @@
+{% layout/layout.tpl %}
+{{content
+<br />
+<br />
+[$users]
+    <div>
+      <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /><br />
+      {$Username}</a><br />
+      <a href="{$MPUrl}">Envoyer un message</a><br />
+      <a href="{$DelFriendUrl}">Retirer de la liste</a>
+    </div>
+@empty@
+    Vous n'avez pas d'ami :(.<br />
+    <a href="{$layout.directoryLink}">Pourquoi ne pas consulter l'annuaire des membres ?</a>
+[/$users]
+content}}

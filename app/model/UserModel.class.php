@@ -1,5 +1,7 @@
 <?php
 class UserModel extends Model {
+    private static $activeUsersAlreadyCleaned = false;
+
     public function UserModel() {
         parent::__construct();
     }
@@ -8,7 +10,8 @@ class UserModel extends Model {
         $min = $page * Config::$listing['usersPerPage'];
         $max = $min + Config::$listing['usersPerPage'];
 
-        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, `Avatar`, `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`
+        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
+                       `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`, `Faction`.`Logo` AS `FactionLogo`
                 FROM `User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
                 ORDER BY `Username`
@@ -112,5 +115,86 @@ class UserModel extends Model {
         }
 
         return FALSE;
+    }
+
+    public function canUser($user, $action) {
+        if($action == 'admin') $action = 'Admin';
+        else return false;
+
+        $req = 'SELECT `Can'.$action.'` AS `Permission` FROM `User` WHERE `Id` = ?';
+        $st = $this->db->prepare($req);
+        $st->execute(array($user));
+        $r = $st->fetch();
+        
+        return ($r['Permission'] == 1) ? true : false;
+    }
+
+    public function updateActivity($user) {
+        $this->cleanActiveUsers();
+        
+        $st = $this->db->prepare('SELECT EXISTS (SELECT `User` FROM `ActiveUsers` WHERE `User` = 1) AS `Result`');
+        $st->execute();
+
+        $timeout = Config::$app['activityTimeout'];
+
+        if(intval($st->fetch()['Result']) == 0) { // user not listed in latest active members
+            $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.')');
+        } else {
+            $st = $this->db->prepare('UPDATE `ActiveUsers` SET `Expires` = NOW()+'.$timeout.'  WHERE `User` = ?');
+        }
+
+        $st->execute(array($user));
+    }
+
+    public function cleanActiveUsers() {
+        if(self::$activeUsersAlreadyCleaned) return;
+
+        $st = $this->db->prepare('DELETE FROM `ActiveUsers` WHERE `Expires` < NOW()');
+        $st->execute();
+
+        self::$activeUsersAlreadyCleaned = true;
+    }
+
+    public function countActiveUsers() {
+        $this->cleanActiveUsers();
+
+        $st = $this->db->prepare('SELECT COUNT(`User`) AS `Count` FROM `ActiveUsers`');
+        $st->execute();
+        return $st->fetch()['Count'];
+    }
+
+    public function getFriendsOf($user) {
+        $st = $this->db->prepare('SELECT `B`.`Id`, `B`.`Username`, IFNULL(`B`.`Avatar`, `Faction`.`Logo`) AS `Avatar`
+            FROM `Friend`
+            JOIN `User` `B` ON `B`.`Id` = `Friend`.`UserB`
+            JOIN `Faction` ON `B`.`Faction` = `Faction`.`Id`
+            WHERE `UserA` = ?');
+        $st->execute(array($user));
+
+        return $st->fetchAll();
+    }
+
+    public function addFriend($a, $b) {
+        $st = $this->db->prepare('INSERT INTO `Friend` (`UserA`, `UserB`) VALUES (?, ?)');
+        try {
+            $st->execute(array($a, $b));
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array("success" => false, "message" => "Utilisateur déjà présent dans la liste d'amis.");
+            } else {
+                return array("success" => false, "message" => "Erreur inconnue.");
+            }
+        }
+        return array('success' => true);
+    }
+
+    public function removeFriend($a, $b) {
+        $st = $this->db->prepare('DELETE FROM `Friend` WHERE `UserA` = ? AND `UserB` = ?');
+        try {
+            $st->execute(array($a, $b));
+        } catch (PDOException $e) {
+            return array("success" => false, "message" => "Impossible de trouver de l'eau sur Mars afin satisfaire votre requête et lancer un seau d'eau sur la tête de votre 'ami'.");
+        }
+        return array('success' => true);
     }
 } 

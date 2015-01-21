@@ -16,6 +16,11 @@ class PM extends Controller {
         );
     }
 
+    public function write($args) {
+        var_dump($args);
+        exit 'formulaire avec les champs message et to. To contient le pseudo exact.';
+    }
+
     public function send($args) {
         $pmModel = new PMModel();
         $userModel = new UserModel();

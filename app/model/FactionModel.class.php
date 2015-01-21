@@ -46,4 +46,24 @@ class FactionModel extends Model {
         $result = $statement->fetch();
         return $result;
     }
+
+    public function getScoreRecords($faction) {
+        $req = 'SELECT `Id`, `Faction`, UNIX_TIMESTAMP(`Date`), `Info`, `Score` FROM `Score` WHERE `Faction` = ?';
+        $st = $this->db->prepare($req);
+        return $st->fetch()['Score'];
+    }
+
+    public function getTotalScore($faction) {
+        $req = 'SELECT SUM(`Points`) AS `Score` FROM `Score` WHERE `Faction` = ?';
+        $st = $this->db->prepare($req);
+        return $st->fetch()['Score'];
+    }
+
+    public function insertNewScore($faction, $score, $message = null) {
+        $req = 'INSERT INTO `Score` (`Faction`, `Date`, `Score`, `Info`) VALUES (?, NOW(), ?, ?)';
+        $st = $this->db->prepare($req);
+
+        if($score < 0) return false;
+        $st->execute(array($faction, $score, $message));
+    }
 } 

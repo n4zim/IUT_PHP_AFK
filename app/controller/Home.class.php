@@ -5,6 +5,16 @@ class Home extends Controller {
     }
 
     public function index() {
-        $this->afk->view('index', array());
+        $eventModel = new EventModel();
+        $userModel = new UserModel();
+
+        $latest = $eventModel->getEvents(null, false, 0, null, Config::$listing['eventsOnHomePage'], 'latest');
+        
+        $this->afk->view('index', array(
+            'eventCount' => $eventModel->countEvents(true),
+            'userCount' => $userModel->countUsers(),
+            'events' => $latest,
+            'activeCount' => $userModel->countActiveUsers()
+        ));
     }
 }
