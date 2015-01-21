@@ -138,6 +138,6 @@ EOT;
 
         $message .= "\n--".$limite."--";
 
-        mail($to, $title, $message, $header);
+        var_dump(mail($to, $title, $message, $header));
     }
 }
