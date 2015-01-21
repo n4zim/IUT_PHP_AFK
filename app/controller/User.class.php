@@ -17,7 +17,15 @@ class User extends Controller {
 
         $users = $usermodel->getUsers($pageNumber - 1);
 
-        $this->afk->view('user/list', 
+        foreach ($users as &$user) {
+            $user['Url'] = Helpers::makeUrl('user', 'profile', array('id' => $user['Id']));
+            if(isset($_SESSION['u.id']) && $user['Id'] != $_SESSION['u.id'])
+                $user['AddFriendUrl'] = Helpers::makeUrl('user', 'addfriend', array('id' => $user['Id']));
+        }
+
+        self::setRedirectAfterFriendOperation();
+
+        $this->afk->view('user/directory', 
             array(
                 'count' => $count,
                 'users' => $users,
@@ -84,6 +92,79 @@ class User extends Controller {
             Helpers::notify('Effectué', 'Modifications enregistrées');
             Helpers::redirect('user', 'profile');
         } else $this->notifyError('Erreur : '.$r['message']);
-
     }
+
+    public function friendlist($args) {
+        Login::checkIfLogguedIn();
+
+        $um = new UserModel();
+        $users = $um->getFriendsOf($_SESSION['u.id']);
+
+        foreach ($users as &$user) {
+            $user['Url'] = Helpers::makeUrl('user', 'profile', array('id' => $user['Id']));
+            $user['DelFriendUrl'] = Helpers::makeUrl('user', 'removefriend', array('id' => $user['Id']));
+            $user['MPUrl'] = Helpers::makeUrl('pm', 'write', array('id' => $user['Id']));
+        }
+
+        self::setRedirectAfterFriendOperation('user', 'friendlist');
+
+        $this->afk->view('user/friendlist', 
+            array(
+                'users' => $users
+            )
+        );
+    }
+
+    public function addfriend($args) {
+        Login::checkIfLogguedIn();
+        if(empty($args['id'])) {
+            Helpers::notify('Erreur', 'Pas d\'identifiant utilisateur spécifié', 'error');
+            Helpers::redirect('index');
+        }
+
+        $um = new UserModel();
+        $r = $um->addFriend($_SESSION['u.id'], $args['id']);
+
+        if($r['success']) {
+            Helpers::notify('Ami ajouté !', 'Ça fait toujours plaisir d\'avoir des amis !');
+        } else {
+            Helpers::notify('Erreur', 'Impossible de rajouter un ami :<br />'.$r['message'], 'error');
+        }
+        self::doRedirect();
+    }
+
+    public function removefriend($args) {
+        Login::checkIfLogguedIn();
+        if(empty($args['id'])) {
+            Helpers::notify('Erreur', 'Pas d\'identifiant utilisateur spécifié', 'error');
+            Helpers::redirect('index');
+        }
+
+        $um = new UserModel();
+        $r = $um->removeFriend($_SESSION['u.id'], $args['id']);
+
+        if($r['success']) {
+            Helpers::notify('Et pof !', 'Un ami en moins dans votre liste. Un peu triste tout de même.');
+        } else {
+            Helpers::notify('Erreur', 'Impossible de supprimmer un ami (malheureusement pour vous) :<br />'.$r['message'], 'error');
+        }
+        self::doRedirect();
+    }
+
+    public static function setRedirectAfterFriendOperation($action = 'user', $method = null, $args = null) {
+        $_SESSION['u.redirectTo'] = Helpers::makeUrl('user', $method, $args, false);
+    }
+
+    private static function doRedirect() {
+        if(empty($_SESSION['u.redirectTo'])) {
+            header('Location: '.Helpers::makeUrl('index', null, null, false));
+            exit;
+        }
+        $r = $_SESSION['u.redirectTo'];
+        unset($_SESSION['u.redirectTo']);
+        header('Location: '.$r);
+        exit;
+    }
+
+    //getFriendsOf
 } 
