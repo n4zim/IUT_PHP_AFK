@@ -4,18 +4,22 @@ class FactionModel extends Model {
         parent::__construct();
     }
 
-    public function getFactions() {
-        $req = 'SELECT `Id`, `Name`, `Description`
-                FROM `Faction`
-                ORDER BY `Id`';
+    public function getFactions($id = null) {
+        $req = 'SELECT `Id`, `Name`, `Description`, `Logo`
+                FROM `Faction`'.
+                ((isset($id)) ? ' WHERE `Id` = ? ' : '')
+                .' ORDER BY `Id`';
+
+        $data = isset($id) ? array($id) : array();
 
         $statement = $this->db->prepare($req);
-        $statement->execute();
+        $statement->execute($data);
 
-        $result = $statement->fetchAll();
+        $result = isset($id) ? $statement->fetch() : $statement->fetchAll();
         return $result;
     }
 
+    // to remove
     public function getFaction($id) { 
         $req = 'SELECT `Id`, `Name`, `Description`
                 FROM `Faction`
@@ -50,12 +54,14 @@ class FactionModel extends Model {
     public function getScoreRecords($faction) {
         $req = 'SELECT `Id`, `Faction`, UNIX_TIMESTAMP(`Date`), `Info`, `Score` FROM `Score` WHERE `Faction` = ?';
         $st = $this->db->prepare($req);
+        $st->execute(array($faction));
         return $st->fetch()['Score'];
     }
 
     public function getTotalScore($faction) {
-        $req = 'SELECT SUM(`Points`) AS `Score` FROM `Score` WHERE `Faction` = ?';
+        $req = 'SELECT IFNULL(SUM(`Points`), 0) AS `Score` FROM `Score` WHERE `Faction` = ?';
         $st = $this->db->prepare($req);
+        $st->execute(array($faction));
         return $st->fetch()['Score'];
     }
 
