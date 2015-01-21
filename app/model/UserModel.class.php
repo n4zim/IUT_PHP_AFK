@@ -19,8 +19,9 @@ class UserModel extends Model {
         $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
                        `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`, `Faction`.`Logo` AS `FactionLogo`
                 FROM `User`
-                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`'.
-                (isset($faction) ? ' WHERE `User`.`Faction` = :facId ' : ' ').'
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                WHERE `ActivationToken` IS NULL'.
+                (isset($faction) ? ' AND `User`.`Faction` = :facId ' : ' ').'
                 ORDER BY `Username`
                 LIMIT :min, :max';
 
@@ -36,7 +37,7 @@ class UserModel extends Model {
 
     public function countUsers() {
         $req = 'SELECT COUNT(`Id`) AS `Count`
-                FROM `User`';
+                FROM `User` WHERE `ActivationToken` IS NULL';
 
         $statement = $this->db->prepare($req);
         $statement->execute();
@@ -47,7 +48,8 @@ class UserModel extends Model {
 
     public function getUser($id = null) {
         $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`,
-                IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`, 
+                IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
+                `ActivationToken`,
                 `Faction`, `Faction`.`Name` AS `FactionName` 
                 FROM `User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
@@ -61,11 +63,13 @@ class UserModel extends Model {
     }
 
     public function register($data) {
-        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`) VALUES (?, ?, ?, ?, ?, ?);';
+        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`, `ActivationToken`) VALUES (?, ?, ?, ?, ?, ?, ?);';
 
         $salt = md5($data['username'].time());
         $pass = sha1($data['password'].$salt);
         $gender = (in_array($data['gender'], array('M', 'F')) ? $data['gender'] : null);
+
+        $token = md5(uniqid(rand(), true));
 
         $arr = array($data['username'], $pass, $salt, $gender, $data['mail'], $data['faction']);
 
