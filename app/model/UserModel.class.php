@@ -1,5 +1,7 @@
 <?php
 class UserModel extends Model {
+    private static $activeUsersAlreadyCleaned = false;
+
     public function UserModel() {
         parent::__construct();
     }
@@ -124,5 +126,39 @@ class UserModel extends Model {
         $r = $st->fetch();
         
         return ($r['Permission'] == 1) ? true : false;
+    }
+
+    public function updateActivity($user) {
+        $this->cleanActiveUsers();
+        
+        $st = $this->db->prepare('SELECT EXISTS (SELECT `User` FROM `ActiveUsers` WHERE `User` = 1) AS `Result`');
+        $st->execute();
+
+        $timeout = Config::$app['activityTimeout'];
+
+        if(intval($st->fetch()['Result']) == 0) { // user not listed in latest active members
+            $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.')');
+        } else {
+            $st = $this->db->prepare('UPDATE `ActiveUsers` SET `Expires` = NOW()+'.$timeout.'  WHERE `User` = ?');
+        }
+
+        $st->execute(array($user));
+    }
+
+    public function cleanActiveUsers() {
+        if(self::$activeUsersAlreadyCleaned) return;
+
+        $st = $this->db->prepare('DELETE FROM `ActiveUsers` WHERE `Expires` < NOW()');
+        $st->execute();
+
+        self::$activeUsersAlreadyCleaned = true;
+    }
+
+    public function countActiveUsers() {
+        $this->cleanActiveUsers();
+
+        $st = $this->db->prepare('SELECT COUNT(`User`) AS `Count` FROM `ActiveUsers`');
+        $st->execute();
+        return $st->fetch()['Count'];
     }
 } 
