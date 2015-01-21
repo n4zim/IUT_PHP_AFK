@@ -6,11 +6,26 @@ head}}
 
 {{content
 Présentation rapide<br />
-Formulaire de login<br />
-Derniers events<br />
-Nombre d'inscrits<br />
-Nombre de connectés<br />
-Nombre d'events<br />
+Formulaire de login :<br />
+<form action="{$formAction}" method="POST">
+    <label for="f-text-username">Nom d'utilisateur</label> <input id="f-text-username" name="username" type="text" value="Xorus" /><br />
+    <label for="f-password-password">Mot de passe</label> <input id="f-password-password" name="password" type="password" value="test" /><br />
+    <input id="f-checkbox-remember" type="checkbox" name="remember" checked="checked"/><label for="f-checkbox-remember">Se souvenir</label><br />
+    <input type="submit" value="Se connecter" /><br />
+</form>
+
+Nombre de connectés : {$activeCount}<br />
+Nombre d'inscrits : {$userCount}<br />
+Nombre d'events : {$eventCount}<br />
+Derniers events :<br />
+[$events]
+<a href="{$Url}">Titre : {$Titre}</a><br />
+Prévu pour le {formatDateTime:EventDate}<br />
+Récompense : {$Reward} cookies<br />
+<br />
+[/$events]
+
+<a href="{$layout.eventsLink}">lien vers les events : {$layout.eventsLink}</a>
 
 <section id="content">			
 			<div id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
