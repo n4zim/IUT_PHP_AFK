@@ -68,7 +68,7 @@ class User extends Controller {
 
     public function testMail() {
         $msg  = "<h1>Bienvenue à CookieCatch</h1>\n\n";
-        $msg .= "<p>Votre inscription s'est déroulée avec succès.<br />\n"
+        $msg .= "<p>Votre inscription s'est déroulée avec succès.<br />\n";
         $msg .= "Votre identifiant de connexion est : <strong>".'Xorus'."</strong></p>\n";
         Helpers::sendMail('jdpepi@gmail.com', 'Bienvenue à CookieCatch !', $msg);
     }
