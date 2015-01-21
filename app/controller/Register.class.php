@@ -85,11 +85,13 @@ class Register extends Controller {
         if(empty($args['token']))
             self::notifyError('Le jeton d\'activation est invalide');
 
-
         $usermodel = new UserModel();
-        $r = $usermodel->activateAccount($args['token']);
-
-        var_dump($r);
+        if($usermodel->activateAccount($args['token'])) {
+            Helpers::notify('Compte activé !', 'Vous pouvez dès à présent vous connecter.');
+            Helpers::redirect('login');
+        }
+        
+        self::notifyError('Le jeton d\'activation est invalide');
     }
 
 

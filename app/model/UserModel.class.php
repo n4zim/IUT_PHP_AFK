@@ -209,4 +209,10 @@ class UserModel extends Model {
         }
         return array('success' => true);
     }
+
+    public function activateAccount($token) {
+        $st = $this->db->prepare('UPDATE `User` SET `ActivationToken` = NULL WHERE `ActivationToken` = ?');
+        $st->execute(array($token));
+        return $st->rowCount();
+    }
 } 
