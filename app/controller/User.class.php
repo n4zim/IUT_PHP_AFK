@@ -52,6 +52,7 @@ class User extends Controller {
         $data['user']['FactionLink'] = Helpers::makeUrl('faction', 'view', array('id' => $data['user']['Faction']));
         $data['isMine'] = ($_SESSION['u.id'] == intval($args['id']));
         $data['lienEdit'] = Helpers::makeUrl('user', 'edit');
+        $data['MPUrl'] = Helpers::makeUrl('pm', 'write', array('id' => $data['user']['Id']));
 
         if(empty($data['user'])) {
             Helpers::notify('Erreur', 'Cet utilisateur n\'existe pas', 'error');
@@ -165,6 +166,4 @@ class User extends Controller {
         header('Location: '.$r);
         exit;
     }
-
-    //getFriendsOf
 } 
