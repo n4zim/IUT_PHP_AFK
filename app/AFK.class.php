@@ -63,6 +63,7 @@ class AFK {
 
 	private function init() {
 		Login::checkCookie();
+		Login::updateLastActivity();
 	}
 
 	public function router($request) {
