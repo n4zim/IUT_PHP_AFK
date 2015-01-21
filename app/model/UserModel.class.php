@@ -113,7 +113,7 @@ class UserModel extends Model {
      * @return User ID if login successful, false otherwise
      **/
     public function checkLogin($username, $password, $alreadySalted = false) {
-        $req = 'SELECT `Id`, `Username`, `Password`, `Salt` FROM `User`
+        $req = 'SELECT `Id`, `Username`, `Password`, `ActivationToken`, `Salt` FROM `User`
                 WHERE `Username`=?';
 
         $statement = $this->db->prepare($req);
@@ -123,7 +123,7 @@ class UserModel extends Model {
         $saltedPasswd = ($alreadySalted) ? $password : sha1($password.$result['Salt']);
 
         if($saltedPasswd == $result['Password']) {
-            return array('Username' => $username, 'Password' => $saltedPasswd, 'Id' => $result['Id']);
+            return array('Username' => $username, 'Password' => $saltedPasswd, 'Id' => $result['Id'], 'ActivationToken' => $result['ActivationToken']);
         }
 
         return FALSE;
