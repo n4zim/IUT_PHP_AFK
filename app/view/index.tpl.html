@@ -10,14 +10,13 @@ Présentation rapide<br />
 J'affiche pas le formulaire de login car t'es co !<br />
 @else@
 Formulaire de login :<br />
-<form action="{$formAction}" method="POST">
+<form action="{$loginAction}" method="POST">
     <label for="f-text-username">Nom d'utilisateur</label> <input id="f-text-username" name="username" type="text" value="Xorus" /><br />
     <label for="f-password-password">Mot de passe</label> <input id="f-password-password" name="password" type="password" value="test" /><br />
     <input id="f-checkbox-remember" type="checkbox" name="remember" checked="checked"/><label for="f-checkbox-remember">Se souvenir</label><br />
     <input type="submit" value="Se connecter" /><br />
 </form>
 $layout.user?
-
 Nombre de connectés : {$activeCount}<br />
 Nombre d'inscrits : {$userCount}<br />
 Nombre d'events : {$eventCount}<br />
@@ -55,9 +54,7 @@ Récompense : {$Reward} cookies<br />
 			</div>
 
 
-			?$layout.user <!-- si on est connecté -->
-			@else@
-			Formulaire de login :<br />
+			?$layout.user @else@
 			<div id="users">
 				<span onclick="document.getElementById('box').style.display='none'; document.getElementById('filter').style.display='none'">
 				<a href="{$layout.loginLink}" class="action-button shadow animate green">Se connecter</a></span>
@@ -74,9 +71,5 @@ Récompense : {$Reward} cookies<br />
 			</div>
 			<div id="boxcontent"> Ceci est le contenu statique provisoire  de la boite.  </div>
 			</div>
-
 </section>
-
-
-
 content}}
