@@ -37,7 +37,7 @@ class Register extends Controller {
             if(empty($_POST[$field]))
                 $erreur .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
         }
-        if($erreur != "") $this->notifyError($erreur);
+        if($erreur != "") self::notifyError($erreur);
 
         // protect fields
         foreach ($protectFields as &$field) {
@@ -46,11 +46,11 @@ class Register extends Controller {
 
         // check if passwords are the same
         if($_POST['password'] != $_POST['password2'])
-            $this->notifyError("Les mots de passe ne correspondent pas.");
+            self::notifyError("Les mots de passe ne correspondent pas.");
 
         // validate the mail
         if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL))
-            $this->notifyError("L'adresse email n'est pas valide");
+            self::notifyError("L'adresse email n'est pas valide");
 
         // protect faction id
         $_POST['faction'] = intval($_POST['faction']);
@@ -65,7 +65,7 @@ class Register extends Controller {
             // check if the faction actually exists
             $faction = $factionsModel->getFaction($_POST['faction']);
             if(empty($faction))
-                $this->notifyError("Faction incorrecte");
+                self::notifyError("Faction incorrecte");
         }
 
         // insert in database
@@ -73,15 +73,47 @@ class Register extends Controller {
         $r = $usermodel->register($_POST);
         
         if($r['success']) {
-            Login::loginUser($usermodel->getUser($r['id'])[0]);
-            Helpers::notify('Inscription effectuée', 'Vous êtes dès à présent connecté à votre compte.');
+            self::sendActivationMail($r['id']);
+            Helpers::notify('Inscription effectuée', 'Un e-mail vous à été envoyé pour confirmer votre compte.');
             Helpers::redirect('index');
         } else {
-            $this->notifyError("Erreur : ".$r['message']);
+            self::notifyError("Erreur : ".$r['message']);
         }
     }
 
-    private function notifyError($error) {
+    public function activate($args) {
+        if(empty($args['token']))
+            self::notifyError('Le jeton d\'activation est invalide');
+
+        $usermodel = new UserModel();
+        if($usermodel->activateAccount($args['token'])) {
+            Helpers::notify('Compte activé !', 'Vous pouvez dès à présent vous connecter.');
+            Helpers::redirect('login');
+        }
+        
+        self::notifyError('Le jeton d\'activation est invalide');
+    }
+
+
+    public static function sendActivationMail($uid) {
+        if(empty($uid)) return;
+
+        $usermodel = new UserModel();
+        $r = $usermodel->getUser($uid);
+        $token = $r['ActivationToken'];
+        $link = 'http://'.Config::$app['hostname'].'/'.Helpers::makeUrl('register', 'activate', array('token' => $token));
+
+        $msg  = "<h1>Bienvenue à CookieCatch</h1>\n\n";
+        $msg .= "<p>Votre inscription s'est déroulée avec succès.<br />\n";
+        $msg .= "Votre identifiant de connexion est : <strong>".'Xorus'."</strong></p>\n";
+        $msg .= "<p>Avant de vous connecter, vous devez activer votre compte en vous rendant sur ce lien :<br />\n";
+        $msg .= '<a href="'.$link.'">'.$link.'</a></p>';
+
+        Helpers::sendMail($r['Mail'], 'Bienvenue à CookieCatch !', $msg);
+    }
+
+
+    private static function notifyError($error) {
         Helpers::notify('Erreur', $error, 'error');
         Helpers::redirect('register');
     }

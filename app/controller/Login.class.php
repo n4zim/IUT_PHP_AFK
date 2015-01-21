@@ -33,6 +33,11 @@ class Login extends Controller {
             Helpers::redirect('login');
         }
 
+        if(!empty($r['ActivationToken'])) {
+            Helpers::notify('Erreur', 'Ce compte n\'est pas activé.', 'error');
+            Helpers::redirect('login');
+        }
+
         Login::loginUser($r);
 
         if(isset($_POST['remember'])) {

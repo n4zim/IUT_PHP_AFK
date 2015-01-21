@@ -19,8 +19,9 @@ class UserModel extends Model {
         $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
                        `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`, `Faction`.`Logo` AS `FactionLogo`
                 FROM `User`
-                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`'.
-                (isset($faction) ? ' WHERE `User`.`Faction` = :facId ' : ' ').'
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                WHERE `ActivationToken` IS NULL'.
+                (isset($faction) ? ' AND `User`.`Faction` = :facId ' : ' ').'
                 ORDER BY `Username`
                 LIMIT :min, :max';
 
@@ -36,7 +37,7 @@ class UserModel extends Model {
 
     public function countUsers() {
         $req = 'SELECT COUNT(`Id`) AS `Count`
-                FROM `User`';
+                FROM `User` WHERE `ActivationToken` IS NULL';
 
         $statement = $this->db->prepare($req);
         $statement->execute();
@@ -47,7 +48,8 @@ class UserModel extends Model {
 
     public function getUser($id = null) {
         $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`,
-                IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`, 
+                IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
+                `ActivationToken`,
                 `Faction`, `Faction`.`Name` AS `FactionName` 
                 FROM `User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
@@ -61,11 +63,13 @@ class UserModel extends Model {
     }
 
     public function register($data) {
-        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`) VALUES (?, ?, ?, ?, ?, ?);';
+        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`, `ActivationToken`) VALUES (?, ?, ?, ?, ?, ?, ?);';
 
         $salt = md5($data['username'].time());
         $pass = sha1($data['password'].$salt);
         $gender = (in_array($data['gender'], array('M', 'F')) ? $data['gender'] : null);
+
+        $token = md5(uniqid(rand(), true));
 
         $arr = array($data['username'], $pass, $salt, $gender, $data['mail'], $data['faction']);
 
@@ -109,7 +113,7 @@ class UserModel extends Model {
      * @return User ID if login successful, false otherwise
      **/
     public function checkLogin($username, $password, $alreadySalted = false) {
-        $req = 'SELECT `Id`, `Username`, `Password`, `Salt` FROM `User`
+        $req = 'SELECT `Id`, `Username`, `Password`, `ActivationToken`, `Salt` FROM `User`
                 WHERE `Username`=?';
 
         $statement = $this->db->prepare($req);
@@ -119,7 +123,7 @@ class UserModel extends Model {
         $saltedPasswd = ($alreadySalted) ? $password : sha1($password.$result['Salt']);
 
         if($saltedPasswd == $result['Password']) {
-            return array('Username' => $username, 'Password' => $saltedPasswd, 'Id' => $result['Id']);
+            return array('Username' => $username, 'Password' => $saltedPasswd, 'Id' => $result['Id'], 'ActivationToken' => $result['ActivationToken']);
         }
 
         return FALSE;
@@ -204,5 +208,11 @@ class UserModel extends Model {
             return array("success" => false, "message" => "Impossible de trouver de l'eau sur Mars afin satisfaire votre requête et lancer un seau d'eau sur la tête de votre 'ami'.");
         }
         return array('success' => true);
+    }
+
+    public function activateAccount($token) {
+        $st = $this->db->prepare('UPDATE `User` SET `ActivationToken` = NULL WHERE `ActivationToken` = ?');
+        $st->execute(array($token));
+        return $st->rowCount();
     }
 } 
