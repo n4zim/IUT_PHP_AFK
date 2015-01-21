@@ -1,0 +1,23 @@
+{% layout/layout.tpl %}
+{{content
+<br />
+<br />
+[$users]
+    <img src="{$FactionLogo}" style="float:left;height: 100px;" />
+    <!--{$FactionName}-->
+    <div>
+      <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /><br />
+      {$Username}</a><br />
+      ?$AddFriendUrl <a href="{$AddFriendUrl}">Ajouter comme ami</a><br /> $AddFriendUrl?
+    </div>
+    <hr style="clear: left;"/>
+@empty@
+    Aucun utilisateur trouvé
+[/$users]
+
+[[_empty
+   {% comp/pagination.tpl %}
+   {= baseLink: "?action=users&amp;method=directory&amp;p=" =}
+_empty]]
+
+content}}
