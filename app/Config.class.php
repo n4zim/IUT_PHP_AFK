@@ -12,16 +12,21 @@ class Config {
     );
 
     public static $app = array(
-        'hostname' => 'localhost'
+        'hostname' => 'localhost',
+        'baseurl' => '',
+        'activityTimeout' => 120
     );
 
     public static $listing = array(
-        'usersPerPage' => 25
+        'usersPerPage' => 25,
+        'eventsPerPage' => 10,
+        'eventsOnHomePage' => 5
     );
 
     public static $path = array(
         'views' => 'app/view/',
         'controller' => 'app/controller/',
-        'model' => 'app/model/'
+        'model' => 'app/model/',
+        'pm' => 'user/pm'
     );
 }
