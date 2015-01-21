@@ -45,7 +45,7 @@ class FactionModel extends Model {
                 LIMIT 1';
 
         $statement = $this->db->prepare($req);
-        $statement->execute(array($id));
+        $statement->execute();
 
         $result = $statement->fetch();
         return $result;

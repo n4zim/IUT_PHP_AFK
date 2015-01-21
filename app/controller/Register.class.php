@@ -60,7 +60,7 @@ class Register extends Controller {
 
         // if we want a random faction OR if we supplied a specific faction id
         if($_POST['faction'] == -1) {
-            $faction = $factionsModel->getRandomFaction();
+            $_POST['faction'] = $factionsModel->getRandomFaction()['Id'];
         } else {
             // check if the faction actually exists
             $faction = $factionsModel->getFaction($_POST['faction']);
