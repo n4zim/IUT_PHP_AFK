@@ -1,0 +1,7 @@
+{% layout/layout.tpl %}
+
+{{content
+<h2>Message de {$message.Sender} pout {$message.Recipient}</h2>
+{formatPM:message.Message}
+?$deleteLink <a href="{$deleteLink}">Supprimmer ce message</a> $deleteLink?
+content}}

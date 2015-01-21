@@ -1,0 +1,10 @@
+{% layout/layout.tpl %}
+
+{{content
+<h1>écrire un message</h1>
+<form action="{$formAction}" method="post">
+    destinataire : <input type="text" name="to" value="{$to}" /><br />
+    message : <br /><textarea name="message"></textarea><br />
+    <input type="submit" />
+</form>
+content}}
