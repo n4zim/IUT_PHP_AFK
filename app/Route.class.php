@@ -9,6 +9,7 @@ class Route {
         $r['pm'] = 'PM';
         $r['event'] = 'Event';
         $r['admin'] = 'Admin';
+        $r['faction'] = 'Faction';
 
         return $r;
     }
