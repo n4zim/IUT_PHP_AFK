@@ -8,7 +8,6 @@
 (( head ))
 </head>
 <body>
-
 ?$layout.user
     <header>
         <div id="title"><a href="index.php">CookieCatch</a></div>
