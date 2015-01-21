@@ -12,7 +12,8 @@ class Config {
     );
 
     public static $app = array(
-        'hostname' => 'localhost',
+        'hostname' => 'afk.nerdbox.fr',
+        'mailFrom' => 'CookieCatch AFK <josh@sereth.nerdbox.fr>',
         'baseurl' => '',
         'activityTimeout' => 120
     );
