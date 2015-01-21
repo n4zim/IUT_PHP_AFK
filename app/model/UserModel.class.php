@@ -71,7 +71,7 @@ class UserModel extends Model {
 
         $token = md5(uniqid(rand(), true));
 
-        $arr = array($data['username'], $pass, $salt, $gender, $data['mail'], $data['faction']);
+        $arr = array($data['username'], $pass, $salt, $gender, $data['mail'], $data['faction'], $token);
 
         $stmt = $this->db->prepare($req);
 
@@ -81,7 +81,7 @@ class UserModel extends Model {
             if ($e->errorInfo[1] == 1062) {
                 return array("success" => false, "message" => "Utilisateur ou adresse e-mail déjà existant.");
             } else {
-                return array("success" => false, "message" => "Erreur inconnue.");
+                return array("success" => false, "message" => "Erreur inconnue.<br/>".$e);
             }
         }
 
@@ -129,6 +129,9 @@ class UserModel extends Model {
         return FALSE;
     }
 
+    /**
+     * Checks if an user has the right to..
+     **/
     public function canUser($user, $action) {
         if($action == 'admin') $action = 'Admin';
         else return false;
