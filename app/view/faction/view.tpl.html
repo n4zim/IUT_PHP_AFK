@@ -1,0 +1,16 @@
+{% layout/layout.tpl %}
+{{content
+<div>
+  <a href="{$faction.Url}"><img src="{$faction.Logo}" style="height: 120px;" /><br />
+  {$faction.Name}</a><br />
+  {$faction.Description}<br />
+  {$faction.Score} cookies
+</div>
+
+<h2>Liste des membres de la faction</h2>
+<ul>
+[$members]
+<li><a href="{$Url}">{$Username}</li>
+[/$members]
+</ul>
+content}}

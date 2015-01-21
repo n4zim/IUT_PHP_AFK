@@ -122,6 +122,10 @@ class User extends Controller {
             Helpers::notify('Erreur', 'Pas d\'identifiant utilisateur spécifié', 'error');
             Helpers::redirect('index');
         }
+        if($_SESSION['u.id'] == $args['id']) {
+            Helpers::notify('Erreur', 'Je sais que tu es désespéré, mais tu ne peux pas être ami avec toi même.', 'error');
+            Helpers::redirect('index');
+        }
 
         $um = new UserModel();
         $r = $um->addFriend($_SESSION['u.id'], $args['id']);

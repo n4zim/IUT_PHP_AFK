@@ -1,22 +1,25 @@
 {% layout/layout.tpl %}
 
 {{content
-
-
+<a href="{$writePMLink}">Composer un nouveau message</a>
 <h2>Reçus</h2>
 [$received]
+<a href="{$Url}"><br />
+Lien vers le message</a>
 Lu : {$Read}<br />
 De {$Sender} à {$Recipient}<br />
-{$Message}<br />
+{formatPM:Message}<br />
 <em>Envoyé le {formatDateTime:Timestamp}</em>
 <hr />
 [/$received]
 
 <h2>Envoyés</h2>
 [$sent]
+<a href="{$Url}"><br />
+Lien vers le message</a>
 Lu : {$Read}<br />
 De {$Sender} à {$Recipient}<br />
-{$Message}<br />
+{formatPM:Message}<br />
 <em>Envoyé le {formatDateTime:Timestamp}</em>
 <hr />
 [/$sent]

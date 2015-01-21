@@ -6,20 +6,28 @@ class UserModel extends Model {
         parent::__construct();
     }
 
-    public function getUsers($page = 0) {
+    public function getUserIdByName($name) {
+        $st = $this->db->prepare('SELECT `Id` FROM `User` WHERE `Username` = ?');
+        $st->execute(array($name));
+        return $st->fetch()['Id'];
+    }
+
+    public function getUsers($page = 0, $faction = null) {
         $min = $page * Config::$listing['usersPerPage'];
         $max = $min + Config::$listing['usersPerPage'];
 
         $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
                        `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`, `Faction`.`Logo` AS `FactionLogo`
                 FROM `User`
-                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`'.
+                (isset($faction) ? ' WHERE `User`.`Faction` = :facId ' : ' ').'
                 ORDER BY `Username`
                 LIMIT :min, :max';
 
         $statement = $this->db->prepare($req);
         $statement->bindValue('min', $min, PDO::PARAM_INT);
         $statement->bindValue('max', $max, PDO::PARAM_INT);
+        if(isset($faction)) $statement->bindValue('facId', $faction, PDO::PARAM_INT);
         $statement->execute();
 
         $results = $statement->fetchAll();
