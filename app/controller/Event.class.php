@@ -25,7 +25,7 @@ class Event extends Controller {
         $this->checkId($args);
 
         $eventModel = new EventModel();
-        $event = $eventModel->getEvents($args['id'], true, null, $_SESSION['u.id']);
+        $event = $eventModel->getEvents($args['id'], true, null, (isset($_SESSION['u.id']) ? $_SESSION['u.id'] : null));
 
         $sub = Helpers::makeUrl('event', 'subscribe', array('id' => $args['id']));
         $unsub = Helpers::makeUrl('event', 'unsubscribe', array('id' => $args['id']));
