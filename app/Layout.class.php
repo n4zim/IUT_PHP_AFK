@@ -12,9 +12,12 @@ class Layout {
         }
 
         $data['loginLink'] = Helpers::makeUrl('login');
+        $data['logoutLink'] = Helpers::makeUrl('login', 'out');
         $data['registerLink'] = Helpers::makeUrl('register');
         $data['profileLink'] = Helpers::makeUrl('user', 'profile');
         $data['eventsLink'] = Helpers::makeUrl('event');
+        $data['directoryLink'] = Helpers::makeUrl('user');
+        $data['friendlistLink'] = Helpers::makeUrl('user', 'friendlist');
         
         if(isset($_SESSION['u.admin']))
             $data['adminLink'] = Helpers::makeUrl('admin');
