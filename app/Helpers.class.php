@@ -92,4 +92,9 @@ class Helpers {
         $str .= date('H:i:s', $timestamp);
         return $str;
     }
+
+    public static function formatPM($text) {
+        // todo : parse markdown
+        return nl2br($text);
+    }
 }

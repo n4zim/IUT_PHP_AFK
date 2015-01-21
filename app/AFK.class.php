@@ -59,6 +59,7 @@ class AFK {
 		div::addCustomModifier('toGender:', 'Helpers::toFullGender');
 		div::addCustomModifier('slugify:', 'Helpers::slugify');
 		div::addCustomModifier('formatDateTime:', 'Helpers::formatDateTime');
+		div::addCustomModifier('formatPM:', 'Helpers::formatPM');
 	}
 
 	private function init() {
