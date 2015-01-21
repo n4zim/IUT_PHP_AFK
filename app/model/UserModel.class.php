@@ -10,7 +10,8 @@ class UserModel extends Model {
         $min = $page * Config::$listing['usersPerPage'];
         $max = $min + Config::$listing['usersPerPage'];
 
-        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, `Avatar`, `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`
+        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
+                       `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`, `Faction`.`Logo` AS `FactionLogo`
                 FROM `User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
                 ORDER BY `Username`
@@ -160,5 +161,40 @@ class UserModel extends Model {
         $st = $this->db->prepare('SELECT COUNT(`User`) AS `Count` FROM `ActiveUsers`');
         $st->execute();
         return $st->fetch()['Count'];
+    }
+
+    public function getFriendsOf($user) {
+        $st = $this->db->prepare('SELECT `B`.`Id`, `B`.`Username`, IFNULL(`B`.`Avatar`, `Faction`.`Logo`) AS `Avatar`
+            FROM `Friend`
+            JOIN `User` `B` ON `B`.`Id` = `Friend`.`UserB`
+            JOIN `Faction` ON `B`.`Faction` = `Faction`.`Id`
+            WHERE `UserA` = ?');
+        $st->execute(array($user));
+
+        return $st->fetchAll();
+    }
+
+    public function addFriend($a, $b) {
+        $st = $this->db->prepare('INSERT INTO `Friend` (`UserA`, `UserB`) VALUES (?, ?)');
+        try {
+            $st->execute(array($a, $b));
+        } catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array("success" => false, "message" => "Utilisateur déjà présent dans la liste d'amis.");
+            } else {
+                return array("success" => false, "message" => "Erreur inconnue.");
+            }
+        }
+        return array('success' => true);
+    }
+
+    public function removeFriend($a, $b) {
+        $st = $this->db->prepare('DELETE FROM `Friend` WHERE `UserA` = ? AND `UserB` = ?');
+        try {
+            $st->execute(array($a, $b));
+        } catch (PDOException $e) {
+            return array("success" => false, "message" => "Impossible de trouver de l'eau sur Mars afin satisfaire votre requête et lancer un seau d'eau sur la tête de votre 'ami'.");
+        }
+        return array('success' => true);
     }
 } 
