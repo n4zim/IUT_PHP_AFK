@@ -6,7 +6,7 @@ header('Content-Type: text/html; charset=utf-8');
 require_once('app/lib/div/div.php');
 
 // System loading
-$classes = array('Config', 'Model', 'Controller', 'Form', 'Helpers', 'Route', 'Layout', 'AFK');
+$classes = array('Config', 'Model', 'Controller', 'Helpers', 'Route', 'Layout', 'AFK');
 foreach ($classes as $class) {
     require_once 'app/'.$class.'.class.php';
 }

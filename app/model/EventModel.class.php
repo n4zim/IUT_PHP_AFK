@@ -138,4 +138,33 @@ class EventModel extends Model {
     public function getSubscribed($user) {
 
     }
+
+    public function addEvent($user, $data) {
+        $req = 'INSERT INTO `Event` (`Organizer`, `Titre`, `TypeEvent`, `Description`, `Image`, `Place`, `PostDate`, `EventDate`)
+               VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)';
+
+        $date = Helpers::formatSQLDate(strtotime($data['date'].' '.$data['heure']));
+
+        $data = array(
+            $user,
+            $data['title'],
+            $data['type'],
+            $data['description'],
+            (isset($data['image'])) ? $data['image'] : null,
+            $data['place'],
+            $date
+        );
+        
+        $st = $this->db->prepare($req);
+        $st->execute($data);
+
+        return array("success" => true, 'id' => $this->db->lastInsertId());
+    }
+
+    public function getTypes() {
+        $req = 'SELECT `Id`, `TypeName` FROM `EventType`';
+        $st = $this->db->prepare($req);
+        $st->execute();
+        return $st->fetchAll();
+    }
 }

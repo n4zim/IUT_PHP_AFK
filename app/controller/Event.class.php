@@ -21,6 +21,52 @@ class Event extends Controller {
         $this->afk->view('event/list', array('events' => $events, 'pageCount' => $pageCount, 'pageNumber' => $pageNumber));
     }
 
+    public function create() {
+        Login::checkIfLogguedIn();
+
+        $eventModel = new EventModel();
+        $eventTypes = $eventModel->getTypes();
+
+        $this->afk->view('event/create', array('eventTypes' => $eventTypes, 'formAction' => Helpers::makeUrl('event', 'post')));
+    }
+
+    public function post() {
+        Login::checkIfLogguedIn();
+
+        $mandatoryFields = array('title', 'type', 'description', 'place', 'date', 'heure');
+        $protectFields = array('title', 'description', 'place');
+        $mandatoryFieldsNames = array('Titre', 'Type', 'Description', 'Lieu', 'Date', 'Heure');
+
+        // check if all fields are set
+        $erreur = "";
+        foreach ($mandatoryFields as $key => $field) {
+            if(empty($_POST[$field])) 
+                $erreur .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
+        }
+        if($erreur != "") {
+            Helpers::notify('Erreur', $erreur, 'error');
+            Helpers::redirect('event', 'create');
+        }
+
+        // protect fields
+        foreach ($protectFields as &$field) {
+            $_POST[$field] = htmlentities($_POST[$field]);
+        }
+
+        // insert in database
+        $eventmodel = new EventModel();
+        $r = $eventmodel->addEvent($_SESSION['u.id'], $_POST);
+        
+        if($r['success']) {
+            //$r = $eventmodel->subscribeUser($_SESSION['u.id'], $r['id']);
+            Helpers::notify('Event ajouté !', 'Vive le vent !<br />(le vent... l\'event... blague, drôle, tout ça)');
+            Helpers::redirect('event', 'view', array('id' => $r['id']));
+        } else {
+            Helpers::notify('Erreur', $r['message'], 'error');
+            Helpers::redirect('event', 'create');
+        }
+    }
+
     public function view($args) {
         $this->checkId($args);
 
