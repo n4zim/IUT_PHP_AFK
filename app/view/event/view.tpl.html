@@ -2,7 +2,9 @@
 {= pageTitle: "Voir un évenement" =}
 {{content
 <h2>{$event.Titre}</h2><br />
+?$event.Image <img src="{$event.Image}" /><br /> $event.Image?
 {br:event.Description}<br />
+Lieu : {$event.Place}<br />
 Prévu pour le {formatDateTime:event.EventDate}<br />
 Posté le {formatDateTime:event.PostDate}<br />
 Récompense : {$event.Reward} cookies<br />
