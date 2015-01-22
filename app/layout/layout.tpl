@@ -20,7 +20,7 @@
         </div>
     </header>
 @else@
-    <h1>CookieCatch</h1>
+    <h1><a href="index.php">CookieCatch</a></h1>
 $layout.user?
 ?$layout.notification
 <div class="notification {$layout.notification.type}" onclick="this.style.display = 'none';">
@@ -30,6 +30,13 @@ $layout.user?
   $layout.notification.title?
 </div>
 $layout.notification?
+    <div id="menu" style="background: pink;">
+        <a href="{$layout.homeLink}">Accueil</a> - 
+        <a href="{$layout.factionLink}">Factions</a> - 
+        <a href="{$layout.eventsLink}">Events</a> - 
+        <a href="{$layout.directoryLink}">Annuaire</a> - 
+        <a href="{$layout.createEventsLink}">Créer un event</a>
+    </div>
     <div id="content">(( content ))</div>
 </body>
 </html>
