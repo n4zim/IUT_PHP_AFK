@@ -13,12 +13,15 @@ class Layout {
             Helpers::unsetNotification();
         }
 
+        $data['homeLink'] = 'index.php';
         $data['loginLink'] = Helpers::makeUrl('login');
         $data['logoutLink'] = Helpers::makeUrl('login', 'out');
         $data['registerLink'] = Helpers::makeUrl('register');
         $data['profileLink'] = Helpers::makeUrl('user', 'profile');
         $data['eventsLink'] = Helpers::makeUrl('event');
+        $data['createEventsLink'] = Helpers::makeUrl('event', 'create');
         $data['directoryLink'] = Helpers::makeUrl('user');
+        $data['factionLink'] = Helpers::makeUrl('faction');
         $data['friendlistLink'] = Helpers::makeUrl('user', 'friendlist');
         $data['pmLink'] = Helpers::makeUrl('pm');
         
