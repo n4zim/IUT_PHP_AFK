@@ -1,7 +1,7 @@
 {% layout/layout.tpl %}
-
+{= pageTitle: Message Privé =}
 {{content
-<h2>Message de <a href="{$message.SenderProfile}">{$message.Sender}</a> pout <a href="{$message.RecipientProfile}">{$message.Recipient}</a></h2>
+<h2>Message de <a href="{$message.SenderProfile}">{$message.Sender}</a> pour <a href="{$message.RecipientProfile}">{$message.Recipient}</a></h2>
 {formatPM:message.Message}
 ?$deleteLink <a href="{$deleteLink}">Supprimmer ce message</a> $deleteLink?
 content}}

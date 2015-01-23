@@ -1,5 +1,5 @@
 {% layout/layout.tpl %}
-{= pageTitle: "Voir un évenement" =}
+{= pageTitle: {$event.Titre} =}
 {{content
 <h2>{$event.Titre}</h2><br />
 ?$event.Image <img src="{$event.Image}" /><br /> $event.Image?
