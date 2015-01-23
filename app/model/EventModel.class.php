@@ -146,7 +146,7 @@ class EventModel extends Model {
                 FROM `EventEntrant`
                 JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
-                WHERE `Ev ent` = ?';
+                WHERE `Event` = ?';
         $st = $this->db->prepare($req);
         $st->execute(array($event));
         return $st->fetchAll();
