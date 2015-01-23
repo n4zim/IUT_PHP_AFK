@@ -6,23 +6,24 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/top.css"/>
     <link rel="icon" href="assets/favicon.ico" />
+    <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" href="assets/favicon.ico">
 (( head ))
 </head>
 <body>
-?$layout.user
     <header>
         <div id="title"><a href="index.php">CookieCatch</a></div>
         <div id="user">
+        ?$layout.user
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
             <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
             <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png"></a>
             <a href="{$layout.friendlistLink}">amis</a>
             <a href="{$layout.pmLink}">msg ({$layout.pmUnread})</a>
+        @else@
+        $layout.user?
         </div>
     </header>
-@else@
-    <h1><a href="index.php">CookieCatch</a></h1>
-$layout.user?
+    <!--<h1><a href="index.php">CookieCatch</a></h1>-->
 ?$layout.notification
 <div class="notification {$layout.notification.type}" onclick="this.style.display = 'none';">
   ?$layout.notification.title
