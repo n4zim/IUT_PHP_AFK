@@ -79,9 +79,7 @@ header #user {
 }
 
 .event #participation #participants{
-	margin-left: 10%;
-	margin-right: 10%;
-	margin-top: 10px;
+	margin: 10px;
 	padding-top: 2%;
 	padding-bottom: 2%;
 }
@@ -95,11 +93,6 @@ header #user {
   width: 25%;
   z-index: -1;
   background: #40464b;
-}
-
-#listeparticipants{
-	margin-top: 5px;
-	padding-bottom: 5px;
 }
 
 #listeparticipants a{
@@ -136,6 +129,11 @@ header #user {
 
 #cookies div #cookies {
 	font-size: 50px;
+}
+
+#cookiesminiatures img{
+	width: 30px;
+	height: 30px;
 }
 
 #cookiesminiatures div{
