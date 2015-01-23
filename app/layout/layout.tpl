@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>?$pageTitle {$pageTitle} -  $pageTitle?CookieCatch</title>
+    <title>?$pageTitle {$pageTitle} -  $pageTitle?CookieCatch AFK</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/top.css"/>
@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <div id="title"><a href="index.php">CookieCatch</a></div>
+        <div id="title"><a href="index.php">CookieCatch AFK</a></div>
         <div id="user">
         ?$layout.user
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
