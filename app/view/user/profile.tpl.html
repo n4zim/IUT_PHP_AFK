@@ -5,9 +5,25 @@ id = {$user.Id}<br />
 username : {$user.Username}<br />
 gender : {toGender:user.Gender}<br />
 avatar : <img src="{$user.Avatar}" alt="avatar" /><br />
-faction : #{$user.Faction} {$user.FactionName}<br />
-faction link : <a href="{$user.FactionLink}">{$user.FactionLink}</a><br />
+faction : <a href="{$user.FactionLink}">{$user.FactionName}</a><br />
 <a href="{$MPUrl}">Evnoyer un message privé</a>
 
 ?$lienEdit <a href="{$lienEdit}">editer profil</a> $lienEdit?
+
+<h3>events où {$user.Username} est inscrit</h3>
+[$eventSubs]
+<a href="{$Url}">Titre : {$Titre}</a><br />
+Prévu pour le {formatDateTime:EventDate}<br />
+@empty@
+Aucun évenement trouvé
+[/$eventSubs]
+
+<h3>events crées par {$user.Username}</h3>
+[$eventOrg]
+<a href="{$Url}">Titre : {$Titre}</a><br />
+Prévu pour le {formatDateTime:EventDate}<br />
+@empty@
+Aucun évenement trouvé
+[/$eventOrg]
+
 content}}

@@ -59,6 +59,22 @@ class User extends Controller {
             Helpers::redirect('');
         }
 
+        // get events created by the user and events where the user is subscribed
+        $eventModel = new EventModel();
+        $eventsOrg = $eventModel->getUserEvents($data['user']['Id']);
+        $eventsSubs = $eventModel->getUserSubs($data['user']['Id']);
+
+        // todo : do this operation in model
+        foreach ($eventsOrg as &$event) {
+            $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
+        }
+        foreach ($eventsSubs as &$event) {
+            $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
+        }
+
+        $data['eventOrg'] = $eventsOrg;
+        $data['eventSubs'] = $eventsSubs;
+
         $this->afk->view('user/profile', $data);
     }
 
