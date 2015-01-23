@@ -1,7 +1,71 @@
 {% layout/layout.tpl %}
 
+{{head
+<link rel="stylesheet" href="assets/css/normalize.css">
+<link rel="stylesheet" href="assets/css/msg.css">
+<script>
+window.console = window.console || function(t) {};
+window.open = function(){ console.log('window.open is disabled.'); };
+window.print = function(){ console.log('window.print is disabled.'); };
+if (false) { window.ontouchstart = function(){}; }
+</script>
+head}}
+
 {{content
-<h2>Message de <a href="{$message.SenderProfile}">{$message.Sender}</a> pout <a href="{$message.RecipientProfile}">{$message.Recipient}</a></h2>
-{formatPM:message.Message}
-?$deleteLink <a href="{$deleteLink}">Supprimmer ce message</a> $deleteLink?
+<div id="jaihontedecettetechnique"></div>
+
+<div class="container app">
+<aside class="sidebar">
+  <nav class="main-nav">
+        <br><a href="{$writePMLink}" class="btn btn-primary">Ecrire un message</a>
+        <ul>
+          <li class="active"><a href="#">Nouveaux <span class="btn btn-primary">25</span></a></li>
+          <li><a href="#">Lus</a></li>
+          <li><a href="#">Envoyés</a></li>
+        </ul>
+  </nav>
+</aside>
+<div class="main">
+  <div class="container">
+    <div class="messages">
+      <ul class="message-list">
+		[$received]
+		<li class="{if({!$Read}) echo 'new';}">
+		<input type="checkbox" />
+		<div class="preview">
+		<a href="{$Url}">
+		<h3>{$Sender} <small>{formatDateTime:Timestamp}</small></h3>
+		<p><strong> - </strong>T'as avancé le projet ?</p>
+		</a>
+		</div>
+		</li>
+		[/$received]
+      </ul>
+    </div>
+    <section class="message">
+      <h2><span class="icon icon-star-large"></span> Site <span class="icon icon-reply-large"></span><span class="icon icon-delete-large"></span></h2>
+      <div class="meta-data">
+        <p>
+          <img src="http://placehold.it/40x40" class="avatar" alt="" />
+          <a href="{$message.SenderProfile}">{$message.Sender}</a> à <span class="user"><a href="{$message.RecipientProfile}">{$message.Recipient}</a></span>
+          <span class="date">14 juin 2014</span>
+        </p>
+      </div>
+      <div class="body">
+        <p>{formatPM:message.Message}</p>
+		
+		?$deleteLink <a href="{$deleteLink}">Supprimmer ce message</a> $deleteLink?
+
+      </div>
+      <div class="action">
+
+        <div class="textarea">
+          <textarea name="r"></textarea>
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</div>
 content}}

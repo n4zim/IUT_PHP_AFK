@@ -1,27 +1,50 @@
 {% layout/layout.tpl %}
 
+{{head
+<link rel="stylesheet" href="assets/css/normalize.css">
+<link rel="stylesheet" href="assets/css/msg.css">
+<script>
+window.console = window.console || function(t) {};
+window.open = function(){ console.log('window.open is disabled.'); };
+window.print = function(){ console.log('window.print is disabled.'); };
+if (false) { window.ontouchstart = function(){}; }
+</script>
+head}}
+
 {{content
-<a href="{$writePMLink}">Composer un nouveau message</a>
-<h2>Reçus</h2>
-[$received]
-<a href="{$Url}"><br />
-Lien vers le message</a>
-Lu : {$Read}<br />
-De {$Sender} à {$Recipient}<br />
-{formatPM:Message}<br />
-<em>Envoyé le {formatDateTime:Timestamp}</em>
-<hr />
-[/$received]
+<div id="jaihontedecettetechnique"></div>
 
-<h2>Envoyés</h2>
-[$sent]
-<a href="{$Url}"><br />
-Lien vers le message</a>
-Lu : {$Read}<br />
-De {$Sender} à {$Recipient}<br />
-{formatPM:Message}<br />
-<em>Envoyé le {formatDateTime:Timestamp}</em>
-<hr />
-[/$sent]
-
+<div class="container app">
+<aside class="sidebar">
+  <nav class="main-nav">
+        <br><a href="{$writePMLink}" class="btn btn-primary">Ecrire un message</a>
+        <ul>
+          <li class="active"><a href="#">Nouveaux <span class="btn btn-primary">25</span></a></li>
+          <li><a href="#">Lus</a></li>
+          <li><a href="#">Envoyés</a></li>
+        </ul>
+  </nav>
+</aside>
+<div class="main">
+  <div class="container">
+    <div class="messages">
+      <ul class="message-list">
+		[$received]
+		<li class="{if({!$Read}) echo 'new';}">
+		<input type="checkbox" />
+		<div class="preview">
+		<a href="{$Url}">
+		<h3>{$Sender} <small>{formatDateTime:Timestamp}</small></h3>
+		<p><strong> - </strong>T'as avancé le projet ?</p>
+		</a>
+		</div>
+		</li>
+		[/$received]
+      </ul>
+    </div>
+    <section class="message">
+    </section>
+  </div>
+</div>
+</div>
 content}}

@@ -4,8 +4,9 @@
   box-sizing: border-box;
 }
 
-body {
+body * {
   font-family: 'Open Sans', sans-serif;
+  text-align: left;
 }
 
 .clr {
