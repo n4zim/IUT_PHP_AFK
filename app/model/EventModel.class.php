@@ -26,11 +26,12 @@ class EventModel extends Model {
      * @return Associative Array containing fields from Event table
      **/
     public function getEvents($id = null, $allTime = false, $page = null, $checkForUser = null, $limit = null, $order = '') {
-        $clauseId = (isset($id)) ? ' AND `Id` = :id' : '';
+        $clauseId = (isset($id)) ? ' AND `Event`.`Id` = :id' : '';
         $clauseUser = (isset($checkForUser)) ? ', IF(`EventEntrant`.`User` IS NULL, 0, 1) AS `Subscribed`' : ', \'0\' AS `Subscribed`';
         $clauseUser2 = (isset($checkForUser)) ? ' LEFT JOIN `EventEntrant` ON `EventEntrant`.`Event`= `Id` AND `EventEntrant`.`User` = :userId' : '';
-        $req = 'SELECT `Id`,  `Organizer`,  `Titre`,  `Description`,  `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
+        $req = 'SELECT `Event`.`Id`,  `Organizer`,  `Titre`,  `Description`, `TypeEvent`, `EventType`.`TypeName`, `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
                 FROM `Event`'.$clauseUser2.'
+                JOIN `EventType` ON `EventType`.`Id` = `TypeEvent`
                 WHERE `EventDate` > :eventDate '.$clauseId.'
                 ORDER BY ';
 

@@ -21,21 +21,63 @@ class Event extends Controller {
         $this->afk->view('event/list', array('events' => $events, 'pageCount' => $pageCount, 'pageNumber' => $pageNumber));
     }
 
-    public function create() {
+    public function create($args) {
         Login::checkIfLogguedIn();
 
         $eventModel = new EventModel();
         $eventTypes = $eventModel->getTypes();
 
-        $this->afk->view('event/create', array('eventTypes' => $eventTypes, 'formAction' => Helpers::makeUrl('event', 'post')));
+        $action = 'post';
+        $editLink = null;
+        $values = array('Title' => '', 'Description' => '', 'Place' => '', 'Date' => '2015-06-30', 'Time' => '15:50:10', 'Image' => '');
+
+        foreach ($eventTypes as &$type) {
+            $type['Selected'] = '';
+        }
+
+        $actionData = null;
+
+        if(isset($args['id'])) {
+            $event = $eventModel->getEvents($args['id']);
+            if($event['Organizer'] == $_SESSION['u.id']) {
+                foreach ($eventTypes as &$type) {
+                    $type['Selected'] = ($event['TypeEvent'] == $type['Id']) ? ' selected="selected" ' : '';
+                }
+                $event['Date'] = date('Y-m-d', $event['EventDate']);
+                $event['Time'] = date('H:i:s', $event['EventDate']);
+                $values = $event;
+                $actionData = array('id' => $args['id']);
+            } else {
+                Helpers::notify('Erreur', 'Vous n\'avez pas la permission d\'éditer cet évenement', 'error');
+                Helpers::redirect('event', 'view', array('id' => $args['id'])); 
+            }
+        }
+
+        $this->afk->view('event/form', array('editLink' => $editLink, 'eventTypes' => $eventTypes, 'formAction' => Helpers::makeUrl('event', 'post', $actionData), 'v' => $values));
     }
 
-    public function post() {
+    public function post($args) {
         Login::checkIfLogguedIn();
 
         $mandatoryFields = array('title', 'type', 'description', 'place', 'date', 'heure');
         $protectFields = array('title', 'description', 'place');
         $mandatoryFieldsNames = array('Titre', 'Type', 'Description', 'Lieu', 'Date', 'Heure');
+        $redirectArgs = null;
+        $editMode = false;
+
+        // edit mode
+        if(isset($args['id'])) {
+            $redirectArgs = array('id' => $args['id']);
+
+            $eventModel = new EventModel();
+            $event = $eventModel->getEvents($args['id']);
+            if($event['Organizer'] == $_SESSION['u.id']) {
+                $editMode = true;
+            } else {
+                Helpers::notify('Erreur', 'Vous n\'avez pas la permission d\'éditer cet évenement', 'error');
+                Helpers::redirect('event', 'view', array('id' => $args['id'])); 
+            }
+        }
 
         // check if all fields are set
         $erreur = "";
@@ -45,7 +87,7 @@ class Event extends Controller {
         }
         if($erreur != "") {
             Helpers::notify('Erreur', $erreur, 'error');
-            Helpers::redirect('event', 'create');
+            Helpers::redirect('event', 'create', $redirectArgs);
         }
 
         // protect fields
@@ -55,7 +97,8 @@ class Event extends Controller {
 
         // insert in database
         $eventmodel = new EventModel();
-        $r = $eventmodel->addEvent($_SESSION['u.id'], $_POST);
+        if($editMode) $r = $eventmodel->addEvent($_SESSION['u.id'], $_POST);
+        else $r = $eventmodel->editEvent($_POST);
         
         if($r['success']) {
             //$r = $eventmodel->subscribeUser($_SESSION['u.id'], $r['id']);
@@ -63,7 +106,7 @@ class Event extends Controller {
             Helpers::redirect('event', 'view', array('id' => $r['id']));
         } else {
             Helpers::notify('Erreur', $r['message'], 'error');
-            Helpers::redirect('event', 'create');
+            Helpers::redirect('event', 'create', $redirectArgs);
         }
     }
 
@@ -75,8 +118,13 @@ class Event extends Controller {
 
         $sub = Helpers::makeUrl('event', 'subscribe', array('id' => $args['id']));
         $unsub = Helpers::makeUrl('event', 'unsubscribe', array('id' => $args['id']));
+        $data = array('event' => $event, 'subLink' => $sub, 'unsubLink' => $unsub);
 
-        $this->afk->view('event/view', array('event' => $event, 'subLink' => $sub, 'unsubLink' => $unsub));
+        if($event['Organizer'] == $_SESSION['u.id']) {
+            $data['editLink'] = Helpers::makeUrl('event', 'create', array('id' => $args['id']));
+        }
+
+        $this->afk->view('event/view', $data);
     }
 
     public function subscribe($args) {
