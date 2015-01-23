@@ -136,8 +136,20 @@ class EventModel extends Model {
         return array('success' => true);
     }
 
-    public function getSubscribed($user) {
-
+    /**
+     * Returns events an user is subscribed to
+     * 
+     * @param $event Event Id
+     **/
+    public function getSubscribed($event) {
+        $req = 'SELECT `User`.`Username`, `User`.`Id`, `EventEntrant`.`JoinDate`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`, `Faction`.`Logo` AS `FactionLogo`
+                FROM `EventEntrant`
+                JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                WHERE `Event` = ?';
+        $st = $this->db->prepare($req);
+        $st->execute(array($event));
+        return $st->fetchAll();
     }
 
     public function addEvent($user, $data) {
