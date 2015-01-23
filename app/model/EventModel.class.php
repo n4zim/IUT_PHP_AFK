@@ -136,8 +136,44 @@ class EventModel extends Model {
         return array('success' => true);
     }
 
-    public function getSubscribed($user) {
+    /**
+     * Returns events an user is subscribed to
+     * 
+     * @param $event Event Id
+     **/
+    public function getSubscribed($event) {
+        $req = 'SELECT `User`.`Username`, `User`.`Id`, `EventEntrant`.`JoinDate`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`, `Faction`.`Logo` AS `FactionLogo`, `Faction`.`Name` AS `FactionName`
+                FROM `EventEntrant`
+                JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
+                JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
+                WHERE `Event` = ?';
+        $st = $this->db->prepare($req);
+        $st->execute(array($event));
+        return $st->fetchAll();
+    }
+    /**
+     * Returns events an user is subscribed to
+     * 
+     * @param $event Event Id
+     **/
+    public function getUserSubs($user) {
+        $req = 'SELECT `Titre`, `Event`.`Id`, UNIX_TIMESTAMP(`EventDate`) AS `EventDate`
+                FROM `EventEntrant`
+                JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
+                JOIN `Event` ON `Event`.`Id` = `EventEntrant`.`Event`
+                WHERE `User` = ?';
+        $st = $this->db->prepare($req);
+        $st->execute(array($user));
+        return $st->fetchAll();
+    }
 
+    public function getUserEvents($user) {
+        $req = 'SELECT `Titre`, `Id`, UNIX_TIMESTAMP(`EventDate`) AS `EventDate`
+                FROM `Event`
+                WHERE `Organizer` = ?';
+        $st = $this->db->prepare($req);
+        $st->execute(array($user));
+        return $st->fetchAll();
     }
 
     public function addEvent($user, $data) {

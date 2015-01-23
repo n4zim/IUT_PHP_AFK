@@ -49,15 +49,36 @@ class User extends Controller {
         $usermodel = new UserModel();
         $data = array();
         $data['user'] = $usermodel->getUser(intval($args['id']));
-        $data['user']['FactionLink'] = Helpers::makeUrl('faction', 'view', array('id' => $data['user']['Faction']));
-        $data['isMine'] = ($_SESSION['u.id'] == intval($args['id']));
-        if($_SESSION['u.id'] == intval($args['id'])) $data['lienEdit'] = Helpers::makeUrl('user', 'edit');
-        $data['MPUrl'] = Helpers::makeUrl('pm', 'write', array('id' => $data['user']['Id']));
 
         if(empty($data['user'])) {
             Helpers::notify('Erreur', 'Cet utilisateur n\'existe pas', 'error');
             Helpers::redirect('');
         }
+
+        $data['user']['FactionLink'] = Helpers::makeUrl('faction', 'view', array('id' => $data['user']['Faction']));
+        $data['isMine'] = ($_SESSION['u.id'] == intval($args['id']));
+        if($_SESSION['u.id'] == intval($args['id'])) $data['lienEdit'] = Helpers::makeUrl('user', 'edit');
+        $data['MPUrl'] = Helpers::makeUrl('pm', 'write', array('id' => $data['user']['Id']));
+
+        // todo : check if not friend
+        if($_SESSION['u.id'] != intval($args['id']))
+            $data['FriendUrl'] = Helpers::makeUrl('user', 'addfriend', array('id' => $data['user']['Id']));
+
+        // get events created by the user and events where the user is subscribed
+        $eventModel = new EventModel();
+        $eventsOrg = $eventModel->getUserEvents($data['user']['Id']);
+        $eventsSubs = $eventModel->getUserSubs($data['user']['Id']);
+
+        // todo : do this operation in model
+        foreach ($eventsOrg as &$event) {
+            $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
+        }
+        foreach ($eventsSubs as &$event) {
+            $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
+        }
+
+        $data['eventOrg'] = $eventsOrg;
+        $data['eventSubs'] = $eventsSubs;
 
         $this->afk->view('user/profile', $data);
     }

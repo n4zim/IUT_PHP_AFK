@@ -9,7 +9,8 @@ class UserModel extends Model {
     public function getUserIdByName($name) {
         $st = $this->db->prepare('SELECT `Id` FROM `User` WHERE `Username` = ?');
         $st->execute(array($name));
-        return $st->fetch()['Id'];
+        $return = $st->fetch();
+        return $return['Id'];
     }
 
     public function getUsers($page = 0, $faction = null) {
@@ -152,7 +153,9 @@ class UserModel extends Model {
 
         $timeout = Config::$app['activityTimeout'];
 
-        if(intval($st->fetch()['Result']) == 0) { // user not listed in latest active members
+        $return = $st->fetch();
+
+        if(intval($return['Result']) == 0) { // user not listed in latest active members
             $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.')');
         } else {
             $st = $this->db->prepare('UPDATE `ActiveUsers` SET `Expires` = NOW()+'.$timeout.'  WHERE `User` = ?');
@@ -175,7 +178,8 @@ class UserModel extends Model {
 
         $st = $this->db->prepare('SELECT COUNT(`User`) AS `Count` FROM `ActiveUsers`');
         $st->execute();
-        return $st->fetch()['Count'];
+        $return = $st->fetch();
+        return $return['Count'];
     }
 
     public function getFriendsOf($user) {

@@ -15,4 +15,18 @@ Récompense : {$event.Reward} cookies<br />
 <a href="{$unsubLink}">Se désinscrire</a>
 {/?}
 ?$editLink <a href="{$editLink}">Éditer</a> $editLink?
+?$doneLink <a href="{$doneLink}">Event terminé</a> $doneLink?
+
+<h3>participants</h3>
+[$entrants]
+    <img src="{$FactionLogo}" style="float:left;height: 100px;" />
+    {$FactionName}
+    <div>
+      <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /><br />
+      {$Username}</a><br />
+    </div>
+    <hr style="clear: left;"/>
+@empty@
+    Personne ne s'est inscrit à cet évenement pour l'instant.
+[/$entrants]
 content}}

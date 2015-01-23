@@ -86,7 +86,7 @@ class Event extends Controller {
             if(empty($_POST[$field])) 
                 $erreur .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
         }
-        
+
         if($erreur != "") {
             Helpers::notify('Erreur', $erreur, 'error');
             Helpers::redirect('event', 'create', $redirectArgs);
@@ -125,7 +125,13 @@ class Event extends Controller {
 
         $sub = Helpers::makeUrl('event', 'subscribe', array('id' => $args['id']));
         $unsub = Helpers::makeUrl('event', 'unsubscribe', array('id' => $args['id']));
-        $data = array('event' => $event, 'subLink' => $sub, 'unsubLink' => $unsub);
+
+        $users = $eventModel->getSubscribed($args['id']);
+        foreach ($users as &$user) {
+            $user['Url'] = Helpers::makeUrl('user', 'profile', array('id' => $user['Id']));
+        }
+
+        $data = array('event' => $event, 'subLink' => $sub, 'unsubLink' => $unsub, 'entrants' => $users);
 
         if($event['Organizer'] == $_SESSION['u.id']) {
             $data['editLink'] = Helpers::makeUrl('event', 'create', array('id' => $args['id']));
