@@ -146,22 +146,40 @@ class EventModel extends Model {
                 FROM `EventEntrant`
                 JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
-                WHERE `Event` = ?';
+                WHERE `Ev ent` = ?';
         $st = $this->db->prepare($req);
         $st->execute(array($event));
         return $st->fetchAll();
     }
+
+
     /**
      * Returns events an user is subscribed to
      * 
      * @param $event Event Id
+     **/
+    public function getUpcomingEventsFor($user) {
+        $req = 'SELECT `Titre`, `Event`.`Id`, UNIX_TIMESTAMP(`EventDate`) AS `EventDate`
+                FROM `EventEntrant`
+                JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
+                JOIN `Event` ON `Event`.`Id` = `EventEntrant`.`Event`
+                WHERE `User` = ? AND `EventDate` > NOW()-6*60*60 ORDER BY `EventDate` ASC';
+        $st = $this->db->prepare($req);
+        $st->execute(array($user));
+        return $st->fetchAll();
+    }
+
+    /**
+     * Returns events an user is subscribed to
+     * 
+     * @param $event User Id
      **/
     public function getUserSubs($user) {
         $req = 'SELECT `Titre`, `Event`.`Id`, UNIX_TIMESTAMP(`EventDate`) AS `EventDate`
                 FROM `EventEntrant`
                 JOIN `User` ON `User`.`Id` = `EventEntrant`.`User`
                 JOIN `Event` ON `Event`.`Id` = `EventEntrant`.`Event`
-                WHERE `User` = ?';
+                WHERE `User` = ? ORDER BY `EventDate` DESC';
         $st = $this->db->prepare($req);
         $st->execute(array($user));
         return $st->fetchAll();
@@ -170,7 +188,7 @@ class EventModel extends Model {
     public function getUserEvents($user) {
         $req = 'SELECT `Titre`, `Id`, UNIX_TIMESTAMP(`EventDate`) AS `EventDate`
                 FROM `Event`
-                WHERE `Organizer` = ?';
+                WHERE `Organizer` = ? ORDER BY `EventDate` DESC';
         $st = $this->db->prepare($req);
         $st->execute(array($user));
         return $st->fetchAll();

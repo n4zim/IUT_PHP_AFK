@@ -19,6 +19,7 @@
             <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png"></a>
             <a href="{$layout.friendlistLink}">amis</a>
             <a href="{$layout.pmLink}">msg ({$layout.pmUnread})</a>
+            <a href="{$layout.upcomingLink}">calendrier</a>
         @else@
         $layout.user?
         </div>
