@@ -1,0 +1,12 @@
+{% layout/layout.tpl %}
+{= pageTitle: Prochaînement =}
+{{content
+<h2>Vos prochains events</h2>
+[$events]
+<h3>{formatDateTime:EventDate}</h3>
+<a href="{$Url}">Titre : {$Titre}</a><br />
+<br />
+@empty@
+Pas d'évenements trouvés, pourquoi ne pas vous inscrire à quelques events ?<br />
+[/$events]
+content}}

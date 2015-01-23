@@ -174,6 +174,19 @@ class Event extends Controller {
         Helpers::redirect('event', 'view', array('id' => $args['id']));
     }
 
+    public function upcoming() {
+        Login::checkIfLogguedIn();
+        
+        $eventModel = new EventModel();
+        $events = $eventModel->getUpcomingEventsFor($_SESSION['u.id']);
+
+        foreach ($events as &$event) {
+            $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
+        }
+
+        $this->afk->view('event/upcoming', array('events' => $events));
+    }
+
     private function checkId($args) {
         if(empty($args['id'])) {
             Helpers::notify('Erreur', 'Pas d\'identifiant d\'évenement spécifié', 'error');
