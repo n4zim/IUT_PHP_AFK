@@ -12,7 +12,7 @@
 <body>
     <header>
         <div id="title"><a href="index.php">CookieCatch</a></div>
-        <div id="user">
+        <div id="userzone">
         ?$layout.user
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
             <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
