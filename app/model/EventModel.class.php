@@ -162,6 +162,27 @@ class EventModel extends Model {
         return array("success" => true, 'id' => $this->db->lastInsertId());
     }
 
+    public function editEvent($id, $data) {
+        $req = 'UPDATE `Event` SET `Titre` = ?, `TypeEvent` = ?, `Description` = ?, `Image` = ?, `Place` = ?, `EventDate` = ? WHERE `Id` = ?';
+
+        $date = Helpers::formatSQLDate(strtotime($data['date'].' '.$data['heure']));
+
+        $data = array(
+            $data['title'],
+            $data['type'],
+            $data['description'],
+            (isset($data['image'])) ? $data['image'] : null,
+            $data['place'],
+            $date,
+            $id
+        );
+        
+        $st = $this->db->prepare($req);
+        $st->execute($data);
+
+        return array("success" => true, 'id' => $id);
+    }
+
     public function getTypes() {
         $req = 'SELECT `Id`, `TypeName` FROM `EventType`';
         $st = $this->db->prepare($req);

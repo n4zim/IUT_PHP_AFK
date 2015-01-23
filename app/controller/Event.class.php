@@ -29,7 +29,7 @@ class Event extends Controller {
 
         $action = 'post';
         $editLink = null;
-        $values = array('Title' => '', 'Description' => '', 'Place' => '', 'Date' => '2015-06-30', 'Time' => '15:50:10', 'Image' => '');
+        $values = array('Titre' => '', 'Description' => '', 'Place' => '', 'Date' => '2015-06-30', 'Time' => '15:50:10', 'Image' => '');
 
         foreach ($eventTypes as &$type) {
             $type['Selected'] = '';
@@ -59,6 +59,7 @@ class Event extends Controller {
     public function post($args) {
         Login::checkIfLogguedIn();
 
+        $eventmodel = new EventModel();
         $mandatoryFields = array('title', 'type', 'description', 'place', 'date', 'heure');
         $protectFields = array('title', 'description', 'place');
         $mandatoryFieldsNames = array('Titre', 'Type', 'Description', 'Lieu', 'Date', 'Heure');
@@ -85,6 +86,7 @@ class Event extends Controller {
             if(empty($_POST[$field])) 
                 $erreur .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
         }
+        
         if($erreur != "") {
             Helpers::notify('Erreur', $erreur, 'error');
             Helpers::redirect('event', 'create', $redirectArgs);
@@ -96,13 +98,13 @@ class Event extends Controller {
         }
 
         // insert in database
-        $eventmodel = new EventModel();
-        if($editMode) $r = $eventmodel->addEvent($_SESSION['u.id'], $_POST);
-        else $r = $eventmodel->editEvent($_POST);
+        if($editMode) $r = $eventmodel->editEvent($args['id'], $_POST);
+        else $r = $eventmodel->addEvent($_SESSION['u.id'], $_POST);
         
         if($r['success']) {
             //$r = $eventmodel->subscribeUser($_SESSION['u.id'], $r['id']);
-            Helpers::notify('Event ajouté !', 'Vive le vent !<br />(le vent... l\'event... blague, drôle, tout ça)');
+            if(!$editMode) Helpers::notify('Event ajouté !', 'Vive le vent !<br />(le vent... l\'event... blague, drôle, tout ça)');
+            else Helpers::notify('Event modifié !', 'L\'évenement à été modifié avec succès');
             Helpers::redirect('event', 'view', array('id' => $r['id']));
         } else {
             Helpers::notify('Erreur', $r['message'], 'error');
@@ -115,6 +117,11 @@ class Event extends Controller {
 
         $eventModel = new EventModel();
         $event = $eventModel->getEvents($args['id'], true, null, (isset($_SESSION['u.id']) ? $_SESSION['u.id'] : null));
+
+        if(empty($event)) {
+            Helpers::notify('Erreur', 'Cet évenement n\'existe pas ou à été supprimé.', 'error');
+            Helpers::redirect('event');
+        }
 
         $sub = Helpers::makeUrl('event', 'subscribe', array('id' => $args['id']));
         $unsub = Helpers::makeUrl('event', 'unsubscribe', array('id' => $args['id']));
