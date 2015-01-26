@@ -1,24 +1,24 @@
 {% layout/layout.tpl %}
 {= pageTitle: Annuaire =}
 {{content
-<br />
-<br />
-[$users]
-    <img src="{$FactionLogo}" style="float:left;height: 100px;" />
-    <!--{$FactionName}-->
-    <div>
-      <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /><br />
-      {$Username}</a><br />
-      ?$AddFriendUrl <a href="{$AddFriendUrl}">Ajouter comme ami</a><br /> $AddFriendUrl?
-    </div>
-    <hr style="clear: left;"/>
-@empty@
-    Aucun utilisateur trouvé
-[/$users]
+<section id="content">
+  <h1>Utilisateurs inscrits</h1>
+  [$users]
+      <img src="{$FactionLogo}" style="height:100px;vertical-align:sub;margin-right:30px" />
+      <!--{$FactionName}-->
+      <div style="display:inline-block;text-align:left;"> 
+        <a href="{$Url}">{$Username}</a><br />
+        <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /></a><br />
+        ?$AddFriendUrl <a href="{$AddFriendUrl}">Ajouter comme ami</a><br /> $AddFriendUrl?
+      </div>
+      <hr style="clear: left;margin-top:30px;margin-bottom:30px"/>
+  @empty@
+      Aucun utilisateur trouvé
+  [/$users]
 
-[[_empty
-   {% comp/pagination.tpl %}
-   {= baseLink: "?action=users&amp;p=" =}
-_empty]]
-
+  [[_empty
+     {% comp/pagination.tpl %}
+     {= baseLink: "?action=users&amp;p=" =}
+  _empty]]
+</section>
 content}}

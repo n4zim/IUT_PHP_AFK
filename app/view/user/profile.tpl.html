@@ -1,30 +1,31 @@
 {% layout/layout.tpl %}
 {= pageTitle: {$user.Username} =}
 {{content
-id = {$user.Id}<br />
-username : {$user.Username}<br />
-gender : {toGender:user.Gender}<br />
-avatar : <img src="{$user.Avatar}" alt="avatar" /><br />
-faction : <a href="{$user.FactionLink}">{$user.FactionName}</a><br />
-<a href="{$MPUrl}">Evnoyer un message privé</a><br />
-?$FriendUrl <a href="{$FriendUrl}">Ajouter en ami</a><br /> $FriendUrl?
+<section id="content">
+	<h1>{$user.Username} (des {$user.FactionName})</h1>
+	<img src="{$user.Avatar}" alt="avatar" /><br /><br /><br />
+	
+	<a href="{$MPUrl}" class="globalbutton">Envoyer un message privé</a>
+	
+	?$FriendUrl &nbsp;<a href="{$FriendUrl}" class="globalbutton">Ajouter en ami</a> $FriendUrl?
 
-?$lienEdit <a href="{$lienEdit}">editer profil</a> $lienEdit?
+	?$lienEdit &nbsp;<a href="{$lienEdit}" class="globalbutton">Editer profil</a> $lienEdit?
 
-<h3>events où {$user.Username} est inscrit</h3>
-[$eventSubs]
-<a href="{$Url}">Titre : {$Titre}</a><br />
-Prévu pour le {formatDateTime:EventDate}<br />
-@empty@
-Aucun évenement trouvé
-[/$eventSubs]
+	<br /><br />
+	<h3>Évents où {$user.Username} est inscrit</h3>
+	[$eventSubs]
+	<a href="{$Url}">Titre : {$Titre}</a><br />
+	Prévu pour le {formatDateTime:EventDate}<br />
+	@empty@
+	Aucun évenement trouvé
+	[/$eventSubs]
 
-<h3>events crées par {$user.Username}</h3>
-[$eventOrg]
-<a href="{$Url}">Titre : {$Titre}</a><br />
-Prévu pour le {formatDateTime:EventDate}<br />
-@empty@
-Aucun évenement trouvé
-[/$eventOrg]
-
+	<h3>Évents crées par {$user.Username}</h3>
+	[$eventOrg]
+	<a href="{$Url}">Titre : {$Titre}</a><br />
+	Prévu pour le {formatDateTime:EventDate}<br />
+	@empty@
+	Aucun évenement trouvé
+	[/$eventOrg]
+</section>
 content}}
