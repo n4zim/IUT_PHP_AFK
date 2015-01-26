@@ -57,7 +57,7 @@ class Admin extends Controller {
         if(empty($args['p'])) $args['p'] = 1;
         
         Helpers::notify('Info', 'Utilisateur supprimmé !');
-        Helpers::redirect('admin', '', array($args['id'], $args['p']));
+        Helpers::redirect('admin', '', array('p' => $args['p']));
     }
 
     public function delevent($args) {
@@ -71,6 +71,6 @@ class Admin extends Controller {
         
         if(empty($args['p'])) $args['p'] = 1;
         Helpers::notify('Info', 'Event supprimmé !');
-        Helpers::redirect('admin', '', array($args['id'], $args['p']));
+        Helpers::redirect('admin', '', array('p2' => $args['p']));
     }
 }

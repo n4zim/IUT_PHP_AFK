@@ -88,7 +88,7 @@ class EventModel extends Model {
                 WHERE `EventDate` > :eventDate';
 
         $statement = $this->db->prepare($req);
-        $statement->bindValue('eventDate', Helpers::formatSQLDate( ($allTime) ? time() : 0 ));
+        $statement->bindValue('eventDate', Helpers::formatSQLDate( ($allTime) ? 0 : time() ));
         $statement->execute();
 
         $result = $statement->fetch();
