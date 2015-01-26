@@ -266,4 +266,7 @@ body {
 	font-size: 25px;
 }
 
-/* Inscription */
+/* Admin */
+table .avatar {
+	height: 30px;
+}

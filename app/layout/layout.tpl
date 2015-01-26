@@ -38,7 +38,8 @@ $layout.notification?
         <a href="{$layout.factionLink}">Factions</a> - 
         <a href="{$layout.eventsLink}">Events</a> - 
         <a href="{$layout.directoryLink}">Annuaire</a> - 
-        <a href="{$layout.createEventsLink}">Créer un event</a>
+        <a href="{$layout.createEventsLink}">Créer un event</a> -
+        ?$layout.adminLink <a href="{$layout.adminLink}">Admnin</a> $layout.adminLink?
     </div>
     <div id="content">(( content ))</div>
 </body>

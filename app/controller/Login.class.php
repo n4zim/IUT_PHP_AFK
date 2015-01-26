@@ -91,7 +91,6 @@ class Login extends Controller {
 
             self::loginUser($r);
         }
-
     }
 
     /**
@@ -102,6 +101,7 @@ class Login extends Controller {
     public static function loginUser($data) {
         $_SESSION['u.username'] = $data['Username'];
         $_SESSION['u.id'] = $data['Id'];
+        if($data['CanAdmin'] == 1) $_SESSION['u.admin'] = true;
     }
 
     /**
