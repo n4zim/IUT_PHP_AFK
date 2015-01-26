@@ -11,6 +11,10 @@ body {
 	background-image: url(../img/bg.png);
 }
 
+#content {
+	margin-bottom: 100px;
+}
+
 #shadowing {
   display: none;
   position: fixed;
@@ -19,9 +23,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: #CCA;
-  z-index:10;
-  opacity:0.5;
-  filter: alpha(opacity=50);
+  z-index: 10;
+  opacity: 0.5;
 }
 
 #box {
@@ -306,4 +309,23 @@ body {
 /* Admin */
 table .avatar {
 	height: 30px;
+}
+
+/* Footer */
+footer {
+	border-top: 3px solid #E5C9DF;
+	color: #593150;
+	min-height: 60px;
+
+	background-color: #FFE0F8;
+
+	position: absolute;
+	bottom: 0;
+
+	width: 100%;
+}
+
+footer a {
+	color: inherit;
+	text-decoration: none;
 }

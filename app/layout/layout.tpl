@@ -6,8 +6,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/top.css"/>
     <link rel="icon" href="assets/favicon.ico" />
-    <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" href="assets/favicon.ico">
-(( head ))
+    <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64" href="assets/favicon.ico">(( head ))
 </head>
 <body>
     <header>
@@ -48,5 +47,12 @@ $layout.notification?
         ?$layout.adminLink - <a href="{$layout.adminLink}">Admninistration</a> $layout.adminLink?
     </div>
     <div id="content">(( content ))</div>
+    <footer>
+        <p>
+            <a href="{$layout.legalLink}">Mentions légales</a> -
+            <a href="{$layout.linksLink}">Partenaires &amp; Liens</a><br />
+            <a href="#">Remonter en haut de la page</a>
+        </p>
+    </footer>
 </body>
 </html>
