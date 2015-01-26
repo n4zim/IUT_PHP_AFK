@@ -142,7 +142,6 @@ class UserModel extends Model {
         $st->execute(array($user));
         $r = $st->fetchAll()[0];
 
-        print_r($r); exit;
         return ($r['Permission'] == 1) ? true : false;
     }
 
