@@ -1,0 +1,11 @@
+{% layout/layout.tpl %}
+{{content
+<h1>Qui à remporté cet event ?</h1>
+<form action="{$formAction}" method="POST">
+    [$factions]
+    <input type="radio" name="faction" value="{$Id}" id="faction-{slugify:Name}" />
+    <label for="faction-{slugify:Name}"><strong>{$Name}</strong></label><br />
+    [/$factions]
+    <input type="submit" />
+</form>
+content}}

@@ -66,7 +66,7 @@ class FactionModel extends Model {
     }
 
     public function insertNewScore($faction, $score, $message = null) {
-        $req = 'INSERT INTO `Score` (`Faction`, `Date`, `Score`, `Info`) VALUES (?, NOW(), ?, ?)';
+        $req = 'INSERT INTO `Score` (`Faction`, `Date`, `Points`, `Info`) VALUES (?, NOW(), ?, ?)';
         $st = $this->db->prepare($req);
 
         if($score < 0) return false;

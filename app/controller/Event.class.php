@@ -135,6 +135,8 @@ class Event extends Controller {
 
         if($event['Organizer'] == $_SESSION['u.id']) {
             $data['editLink'] = Helpers::makeUrl('event', 'create', array('id' => $args['id']));
+            if($event['RewardSent'] == 'N')
+                $data['doneLink'] = Helpers::makeUrl('event', 'teamchoice', array('id' => $args['id']));
         }
         
         // todo : prevent subscribing if event date < now
@@ -190,6 +192,43 @@ class Event extends Controller {
         }
 
         $this->afk->view('event/upcoming', array('events' => $events));
+    }
+
+    public function teamChoice($args) {
+        Login::checkIfLogguedIn();
+        $this->checkId($args);
+
+        $factionsModel = new FactionModel();
+        $factions = $factionsModel->getFactions();
+
+        $this->afk->view('event/teamchoice', array(
+            'formAction' => Helpers::makeUrl('event', 'teamchosen', array('id' => $args['id'])), 
+            'factions' => $factions
+        ));
+    }
+
+    public function teamChosen($args) {
+        Login::checkIfLogguedIn();
+        $this->checkId($args);
+
+        $factionsModel = new FactionModel();
+        $faction = $factionsModel->getFaction($_POST['faction']);
+        if(empty($faction)) {
+            Helpers::notify("Erreur", "Faction incorrecte", "error");
+            Helpers::redirect('event', 'teamchoice', array('id' => $args['id']));
+        }
+
+        $em = new EventModel();
+        $ev = $em->getEvents($args['id']);
+        $r = $em->markEventDone($args['id'], array($_POST['faction']), "La team à remporté l'event ".$ev['Titre']);
+
+        if($r['success'] == false) {
+            Helpers::notify("Erreur", $r['message'], "error");
+            Helpers::redirect('event', 'view', array('id' => $args['id']));
+        } else {
+            Helpers::notify("Ok", "C'est fait, les points ont été attribués !");
+            Helpers::redirect('event', 'view', array('id' => $args['id']));
+        }
     }
 
     private function checkId($args) {
