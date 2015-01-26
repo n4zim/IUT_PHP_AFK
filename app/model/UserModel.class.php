@@ -135,13 +135,14 @@ class UserModel extends Model {
      **/
     public function canUser($user, $action) {
         if($action == 'admin') $action = 'Admin';
-        else return false;
+        else exit('ntm'); //return false;
 
         $req = 'SELECT `Can'.$action.'` AS `Permission` FROM `User` WHERE `Id` = ?';
         $st = $this->db->prepare($req);
         $st->execute(array($user));
         $r = $st->fetch();
-        
+
+        print_r($r); exit;
         return ($r['Permission'] == 1) ? true : false;
     }
 
