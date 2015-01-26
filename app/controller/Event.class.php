@@ -186,6 +186,7 @@ class Event extends Controller {
 
         foreach ($events as &$event) {
             $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));
+            $event['unsub'] = Helpers::makeUrl('event', 'unsubscribe', array('id' => $event['Id']));
         }
 
         $this->afk->view('event/upcoming', array('events' => $events));

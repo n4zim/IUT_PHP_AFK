@@ -150,7 +150,7 @@ class UserModel extends Model {
         
         $timeout = Config::$app['activityTimeout'];
 
-        $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.') ON DUPLICATE KEY UPDATE `User`=VALUES(`User`)');
+        $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.') ON DUPLICATE KEY UPDATE `User`=VALUES(`User`), `Expires`=NOW()+'.$timeout);
 
         $st->execute(array($user));
     }
@@ -158,7 +158,7 @@ class UserModel extends Model {
     public function cleanActiveUsers() {
         if(self::$activeUsersAlreadyCleaned) return;
 
-        $st = $this->db->prepare('DELETE FROM `ActiveUsers` WHERE `Expires` > NOW()');
+        $st = $this->db->prepare('DELETE FROM `ActiveUsers` WHERE `Expires` < NOW()');
         $st->execute();
 
         self::$activeUsersAlreadyCleaned = true;
