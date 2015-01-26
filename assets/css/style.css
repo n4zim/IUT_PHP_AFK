@@ -313,13 +313,14 @@ table .avatar {
 
 /* Footer */
 footer {
-	border-top: 3px solid #E5C9DF;
+	box-shadow: 0 -5px 0 rgba(191, 191, 151, 0.3);
+
 	color: #593150;
 	min-height: 60px;
 
-	background-color: #FFE0F8;
+	background-color: #FFFFC9;
 
-	position: absolute;
+	position: fixed;
 	bottom: 0;
 
 	width: 100%;
