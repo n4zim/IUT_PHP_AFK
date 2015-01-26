@@ -74,7 +74,7 @@ class PM extends Controller {
         );
 
         if($pmId === false) {
-            Helpers::notify('Erreur', 'Impossible d\'envoyer ce message, avez vous essayé de vous parler à vous même ?', 'error');
+            Helpers::notify('Erreur', 'Impossible d\'envoyer ce message, avez vous essayé de vous parler à l\'homme invisible ou encore mieux, à vous même ?', 'error');
             Helpers::redirect('pm');
         }
 
