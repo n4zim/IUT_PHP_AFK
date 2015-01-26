@@ -13,7 +13,6 @@ head}}
 		Il y a actuellement <strong>{$eventCount}</strong> évênements prévus durant lesquels pourront s'affronter les <strong>{$userCount}</strong> joueurs afin de gagner des cookies.</br></br>Toi aussi choisis une faction et rejoins la communauté d'AFK.<br />
 		Il y à <strong>{$activeCount}</strong> joueur(s) en ligne actuellement !
 	</div>
-
 	<div id="cookies">
 		[$factions]
 			<div id="{$CSSId}">
@@ -22,8 +21,6 @@ head}}
 			</div>
 		[/$factions]
 	</div>
-
-
 	?$layout.user @else@
 	<div id="users">
 		<span onclick="document.getElementById('box').style.display='none'; document.getElementById('filter').style.display='none'">
@@ -31,7 +28,6 @@ head}}
 		<a href="{$layout.registerLink}" class="action-button shadow animate blue">S'inscrire</a>
 	</div>
 	$layout.user?
-
 	<div id="box" >
 	<div id="boxheader">
 	<span id="boxtitle"> Titre pour le contenu (image, formulaire ou autre)</span>
