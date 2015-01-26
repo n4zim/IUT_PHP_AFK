@@ -1,10 +1,22 @@
 {% layout/layout.tpl %}
 {= pageTitle: Connexion =}
 {{content
-<form action="{$formAction}" method="POST">
-    <label for="f-text-username">Nom d'utilisateur</label> <input id="f-text-username" name="username" type="text" /><br />
-    <label for="f-password-password">Mot de passe</label> <input id="f-password-password" name="password" type="password" /><br />
-    <input id="f-checkbox-remember" type="checkbox" name="remember" checked="checked"/><label for="f-checkbox-remember">Se souvenir</label><br />
-    <input type="submit" value="Se connecter" /><br />
-</form>
+<section id="content">
+	<h1>Connexion</h1>
+
+	<form id="connexion" method="POST" action="{$formAction}">
+		<label for="f-text-username">Nom d'utilisateur</label><br />
+		<input type="text" name="username" id="f-password-password" /><br /><br />
+		
+		<label for="f-password-password">Mot de passe</label><br />
+		<input type="password" name="password" id="f-password-password"/><br /><br />
+
+		<input id="f-checkbox-remember" type="checkbox" name="remember" checked="checked"/><label for="f-checkbox-remember">Se souvenir</label><br /><br /><br />
+		
+		<input type="submit" class="globalbutton" value="Connexion">
+	</form><br /><br />
+
+	<span id="links"><a href="{$layout.registerLink}">S'inscrire</a>
+
+</section>
 content}}

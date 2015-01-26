@@ -122,6 +122,10 @@ body {
 	font-size: 40px;
 }
 
+.inscription {
+	margin-top: 30px;
+}
+
 #content #description {
 	font-size: 20px;
 }
@@ -143,8 +147,10 @@ body {
 	/*border-radius: 100%;*/
 }
 
-#cookies div #nom {
+#cookies div a {
 	/*line-height: 10vh;*/
+	text-decoration: none;
+	color: black;
 }
 
 #cookies div {
@@ -254,6 +260,19 @@ body {
 /* Connexion */
 #connect {
 	font-size: 40px;
+}
+
+.globalbutton {
+	background-color: #a8a8a8;
+	border: 0;
+	font-size: 18px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 15px;
+	padding-bottom: 15px; 
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	outline: none;
 }
 
 #connect input {
