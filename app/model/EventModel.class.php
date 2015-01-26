@@ -29,10 +29,11 @@ class EventModel extends Model {
         $clauseId = (isset($id)) ? ' AND `Event`.`Id` = :id' : '';
         $clauseUser = (isset($checkForUser)) ? ', IF(`EventEntrant`.`User` IS NULL, 0, 1) AS `Subscribed`' : ', \'0\' AS `Subscribed`';
         $clauseUser2 = (isset($checkForUser)) ? ' LEFT JOIN `EventEntrant` ON `EventEntrant`.`Event`= `Id` AND `EventEntrant`.`User` = :userId' : '';
-        $req = 'SELECT `Event`.`Id`,  `Organizer`,  `Titre`,  `Description`, `TypeEvent`, `EventType`.`TypeName`, `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
+        $req = 'SELECT `Event`.`Id`,  `Organizer`, `User`.`Username`, `Titre`,  `Description`, `TypeEvent`, `EventType`.`TypeName`, `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
                 FROM `Event`'.$clauseUser2.'
                 JOIN `EventType` ON `EventType`.`Id` = `TypeEvent`
-                WHERE `EventDate` > :eventDate '.$clauseId.'
+                JOIN `User` ON `User`.`Id` = `Event`.`Organizer`
+                WHERE `EventDate` >= :eventDate '.$clauseId.'
                 ORDER BY ';
 
         switch ($order) {
@@ -62,6 +63,7 @@ class EventModel extends Model {
         }
 
         if(isset($id)) $statement->bindValue('id', $id);
+
         if($allTime || empty($id)) $statement->bindValue('eventDate', Helpers::formatSQLDate(0));
         else $statement->bindValue('eventDate', Helpers::formatSQLDate(time()));
 
@@ -242,5 +244,27 @@ class EventModel extends Model {
         $st = $this->db->prepare($req);
         $st->execute();
         return $st->fetchAll();
+    }
+
+    public function deleteEvent($id) {
+        $st = $this->db->prepare("DELETE FROM `EventEntrant` WHERE `Event` = ?");
+        $st->execute(array($id));
+        
+        $st = $this->db->prepare("DELETE FROM `Event` WHERE `Id` = ?");
+        $st->execute(array($id));
+    }
+
+    public function deleteEventsByUser($id) {
+        $st = $this->db->prepare("DELETE FROM `EventEntrant` WHERE `User` = ?");
+        $st->execute(array($id));
+        
+        $events = $this->getUserEvents($id);
+        foreach ($events as $event) {
+            $st = $this->db->prepare("DELETE FROM `EventEntrant` WHERE `Event` = ?");
+            $st->execute(array($id));
+            $st = $this->db->prepare("DELETE FROM `Event` WHERE `Id` = ?");
+            $st->execute(array($event['Id']));
+        }
+
     }
 }

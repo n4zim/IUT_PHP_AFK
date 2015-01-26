@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>?$pageTitle {$pageTitle} -  $pageTitle?CookieCatch</title>
+    <title>?$pageTitle {$pageTitle} -  $pageTitle?CookieCatch AFK</title>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/top.css"/>
@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <div id="title"><a href="index.php">CookieCatch</a></div>
+        <div id="title"><a href="index.php">CookieCatch AFK</a></div>
         <div id="user">
         ?$layout.user
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
@@ -38,7 +38,8 @@ $layout.notification?
         <a href="{$layout.factionLink}">Factions</a> - 
         <a href="{$layout.eventsLink}">Events</a> - 
         <a href="{$layout.directoryLink}">Annuaire</a> - 
-        <a href="{$layout.createEventsLink}">Créer un event</a>
+        <a href="{$layout.createEventsLink}">Créer un event</a> -
+        ?$layout.adminLink <a href="{$layout.adminLink}">Admnin</a> $layout.adminLink?
     </div>
     <div id="content">(( content ))</div>
 </body>

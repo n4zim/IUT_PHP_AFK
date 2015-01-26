@@ -17,7 +17,7 @@ class UserModel extends Model {
         $min = $page * Config::$listing['usersPerPage'];
         $max = $min + Config::$listing['usersPerPage'];
 
-        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`,
+        $req = 'SELECT `User`.`Id`, `Username`, `Password`, `Salt`, UNIX_TIMESTAMP(`RegisterDate`) AS `RegisterDate`, `Mail`, `Gender`, IFNULL(`Avatar`, `Faction`.`Logo`) AS `Avatar`, `CanAdmin`,
                        `Faction`, `Faction`.`Name` AS `FactionName`, `Faction`.`Id` AS `FactionId`, `Faction`.`Logo` AS `FactionLogo`
                 FROM `User`
                 JOIN `Faction` ON `Faction`.`Id` = `User`.`Faction`
@@ -64,7 +64,7 @@ class UserModel extends Model {
     }
 
     public function register($data) {
-        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`, `ActivationToken`) VALUES (?, ?, ?, ?, ?, ?, ?);';
+        $req = 'INSERT INTO `User` (`Username`, `Password`, `Salt`, `Gender`, `Mail`, `Faction`, `ActivationToken`, `RegisterDate`) VALUES (?, ?, ?, ?, ?, ?, ?, NOW());';
 
         $salt = md5($data['username'].time());
         $pass = sha1($data['password'].$salt);
@@ -114,7 +114,7 @@ class UserModel extends Model {
      * @return User ID if login successful, false otherwise
      **/
     public function checkLogin($username, $password, $alreadySalted = false) {
-        $req = 'SELECT `Id`, `Username`, `Password`, `ActivationToken`, `Salt` FROM `User`
+        $req = 'SELECT `Id`, `Username`, `Password`, `ActivationToken`, `CanAdmin`, `Salt` FROM `User`
                 WHERE `Username`=?';
 
         $statement = $this->db->prepare($req);
@@ -124,7 +124,7 @@ class UserModel extends Model {
         $saltedPasswd = ($alreadySalted) ? $password : sha1($password.$result['Salt']);
 
         if($saltedPasswd == $result['Password']) {
-            return array('Username' => $username, 'Password' => $saltedPasswd, 'Id' => $result['Id'], 'ActivationToken' => $result['ActivationToken']);
+            return array('Username' => $username, 'Password' => $saltedPasswd, 'CanAdmin' => $result['CanAdmin'], 'Id' => $result['Id'], 'ActivationToken' => $result['ActivationToken']);
         }
 
         return FALSE;
@@ -221,5 +221,24 @@ class UserModel extends Model {
         $st = $this->db->prepare('UPDATE `User` SET `ActivationToken` = NULL WHERE `ActivationToken` = ?');
         $st->execute(array($token));
         return $st->rowCount();
+    }
+
+    public function deleteFriends($id) {
+        $st = $this->db->prepare("DELETE FROM `Friend` WHERE `UserA` = ? OR `UserB` = ?");
+        $st->execute(array($id, $id));
+    }
+
+    public function deleteUser($id) {
+        $em = new EventModel();
+        $pm = new PMModel();
+
+        $em->deleteEventsByUser($id);
+        $pm->deletePMsOf($id);
+        $this->deleteFriends($id);
+        
+        $req = "DELETE FROM `User` WHERE `Id` = ?";
+        
+        $st = $this->db->prepare($req);
+        $st->execute(array($id));
     }
 } 

@@ -1,40 +1,47 @@
 <!doctype html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<title>CookieCatch</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="css/top.css"/>
+		<link rel="stylesheet" type="text/css" href="css/profile.css"/>
 	</head>
 
 	<body>
 
 		<header>
-			<div id="title">CookieCatch</div>
-			<div id="user">Bienvenue <a href="#">Michel</a> - <a href="#">[PROFIL]</a> <a href="#">[DECONNEXION]</a></div>
+			<h1>CookieCatch</h1>
+			<!--<div id="user">Bienvenue <a href="#">Michel</a> - <a href="#">[PROFIL]</a> <a href="#">[DECONNEXION]</a></div>-->
 		</header>
 
 		<section id="content">
 			
 			<div id="profile">
 				<div class="thumbnail"><img src="img/josue.jpg"></div>
+				<p>Pseudo : </p>
+				<p>Genre : </p>
+				<p>Faction : </p>
+				<p>Cookies remportés : </p>
 			</div>
 
-			<div class="pblock" id="events">
-				<div id="title">Events</div>
-				<div id="content">
-					<div>Test 1</div>
-					<div>Test 2</div>				
-				</div>
-			</div>
-
-			<div class="pblock" id="followed">
-				<div id="title">Followed</div>
-				<div id="content">
-					<div>Test 1</div>
-					<div>Test 2</div>
-					<div>Test 3</div>
-					<div>Test 4</div>
-				</div>
+			<div id="tableContainer" class="tableContainer">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">
+					<thead class="fixedHeader">
+						<tr>
+							<th>Événements</th>
+							<th>Date</th>
+							<th>Créateur</th>
+						</tr>
+					</thead>
+					<tbody class="scrollContent">
+						<tr>
+							<td><a href="lienEvent">Nom event</a></td>
+							<td>Date</td>
+							<td><a href="lienUser">Créateur de l'event</a></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
 		</section>

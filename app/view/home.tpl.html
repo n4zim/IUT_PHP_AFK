@@ -1,0 +1,55 @@
+{% layout/layout.tpl %}
+
+{{head
+
+head}}
+
+{{content
+<section id="content">
+	<h1>Bienvenue !</h1>
+	<div id="description">
+		La communauté d'AFK (<strong>A</strong>way <strong>F</strong>rom <strong>K</strong>ookie) vous souhaite le bienvenue !<br />
+		Dans cette communauté les <strong>Ninjas</strong> usent de leurs techniques afin de tendre des embuscades aux mystérieux et impassibles <strong>Reblochons</strong> pendant que les <strong>Lamas</strong> livrent une guerre sans merci à coups de crachats contre les <strong>Nyan Cats</strong> qui répondent farouchement à coups <span style="text-decoration: underline;">de griffes</span> d'arcs-en-ciel.<br />
+		Il y a actuellement <strong>{$eventCount}</strong> évênements prévus durant lesquels pourront s'affronter les <strong>{$userCount}</strong> joueurs afin de gagner des cookies.</br></br>Toi aussi choisis une faction et rejoins la communauté d'AFK.<br />
+		Il y à {$activeCount} joueur(s) en ligne actuellement !
+	</div>
+
+	<div id="cookies">
+		[$factions]
+			<div id="{$CSSId}">
+				<span id="nom">Les {$Name}</span><br>
+				<span id="cookies">{$Score}</span>
+			</div>
+		[/$factions]
+	</div>
+
+
+	?$layout.user @else@
+	<div id="users">
+		<span onclick="document.getElementById('box').style.display='none'; document.getElementById('filter').style.display='none'">
+		<a href="{$layout.loginLink}" class="action-button shadow animate green">Se connecter</a></span>
+		<a href="{$layout.registerLink}" class="action-button shadow animate blue">S'inscrire</a>
+	</div>
+	$layout.user?
+
+	<div id="box" >
+	<div id="boxheader">
+	<span id="boxtitle"> Titre pour le contenu (image, formulaire ou autre)</span>
+	<span id="boxclose" onclick="document.getElementById('box').style.display='none';
+	     document.getElementById("shadowing").style.display='none'"> 
+	</span>
+	</div>
+	<div id="boxcontent"> Ceci est le contenu statique provisoire  de la boite.  </div>
+	</div>
+
+	<h2>Derniers Events</h2>
+	<div class="lastevents">
+		[$events]
+		<a href="{$Url}">Titre : {$Titre}</a><br />
+		Prévu pour le {formatDateTime:EventDate}<br />
+		Récompense : {$Reward} cookies<br />
+		<br />
+		[/$events]
+	</div>
+</section>
+content}}

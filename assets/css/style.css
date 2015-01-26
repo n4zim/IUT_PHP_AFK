@@ -147,6 +147,10 @@ body {
 	/*line-height: 10vh;*/
 }
 
+#cookies div {
+	width: 154px;
+}
+
 #cookies div #cookies {
 	font-size: 50px;
 }
@@ -266,4 +270,7 @@ body {
 	font-size: 25px;
 }
 
-/* Inscription */
+/* Admin */
+table .avatar {
+	height: 30px;
+}

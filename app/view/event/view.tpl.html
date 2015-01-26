@@ -8,6 +8,7 @@ Lieu : {$event.Place}<br />
 Prévu pour le {formatDateTime:event.EventDate}<br />
 Posté le {formatDateTime:event.PostDate}<br />
 Récompense : {$event.Reward} cookies<br />
+Organisé par <a href="{$userProfile}">{$event.Username}</a>
 <br />
 {?({$event.Subscribed} == 0)?}
 <a href="{$subLink}">S'inscrire</a>

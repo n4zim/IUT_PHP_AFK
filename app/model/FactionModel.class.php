@@ -5,7 +5,7 @@ class FactionModel extends Model {
     }
 
     public function getFactions($id = null) {
-        $req = 'SELECT `Id`, `Name`, `Description`, `Logo`
+        $req = 'SELECT `Id`, `Name`, `Description`, `Logo`, `CSSId`
                 FROM `Faction`'.
                 ((isset($id)) ? ' WHERE `Id` = ? ' : '')
                 .' ORDER BY `Id`';

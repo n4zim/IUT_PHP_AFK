@@ -1,6 +1,7 @@
 /*à virer de la fin de style.css (càd tout ce qui concerne connexion)*/
 
 /* Connexion */
+/*
 #connect {
 	font-size: 40px;
 }
@@ -18,11 +19,13 @@
 	margin-top: 30px;
 	font-size: 25px;
 }
+*/
 
 /* Inscription */
 
 
 /*à remplacer par ça dans style.css (càd virer le float left)*/
+/*
 .action-button {
 	padding: 10px 40px;
 	margin: 0px 10px 10px 0px;
@@ -32,6 +35,7 @@
 	color: #FFF;
 	text-decoration: none;
 }
+*/
 
 /*à ajouter*/
 /*pour toutes les pages*/
@@ -40,11 +44,12 @@
 }
 
 /*Inscription, Création d'événement, pas Connexion*/
-.formAtTheLeft {
+.alignLeft {
 	text-align: left;
+	margin-left: 70px;
 }
 
-.formAtTheLeft textarea{
+.alignLeft textarea{
 	outline: none;
 	resize: none;
 }
