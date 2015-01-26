@@ -1,10 +1,12 @@
 {% layout/layout.tpl %}
 {= pageTitle: Écrire un message =}
 {{content
-<h1>écrire un message</h1>
-<form action="{$formAction}" method="post">
-    destinataire : <input type="text" name="to" value="{$to}" /><br />
-    message : <br /><textarea name="message"></textarea><br />
-    <input type="submit" />
-</form>
+<section id="content">
+	<h1>Écrire un message</h1>
+	<form action="{$formAction}" method="post">
+	    <label for="to">Destinatire :</label><br /><input type="text" id="to" name="to" value="{$to}" /><br /><br />
+	    <label for="message">Message :</label><br /><textarea id="message" name="message" style="width:400px;height:200px"></textarea><br /><br />
+	    <input type="submit" class="globalbutton" />
+	</form>
+</section>
 content}}

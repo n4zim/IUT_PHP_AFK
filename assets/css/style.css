@@ -206,8 +206,20 @@ body {
 
 #users a {
 	width: 150px;
-	margin-right: 20px;
-	margin-left: 20px;
+	margin-right: 13px;
+	margin-left: 13px;
+}
+
+#menu {
+	background: #67FFA9;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid #5CE598;
+	
+}
+#menu a {
+	text-decoration: none;
+	color: black;
 }
 
 .animate {
@@ -273,6 +285,8 @@ body {
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 	outline: none;
+	color: inherit;
+	text-decoration: inherit;
 }
 
 #connect input {
