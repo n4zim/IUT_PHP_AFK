@@ -31,6 +31,7 @@ class Layout {
         $data['upcomingLink'] = Helpers::makeUrl('event', 'upcoming');
         $data['legalLink'] = Helpers::makeUrl('', 'legal');
         $data['linksLink'] = Helpers::makeUrl('', 'links');
+        $data['loginAction'] = Helpers::makeUrl('login', 'post');
         
         // if admin
         if(isset($_SESSION['u.admin']))
