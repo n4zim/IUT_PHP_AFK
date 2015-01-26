@@ -26,7 +26,7 @@ class PMModel extends Model {
         return $rs;
     }
 
-// todo : réunir les 2 fonctions
+// todo : join the 2 functions (get sent et get received)
     public function getReceived($user) {
         $req = 'SELECT `PM`.`Id`, `Sender`, `Recipient`, `SendDate`, `Read`, `FileName`,
                     `S`.`UserName` AS `SenderName`, `R`.`UserName` AS `RecipientName`
@@ -93,6 +93,10 @@ class PMModel extends Model {
     }
 
     public function sendPM($from, $to, $message) {
+        $user = new UserModel();
+        $user = $user->getUser($to);
+        if(empty($user)) return false;
+        
         $req = 'INSERT INTO `PM` (`Sender`, `Recipient`, `SendDate`, `FileName`, `Read`) VALUES (?, ?, ?, ?, \'N\')';
 
         if($from == $to) return false;

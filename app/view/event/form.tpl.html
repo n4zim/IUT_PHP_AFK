@@ -10,8 +10,8 @@ head}}
 	<h1>Création d'événement</h1>
 	<form action="{$formAction}" method="POST">
 	
-	<label for="event">Nom de l'événement</label><br />
-	<input type="text" name="event" id="event" size="60" value="{$v.Titre}" /><br /><br />
+	<label for="title">Nom de l'événement</label><br />
+	<input type="text" name="title" id="title" size="60" value="{$v.Titre}" /><br /><br />
 
 	<label for="eventType">Type d'événement</label><br />
 	<select name="type" name="eventType" id="eventType">[$eventTypes]<option value="{$Id}" {$Selected}>{$TypeName}</option>[/$eventTypes]</select><br /><br />

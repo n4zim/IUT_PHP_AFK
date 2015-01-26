@@ -105,7 +105,7 @@ class Register extends Controller {
 
         $msg  = "<h1>Bienvenue à CookieCatch</h1>\n\n";
         $msg .= "<p>Votre inscription s'est déroulée avec succès.<br />\n";
-        $msg .= "Votre identifiant de connexion est : <strong>".'Xorus'."</strong></p>\n";
+        $msg .= "Votre identifiant de connexion est : <strong>".$r['Username']."</strong></p>\n";
         $msg .= "<p>Avant de vous connecter, vous devez activer votre compte en vous rendant sur ce lien :<br />\n";
         $msg .= '<a href="'.$link.'">'.$link.'</a></p>';
 

@@ -29,7 +29,7 @@ class EventModel extends Model {
         $clauseId = (isset($id)) ? ' AND `Event`.`Id` = :id' : '';
         $clauseUser = (isset($checkForUser)) ? ', IF(`EventEntrant`.`User` IS NULL, 0, 1) AS `Subscribed`' : ', \'0\' AS `Subscribed`';
         $clauseUser2 = (isset($checkForUser)) ? ' LEFT JOIN `EventEntrant` ON `EventEntrant`.`Event`= `Id` AND `EventEntrant`.`User` = :userId' : '';
-        $req = 'SELECT `Event`.`Id`,  `Organizer`, `User`.`Username`, `Titre`,  `Description`, `TypeEvent`, `EventType`.`TypeName`, `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
+        $req = 'SELECT `Event`.`Id`,  `Organizer`, `User`.`Username`, `RewardSent`, `Titre`,  `Description`, `TypeEvent`, `EventType`.`TypeName`, `Image`,  `Place`,  UNIX_TIMESTAMP(`PostDate`) AS `PostDate`,  UNIX_TIMESTAMP(`EventDate`) AS `EventDate`,  `Reward` '.$clauseUser.'
                 FROM `Event`'.$clauseUser2.'
                 JOIN `EventType` ON `EventType`.`Id` = `TypeEvent`
                 JOIN `User` ON `User`.`Id` = `Event`.`Organizer`
@@ -104,6 +104,10 @@ class EventModel extends Model {
      * @return array('success' => false, 'message' => 'description de l\'erreur')
      **/
     public function subscribeUser($user, $event) {
+        $eventM = $this->getEvents($id);
+        if(empty($eventM)) return array('success' => false, 'message' => 'Cet évenement n\'existe pas.');
+        if($eventM['RewardSent'] == 'Y') return array('success' => false, 'message' => 'Cet event est déjà terminé.');
+
         $req = 'INSERT INTO `EventEntrant` (`Event`, `User`, `JoinDate`) VALUES (?, ?, NOW())';
         $st = $this->db->prepare($req);
 
@@ -113,7 +117,7 @@ class EventModel extends Model {
             if ($e->errorInfo[1] == 1062) {
                 return array("success" => false, "message" => "Utilisateur déjà inscrit à cet évenement.");
             } else {
-                return array("success" => false, "message" => "Erreur inconnue.");
+                return array("success" => false, "message" => "Erreur inconnue.".$e);
             }
         }
 
@@ -129,8 +133,13 @@ class EventModel extends Model {
      * @return array('success' => false, 'message' => 'description de l\'erreur')
      **/
     public function unsubscribeUser($user, $event) {
+        $eventM = $this->getEvents($id);
+        if(empty($eventM)) return array('success' => false, 'message' => 'Cet évenement n\'existe pas.');
+        if($eventM['RewardSent'] == 'Y') return array('success' => false, 'message' => 'Cet event est déjà terminé.');
+        
         $req = 'DELETE FROM `EventEntrant` WHERE `Event` = ? AND `User` = ?';
         $st = $this->db->prepare($req);
+
         $st->execute(array($event, $user));
 
         if($st->rowCount() < 1)
@@ -266,5 +275,26 @@ class EventModel extends Model {
             $st->execute(array($event['Id']));
         }
 
+    }
+
+    public function markEventDone($id, $factions, $why) {
+        $event = $this->getEvents($id);
+        if(empty($event)) return array('success' => false, 'message' => 'Cet évenement n\'existe pas.');
+        if($event['RewardSent'] == 'Y') return array('success' => false, 'message' => 'Cet event est déjà terminé.');
+        $score = $event['Reward'];
+        $factionModel = new FactionModel();
+
+        foreach ($factions as $faction) {
+            $factionModel->insertNewScore($faction, $score, $why);
+        }
+        
+        $req = 'UPDATE `Event` SET `RewardSent` = \'Y\' WHERE `Id` = ?';
+
+        $data = array($id);
+        
+        $st = $this->db->prepare($req);
+        $st->execute($data);
+
+        return array("success" => true, 'id' => $id);
     }
 }
