@@ -123,6 +123,12 @@ body {
 
 #content h1 {
 	font-size: 40px;
+	text-shadow: 0px 0px 0 rgba(0,0,0,0.05);
+	transition: 0.5s box-shadow;
+}
+
+#content h1:hover {
+	text-shadow: -5px 5px 0 rgba(0,0,0,0.05);
 }
 
 .inscription {
@@ -133,7 +139,9 @@ body {
 	font-size: 20px;
 }
 
-#cookies { margin-top: 40px; }
+#cookies { 
+	margin-top: 40px;
+}
 
 #cookies div {
 	display: inline-block;
@@ -148,6 +156,13 @@ body {
 
 	/*-moz-border-radius: 100%;*/
 	/*border-radius: 100%;*/
+
+	box-shadow: 0 0 0 rgba(0,0,0,0.05);
+	transition: 0.5s box-shadow;
+}
+
+#cookies div:hover {
+	box-shadow: -10px 10px 0 rgba(0,0,0,0.05);
 }
 
 #cookies div a {
@@ -218,8 +233,14 @@ body {
 	padding-top: 8px;
 	padding-bottom: 5px;
 	border-bottom: 3px solid #5CE598;
-	
+	transition: 0.5s box-shadow;	
+	box-shadow: 0px 0px 0 rgba(0,0,0,0.05);
 }
+
+#menu:hover {
+	box-shadow: 0px 10px 0 rgba(0,0,0,0.05);
+}
+
 #menu a {
 	text-decoration: none;
 	color: black;
