@@ -13,9 +13,9 @@ head}}
         <tr>
             <th></th>
             <th>Username</th>
+            <th>Faction</th>
             <th>Mail</th>
             <th>Inscription</th>
-            <th>Faction</th>
             <th>Activé</th>
             <th>Droit</th>
             <th>Actions</th>
@@ -25,9 +25,9 @@ head}}
     <tr>
         <td><a href="{$Avatar}"><img src="{$Avatar}" class="avatar" /></a></td>
         <td><a href="{$Url}">{$Username}</a></td>
+        <td>{$FactionName}</td>
         <td>{$Mail}</td>
         <td>{formatDateTime:RegisterDate}</td>
-        <td>{$FactionName}</td>
         <td>{$IsActivated}</td>
         <td>{$CanAdmin}</td>
         <td><a href="{$DeleteLink}">Supprimmer</a>
