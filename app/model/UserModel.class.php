@@ -90,10 +90,10 @@ class UserModel extends Model {
     }
 
     public function editUser($user, $data) {
-        $req = 'UPDATE `User` SET `Mail` = ?, `Gender` = ?, `Avatar` = ? WHERE `Id` = ?';
+        $req = 'UPDATE `User` SET `Gender` = ?, `Avatar` = ? WHERE `Id` = ?';
 
         $gender = (in_array($data['gender'], array('M', 'F')) ? $data['gender'] : null);
-        $arr = array($data['mail'], $gender, $data['avatar'], $user);
+        $arr = array($gender, $data['avatar'], $user);
 
         $stmt = $this->db->prepare($req);
 
