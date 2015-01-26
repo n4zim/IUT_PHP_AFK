@@ -21,7 +21,7 @@ class Config {
     public static $listing = array(
         'usersPerPage' => 10,
         'eventsPerPage' => 10,
-        'eventsOnHomePage' => 5
+        'eventsOnHomePage' => 3
     );
 
     public static $path = array(

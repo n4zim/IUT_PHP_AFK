@@ -148,18 +148,9 @@ class UserModel extends Model {
     public function updateActivity($user) {
         $this->cleanActiveUsers();
         
-        $st = $this->db->prepare('SELECT EXISTS (SELECT `User` FROM `ActiveUsers` WHERE `User` = 1) AS `Result`');
-        $st->execute();
-
         $timeout = Config::$app['activityTimeout'];
 
-        $return = $st->fetch();
-
-        if(intval($return['Result']) == 0) { // user not listed in latest active members
-            $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.')');
-        } else {
-            $st = $this->db->prepare('UPDATE `ActiveUsers` SET `Expires` = NOW()+'.$timeout.'  WHERE `User` = ?');
-        }
+        $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.') ON DUPLICATE KEY UPDATE `User`=VALUES(`User`)');
 
         $st->execute(array($user));
     }
@@ -167,7 +158,7 @@ class UserModel extends Model {
     public function cleanActiveUsers() {
         if(self::$activeUsersAlreadyCleaned) return;
 
-        $st = $this->db->prepare('DELETE FROM `ActiveUsers` WHERE `Expires` < NOW()');
+        $st = $this->db->prepare('DELETE FROM `ActiveUsers` WHERE `Expires` > NOW()');
         $st->execute();
 
         self::$activeUsersAlreadyCleaned = true;
