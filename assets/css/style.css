@@ -160,7 +160,7 @@ body {
 	width: 154px;
 }
 
-#cookies div #score {
+#cookies div .score {
 	font-size: 50px;
 }
 
