@@ -7,23 +7,17 @@
 	<a href="{$writePMLink}" class="globalbutton">Composer un nouveau message</a><br /><br />
 	<h2>Reçus</h2>
 	[$received]
-	<a href="{$Url}"><br />
-	Lien vers le message</a>
-	Lu : {$Read}<br />
-	De {$Sender} à {$Recipient}<br />
-	{formatPM:Message}<br />
-	<em>Envoyé le {formatDateTime:Timestamp}</em>
+	<a href="{$Url}">{formatPM:Message}</a><br />
+	Envoyé par {$Sender} à {$Recipient}<br />
+	<em>Le {formatDateTime:Timestamp}</em>
 	<hr />
 	[/$received]
 
 	<h2>Envoyés</h2>
 	[$sent]
-	<a href="{$Url}"><br />
-	Lien vers le message</a>
-	Lu : {$Read}<br />
-	De {$Sender} à {$Recipient}<br />
-	{formatPM:Message}<br />
-	<em>Envoyé le {formatDateTime:Timestamp}</em>
+	<a href="{$Url}">{formatPM:Message}</a><br />
+	Envoyé par {$Sender} à {$Recipient}<br />
+	<em>Le {formatDateTime:Timestamp}</em>
 	<hr />
 	[/$sent]
 </section>
