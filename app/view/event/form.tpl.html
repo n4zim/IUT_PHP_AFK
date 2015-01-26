@@ -1,17 +1,38 @@
 {% layout/layout.tpl %}
 {= pageTitle: Modifier un évenement =}
-{{content
-<form action="{$formAction}" method="POST">
-titre <input type="text" name="title" value="{$v.Titre}"/><br />
 
-type <select name="type">
-[$eventTypes]<option value="{$Id}" {$Selected}>{$TypeName}</option>[/$eventTypes]
-</select><br />
-description <textarea name="description">{$v.Description}</textarea><br />
-lien vers image optionnelle <input name="image" type="text" value="{$v.Image}" /><br />
-lieu <input name="place" type="text" value="{$v.Place}" /><br />
-date <input type="text" name="date" value="{$v.Date}" /> (année-mois-jour)<br />
-heure <input type="text" name="heure" value="{$v.Time}" /> (heure:minute:seconde)<br />
-<input type="submit" />
-</form>
+{{head
+<link rel="stylesheet" type="text/css" href="assets/css/creationEvenement.css"/>
+head}}
+
+{{content
+<section id="content">
+	<h1>Création d'événement</h1>
+	<form action="{$formAction}" method="POST">
+	
+	<label for="event">Nom de l'événement</label><br />
+	<input type="text" name="event" id="event" size="60" value="{$v.Titre}" /><br /><br />
+
+	<label for="eventType">Type d'événement</label><br />
+	<select name="type" name="eventType" id="eventType">[$eventTypes]<option value="{$Id}" {$Selected}>{$TypeName}</option>[/$eventTypes]</select><br /><br />
+
+	<label for="image">Lien vers image (optionnel)</label><br />
+	<input id="image" name="image" type="text" value="{$v.Image}" /><br /><br />
+	
+	<label for="place">Lieu de rendez-vous</label><br />
+	<input id="place" name="place" type="text" value="{$v.Place}" /><br /><br />
+	
+	<label for="beginningDate">Date de début (format: AAAA-MM-JJ)</label><br />
+	<input id="beginningDate" type="text" name="date" value="{$v.Date}" /> (année-mois-jour)<br /><br />
+	
+	<label for="beginningHour">Heure de début (format: hh:mm)</label><br />
+	<input id="beginningHour" type="text" name="heure" value="{$v.Time}" /> (heure:minute:seconde)<br /><br />
+	
+	<label for="description">Description de l'événement</label><br />
+	<textarea name="description" id="description" placeholder="Veuillez decrire clairement le fonctionnement de l'événement et les conditions de victoire pour que tout le monde comprenne." cols="54" rows="6">{$v.Description}</textarea><br />
+
+	<p>Recompense initiale: 5000 cookies<p/>
+
+	<input type="submit" class="globalbutton" />
+	</form>
 content}}

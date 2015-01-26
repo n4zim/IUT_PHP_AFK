@@ -16,10 +16,10 @@
         ?$layout.user
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
             <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
+            <a href="{$layout.friendlistLink}"><img src="assets/img/friends.png"></a>
+            <a href="{$layout.upcomingLink}"><img src="assets/img/calendar.png"></a>
+            <a href="{$layout.pmLink}"><img src="assets/img/msg.png"> ({$layout.pmUnread})</a>
             <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png"></a>
-            <a href="{$layout.friendlistLink}">amis</a>
-            <a href="{$layout.pmLink}">msg ({$layout.pmUnread})</a>
-            <a href="{$layout.upcomingLink}">calendrier</a>
         @else@
             <form action="{$loginAction}" class="headlogin" method="POST">
                 <input name="username" type="text" placeholder="Nom d'utilisateur" />
@@ -39,13 +39,13 @@
   $layout.notification.title?
 </div>
 $layout.notification?
-    <div id="menu" style="background: pink;">
+    <div id="menu">
         <a href="{$layout.homeLink}">Accueil</a> - 
         <a href="{$layout.factionLink}">Factions</a> - 
-        <a href="{$layout.eventsLink}">Events</a> - 
+        <a href="{$layout.eventsLink}">Evénements</a> - 
         <a href="{$layout.directoryLink}">Annuaire</a> - 
-        <a href="{$layout.createEventsLink}">Créer un event</a>
-        ?$layout.adminLink - <a href="{$layout.adminLink}">Admnin</a> $layout.adminLink?
+        <a href="{$layout.createEventsLink}">Créer un événement</a>
+        ?$layout.adminLink - <a href="{$layout.adminLink}">Admninistration</a> $layout.adminLink?
     </div>
     <div id="content">(( content ))</div>
 </body>
