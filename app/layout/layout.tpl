@@ -46,7 +46,7 @@ $layout.notification?
         <a href="{$layout.createEventsLink}">Créer un événement</a>
         ?$layout.adminLink - <a href="{$layout.adminLink}">Admninistration</a> $layout.adminLink?
     </div>
-    <div id="content">(( content ))</div>
+    (( content ))
     <footer>
         <p>
             <a href="{$layout.legalLink}">Mentions légales</a> -
