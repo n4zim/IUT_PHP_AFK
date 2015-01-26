@@ -124,4 +124,11 @@ class PMModel extends Model {
         $st = $this->db->prepare('DELETE FROM `PM` WHERE `Id` = ?');
         $st->execute(array($user));
     }
+
+    public function deletePMsOf($id) {
+        $req = "DELETE FROM `PM` WHERE `Sender` = ? OR `Recipient` = ?";
+        
+        $st = $this->db->prepare($req);
+        $st->execute(array($id, $id));
+    }
 }

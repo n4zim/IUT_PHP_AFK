@@ -1,0 +1,52 @@
+{% layout/layout.tpl %}
+
+{{head
+
+head}}
+
+{{content
+<h1>Tâches d'administration</h1>
+<h2>Liste des utilisateurs</h2>
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Username</th>
+            <th>Mail</th>
+            <th>Inscription</th>
+            <th>Faction</th>
+            <th>Activé</th>
+            <th>Droit</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    [$users]
+    <tr>
+        <td><a href="{$Avatar}"><img src="{$Avatar}" class="avatar" /></a></td>
+        <td><a href="{$Url}">{$Username}</a></td>
+        <td>{$Mail}</td>
+        <td>{formatDateTime:RegisterDate}</td>
+        <td>{$FactionName}</td>
+        <td>{$IsActivated}</td>
+        <td>{$CanAdmin}</td>
+        <td><a href="{$DeleteLink}">Supprimmer</a>
+    </tr>
+    @empty@
+    <tr>
+        <td>Pas d'utilisateurs (hmm, comment est-ce possible que vous puissiez être sur cette page...)</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    [/$users]
+</table>
+    [[_empty
+       {% comp/pagination.tpl %}
+       {= baseLink: "?action=admin&amp;p=" =}
+    _empty]]
+
+<h2>Liste des évenements</h2>
+content}}

@@ -243,4 +243,18 @@ class EventModel extends Model {
         $st->execute();
         return $st->fetchAll();
     }
+
+    public function deleteEventsByUser($id) {
+        $st = $this->db->prepare("DELETE FROM `EventEntrant` WHERE `User` = ?");
+        $st->execute(array($id));
+        
+        $events = $this->getUserEvents($id);
+        foreach ($events as $event) {
+            $st = $this->db->prepare("DELETE FROM `EventEntrant` WHERE `Event` = ?");
+            $st->execute(array($id));
+            $st = $this->db->prepare("DELETE FROM `Event` WHERE `Id` = ?");
+            $st->execute(array($event['Id']));
+        }
+
+    }
 }
