@@ -144,20 +144,27 @@ class AFK {
 		echo $page;
 	}
 
-
+	/**
+	 * Connects to the db
+	 **/
 	private function initilizeDatabase() {
         try {
             $this->db = new PDO(Config::$dbInfo['driver'], Config::$dbInfo['username'], Config::$dbInfo['password']);
 			$this->db->exec('SET CHARACTER SET utf8');
 			
-			// If we are in website debug mode, we display PDO errors
-			if(Config::$debug) 
-    			$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			/*// If we are in website debug mode, we display PDO errors
+			if(Config::$debug) */
+    		
+    		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         } catch(Exception $e) {
             exit('Erreur de connexion : ' . $e->getMessage());
         }
 	}
 
+	/**
+	 * Retrurns an handle to the database.
+	 * Creates a new db connection if it is not initialized.
+	 **/
 	public function getDb() {
 		if($this->db == null)
 			$this->initilizeDatabase();
@@ -165,20 +172,29 @@ class AFK {
 		return $this->db;
 	}
 
+	/**
+	 * Shows the user a 404 error
+	 **/
 	public function error404($query, $message = '') {
 		header('HTTP/1.0 404 Not Found'); 
 
 		$details = '';
 		if(isset($message)) $details .= $message.PHP_EOL;
-		$details .= 'Query:'.PHP_EOL;
-		$details .= print_r($query, true);
+		if(Config::$debug) {
+			$details .= 'Query:'.PHP_EOL;
+			$details .= print_r($query, true);
+		}
 
 		$this->view('404', array('details' => $details));
 
 		exit;
 	}
 
+	/**
+	 * Destructor
+	 * Closes the db connection
+	 **/
     function __destruct() {
-    	if($this->db != null) $this->db = null;
+    	if($this->db != null) $this->db = null; // useless because it should be automatic but anywhow.. it's cool.
     }
 }

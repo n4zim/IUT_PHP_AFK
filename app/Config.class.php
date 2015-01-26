@@ -19,7 +19,7 @@ class Config {
     );
 
     public static $listing = array(
-        'usersPerPage' => 25,
+        'usersPerPage' => 5,
         'eventsPerPage' => 10,
         'eventsOnHomePage' => 5
     );
