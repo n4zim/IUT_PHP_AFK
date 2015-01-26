@@ -2,7 +2,7 @@
 {= pageTitle: {$event.Titre} =}
 {{content
 <h2>{$event.Titre}</h2><br />
-?$event.Image <img src="{$event.Image}" /><br /> $event.Image?
+?$event.Image <img src="{$event.Image}" alt="{$event.Titre}" /><br /> $event.Image?
 {br:event.Description}<br />
 Lieu : {$event.Place}<br />
 Prévu pour le {formatDateTime:event.EventDate}<br />
@@ -18,15 +18,16 @@ Organisé par <a href="{$userProfile}">{$event.Username}</a>
 ?$editLink <a href="{$editLink}">Éditer</a> $editLink?
 ?$doneLink <a href="{$doneLink}">Event terminé</a> $doneLink?
 
-<h3>participants</h3>
+<h3>Participants</h3>
 [$entrants]
-    <img src="{$FactionLogo}" style="float:left;height: 100px;" />
-    {$FactionName}
-    <div>
-      <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /><br />
-      {$Username}</a><br />
-    </div>
-    <hr style="clear: left;"/>
+      <img src="{$FactionLogo}" style="height:100px;vertical-align:sub;margin-right:30px" alt="Faction de l'utilisateur" />
+      <!--{$FactionName}-->
+      <div style="display:inline-block;text-align:left;"> 
+        <a href="{$Url}">{$Username} (des {$FactionName})</a><br />
+        <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" alt="{$Username}" /></a><br />
+        ?$AddFriendUrl <a href="{$AddFriendUrl}">Ajouter comme ami</a><br /> $AddFriendUrl?
+      </div>
+      <hr style="clear: left;margin-top:30px;margin-bottom:30px"/>
 @empty@
     Personne ne s'est inscrit à cet évenement pour l'instant.
 [/$entrants]
