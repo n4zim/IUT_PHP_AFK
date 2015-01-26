@@ -14,7 +14,7 @@ class Home extends Controller {
         // yep I know, this is not optimal and the model /should/ automatically do that but HEY! IT WORKS! ...
         foreach ($factions as &$faction) {
             $faction['Score'] = $factionModel->getTotalScore($faction['Id']);
-            $faction['Url'] = Helpers::makeUrl('faction', 'view', array('id' => $event['Id']));
+            $faction['Url'] = Helpers::makeUrl('faction', 'view', array('id' => $faction['Id']));
         }
 
         $latest = $eventModel->getEvents(null, false, 0, null, Config::$listing['eventsOnHomePage'], 'latest');
