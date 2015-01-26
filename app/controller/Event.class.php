@@ -136,6 +136,10 @@ class Event extends Controller {
         if($event['Organizer'] == $_SESSION['u.id']) {
             $data['editLink'] = Helpers::makeUrl('event', 'create', array('id' => $args['id']));
         }
+        
+        // todo : prevent subscribing if event date < now
+
+        $data['userProfile'] = Helpers::makeUrl('user', 'profile', array('id' => $event['Organizer']));
 
         $this->afk->view('event/view', $data);
     }

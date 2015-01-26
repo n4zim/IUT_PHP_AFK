@@ -22,11 +22,11 @@ class Admin extends Controller {
             $user['DeleteLink'] = Helpers::makeUrl('admin', 'deluser', array('id' => $user['Id'], 'p' => $pageNumber));
         }
 
-        $countEv = $eventModel->countEvents();
+        $countEv = $eventModel->countEvents(true);
         $pageCountEv = ceil($countEv / Config::$listing['eventsPerPage']);
 
         $pageNumberEv = (isset($args['p2']) && intval($args['p2']) <= $pageCountEv && intval($args['p2']) > 0) ? intval($args['p2']) : 1;
-        $events = $eventModel->getEvents(null, false, $pageNumberEv - 1);
+        $events = $eventModel->getEvents(null, true, $pageNumberEv - 1);
 
         foreach ($events as &$event) {
             $event['Url'] = Helpers::makeUrl('event', 'view', array('id' => $event['Id']));

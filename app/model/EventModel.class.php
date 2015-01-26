@@ -33,7 +33,7 @@ class EventModel extends Model {
                 FROM `Event`'.$clauseUser2.'
                 JOIN `EventType` ON `EventType`.`Id` = `TypeEvent`
                 JOIN `User` ON `User`.`Id` = `Event`.`Organizer`
-                WHERE `EventDate` > :eventDate '.$clauseId.'
+                WHERE `EventDate` >= :eventDate '.$clauseId.'
                 ORDER BY ';
 
         switch ($order) {
@@ -63,6 +63,7 @@ class EventModel extends Model {
         }
 
         if(isset($id)) $statement->bindValue('id', $id);
+
         if($allTime || empty($id)) $statement->bindValue('eventDate', Helpers::formatSQLDate(0));
         else $statement->bindValue('eventDate', Helpers::formatSQLDate(time()));
 
