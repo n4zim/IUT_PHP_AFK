@@ -1,6 +1,11 @@
 {% layout/layout.tpl %}
 {= pageTitle: Liste des évenements =}
 {{content
+
+{{head
+<meta name="description" content="Liste des événements disponibles sur CookieCatch !" />
+head}}
+
 <section id="content">
 <h1>Événements</h1>
 <a href="{$layout.createEventsLink}" class="globalbutton">Créer un évenementt</a><br /><br /><br />
