@@ -181,7 +181,6 @@ class Login extends Controller {
     public static function checkIfAdmin() {
         Login::checkIfLogguedIn();
         $um = new UserModel();
-        echo $um->canUser($_SESSION['u.id'], 'admin'); exit;
         if(!$um->canUser($_SESSION['u.id'], 'admin')) {
             Helpers::notify('Droits inssufisants', 'Vous ne pouvez pas accéder à cette page.', 'error');
             Helpers::redirect('index');
