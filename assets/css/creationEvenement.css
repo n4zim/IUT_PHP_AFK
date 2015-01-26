@@ -1,0 +1,55 @@
+/*à virer de la fin de style.css (càd tout ce qui concerne connexion)*/
+
+/* Connexion */
+/*
+#connect {
+	font-size: 40px;
+}
+
+#connect input {
+	font-size: 40px;
+	margin-bottom: 60px;
+	text-align: center;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: solid 1px #000;
+}
+
+#connect #links {
+	margin-top: 30px;
+	font-size: 25px;
+}
+*/
+
+/* Inscription */
+
+
+/*à remplacer par ça dans style.css (càd virer le float left)*/
+/*
+.action-button {
+	padding: 10px 40px;
+	margin: 0px 10px 10px 0px;
+	border-radius: 10px;
+	font-family: 'Pacifico', cursive;
+	font-size: 25px;
+	color: #FFF;
+	text-decoration: none;
+}
+*/
+
+/*à ajouter*/
+/*pour toutes les pages*/
+#content h2 {
+	font-size: 30px;
+}
+
+/*Inscription, Création d'événement, pas Connexion*/
+.alignLeft {
+	text-align: left;
+	margin-left: 70px;
+}
+
+.alignLeft textarea{
+	outline: none;
+	resize: none;
+}
