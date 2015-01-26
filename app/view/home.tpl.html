@@ -8,12 +8,11 @@ head}}
 <section id="content">
 	<h1>Bienvenue !</h1>
 	<div id="description">
-		La communauté d'AFK (<strong>A</strong>way <strong>F</strong>rom <strong>K</strong>ookie) vous souhaite le bienvenue !<br />
+		La communauté d'AFK (<strong>A</strong>way <strong>F</strong>rom <strong>K</strong>ookie) vous souhaite la bienvenue !<br />
 		Dans cette communauté les <strong>Ninjas</strong> usent de leurs techniques afin de tendre des embuscades aux mystérieux et impassibles <strong>Reblochons</strong> pendant que les <strong>Lamas</strong> livrent une guerre sans merci à coups de crachats contre les <strong>Nyan Cats</strong> qui répondent farouchement à coups <span style="text-decoration: underline;">de griffes</span> d'arcs-en-ciel.<br />
 		Il y a actuellement <strong>{$eventCount}</strong> évênements prévus durant lesquels pourront s'affronter les <strong>{$userCount}</strong> joueurs afin de gagner des cookies.</br></br>Toi aussi choisis une faction et rejoins la communauté d'AFK.<br />
-		Il y à {$activeCount} joueur(s) en ligne actuellement !
+		Il y à <strong>{$activeCount}</strong> joueur(s) en ligne actuellement !
 	</div>
-
 	<div id="cookies">
 		[$factions]
 			<div id="{$CSSId}">
@@ -22,8 +21,6 @@ head}}
 			</div>
 		[/$factions]
 	</div>
-
-
 	?$layout.user @else@
 	<div id="users">
 		<span onclick="document.getElementById('box').style.display='none'; document.getElementById('filter').style.display='none'">
@@ -31,7 +28,6 @@ head}}
 		<a href="{$layout.registerLink}" class="action-button shadow animate blue">S'inscrire</a>
 	</div>
 	$layout.user?
-
 	<div id="box" >
 	<div id="boxheader">
 	<span id="boxtitle"> Titre pour le contenu (image, formulaire ou autre)</span>
