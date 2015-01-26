@@ -11,6 +11,10 @@ body {
 	background-image: url(../img/bg.png);
 }
 
+#content {
+	margin-bottom: 100px;
+}
+
 #shadowing {
   display: none;
   position: fixed;
@@ -19,9 +23,8 @@ body {
   width: 100%;
   height: 100%;
   background-color: #CCA;
-  z-index:10;
-  opacity:0.5;
-  filter: alpha(opacity=50);
+  z-index: 10;
+  opacity: 0.5;
 }
 
 #box {
@@ -122,6 +125,10 @@ body {
 	font-size: 40px;
 }
 
+.inscription {
+	margin-top: 30px;
+}
+
 #content #description {
 	font-size: 20px;
 }
@@ -143,8 +150,10 @@ body {
 	/*border-radius: 100%;*/
 }
 
-#cookies div #nom {
+#cookies div a {
 	/*line-height: 10vh;*/
+	text-decoration: none;
+	color: black;
 }
 
 #cookies div {
@@ -200,8 +209,20 @@ body {
 
 #users a {
 	width: 150px;
-	margin-right: 20px;
-	margin-left: 20px;
+	margin-right: 13px;
+	margin-left: 13px;
+}
+
+#menu {
+	background: #67FFA9;
+	padding-top: 8px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid #5CE598;
+	
+}
+#menu a {
+	text-decoration: none;
+	color: black;
 }
 
 .animate {
@@ -256,6 +277,21 @@ body {
 	font-size: 40px;
 }
 
+.globalbutton {
+	background-color: #a8a8a8;
+	border: 0;
+	font-size: 18px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 15px;
+	padding-bottom: 15px; 
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	outline: none;
+	color: inherit;
+	text-decoration: inherit;
+}
+
 #connect input {
 	font-size: 40px;
 	margin-bottom: 60px;
@@ -273,4 +309,24 @@ body {
 /* Admin */
 table .avatar {
 	height: 30px;
+}
+
+/* Footer */
+footer {
+	box-shadow: 0 -5px 0 rgba(191, 191, 151, 0.3);
+
+	color: #593150;
+	min-height: 60px;
+
+	background-color: #FFFFC9;
+
+	position: fixed;
+	bottom: 0;
+
+	width: 100%;
+}
+
+footer a {
+	color: inherit;
+	text-decoration: none;
 }

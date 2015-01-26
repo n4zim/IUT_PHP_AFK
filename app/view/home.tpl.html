@@ -1,9 +1,5 @@
 {% layout/layout.tpl %}
 
-{{head
-
-head}}
-
 {{content
 <section id="content">
 	<h1>Bienvenue !</h1>
@@ -16,8 +12,8 @@ head}}
 	<div id="cookies">
 		[$factions]
 			<div id="{$CSSId}">
-				<span id="nom">Les {$Name}</span><br>
-				<span id="cookies">{$Score}</span>
+				<span id="nom"><a href="{$Url}">Les {$Name}</a></span><br>
+				<span id="cookies"><a href="{$Url}">{$Score}</a></span>
 			</div>
 		[/$factions]
 	</div>
@@ -28,15 +24,6 @@ head}}
 		<a href="{$layout.registerLink}" class="action-button shadow animate blue">S'inscrire</a>
 	</div>
 	$layout.user?
-	<div id="box" >
-	<div id="boxheader">
-	<span id="boxtitle"> Titre pour le contenu (image, formulaire ou autre)</span>
-	<span id="boxclose" onclick="document.getElementById('box').style.display='none';
-	     document.getElementById("shadowing").style.display='none'"> 
-	</span>
-	</div>
-	<div id="boxcontent"> Ceci est le contenu statique provisoire  de la boite.  </div>
-	</div>
 
 	<h2>Derniers Events</h2>
 	<div class="lastevents">

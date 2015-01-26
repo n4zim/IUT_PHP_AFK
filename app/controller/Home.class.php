@@ -14,6 +14,7 @@ class Home extends Controller {
         // yep I know, this is not optimal and the model /should/ automatically do that but HEY! IT WORKS! ...
         foreach ($factions as &$faction) {
             $faction['Score'] = $factionModel->getTotalScore($faction['Id']);
+            $faction['Url'] = Helpers::makeUrl('faction', 'view', array('id' => $faction['Id']));
         }
 
         $latest = $eventModel->getEvents(null, false, 0, null, Config::$listing['eventsOnHomePage'], 'latest');
@@ -25,10 +26,18 @@ class Home extends Controller {
         $this->afk->view('home', array(
             'eventCount' => $eventModel->countEvents(true),
             'userCount' => $userModel->countUsers(),
-            'events' => $latest,
             'activeCount' => $userModel->countActiveUsers(),
+            'events' => $latest,
             'loginAction' => Helpers::makeUrl('login', 'post'),
             'factions' => $factions
         ));
+    }
+
+    public function legal() {
+        $this->afk->view('legal');
+    }
+
+    public function links() {
+        $this->afk->view('links');
     }
 }

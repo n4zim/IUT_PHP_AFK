@@ -1,8 +1,11 @@
 {% layout/layout.tpl %}
 {= pageTitle: Liste des évenements =}
 {{content
+<section id="content">
+<h1>Événements</h1>
+<a href="{$layout.createEventsLink}" class="globalbutton">Créer un évenementt</a><br /><br /><br />
 [$events]
-<a href="{$Url}">Titre : {$Titre}</a><br />
+<a href="{$Url}">{$Titre}</a><br />
 {br:Description}<br />
 Prévu pour le {formatDateTime:EventDate}<br />
 Récompense : {$Reward} cookies<br />
@@ -14,5 +17,5 @@ Pas d'évenements trouvés, pourquoi ne pas...<br />
    {% comp/pagination.tpl %}
    {= baseLink: "?action=events&amp;p=" =}
 _empty]]
-<a href="{$layout.createEventsLink}">Créer un event</a>
+</section>
 content}}

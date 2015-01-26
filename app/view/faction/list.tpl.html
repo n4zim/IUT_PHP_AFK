@@ -1,12 +1,11 @@
 {% layout/layout.tpl %}
 {= pageTitle: Factions =}
 {{content
+<section id="content">
+	<h1>Factions</h1>
 [$factions]
-    <div>
-      <a href="{$Url}"><img src="{$Logo}" style="height: 60px;" /><br />
-      {$Name}</a><br />
-      {$Description}<br />
-      {$Score} cookies
-    </div>
+    	<a href="{$Url}"><img src="{$Logo}" style="height: 60px;vertical-align:sub;" /></a>
+    	<span style="display:inline-block;text-align:left;"><a href="{$Url}">{$Name}</a> ({$Score} cookies)<br />{$Description}</span><br /><br />
 [/$factions]
+</section>
 content}}
