@@ -21,6 +21,12 @@
             <a href="{$layout.pmLink}">msg ({$layout.pmUnread})</a>
             <a href="{$layout.upcomingLink}">calendrier</a>
         @else@
+            <form action="{$loginAction}" class="headlogin" method="POST">
+                <input name="username" type="text" placeholder="Nom d'utilisateur" />
+                <input name="password" type="password" placeholder="Mot de passe" /><br />
+                <input id="h-checkbox-remember" type="checkbox" name="remember" checked="checked"/><label for="f-checkbox-remember">Se souvenir</label><br />
+                <input type="submit" value="Connexion" /><br />
+            </form>
         $layout.user?
         </div>
     </header>
@@ -38,8 +44,8 @@ $layout.notification?
         <a href="{$layout.factionLink}">Factions</a> - 
         <a href="{$layout.eventsLink}">Events</a> - 
         <a href="{$layout.directoryLink}">Annuaire</a> - 
-        <a href="{$layout.createEventsLink}">Créer un event</a> -
-        ?$layout.adminLink <a href="{$layout.adminLink}">Admnin</a> $layout.adminLink?
+        <a href="{$layout.createEventsLink}">Créer un event</a>
+        ?$layout.adminLink - <a href="{$layout.adminLink}">Admnin</a> $layout.adminLink?
     </div>
     <div id="content">(( content ))</div>
 </body>
