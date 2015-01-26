@@ -149,8 +149,8 @@ class UserModel extends Model {
         $this->cleanActiveUsers();
         
         $timeout = Config::$app['activityTimeout'];
-        
-        $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.') ON DUPLICATE KEY UPDATE c=VALUES(`User`)');
+
+        $st = $this->db->prepare('INSERT INTO `ActiveUsers` (`User`, `Expires`) VALUES (?, NOW()+'.$timeout.') ON DUPLICATE KEY UPDATE `User`=VALUES(`User`)');
 
         $st->execute(array($user));
     }
