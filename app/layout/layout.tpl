@@ -14,11 +14,11 @@
         <div id="user">
         ?$layout.user
             Bienvenue <a href="{$layout.profileLink}">{$layout.user.username}</a>
-            <a href="{$layout.profileLink}"><img src="assets/img/profile.png"></a>
-            <a href="{$layout.friendlistLink}"><img src="assets/img/friends.png"></a>
-            <a href="{$layout.upcomingLink}"><img src="assets/img/calendar.png"></a>
-            <a href="{$layout.pmLink}"><img src="assets/img/msg.png"> ({$layout.pmUnread})</a>
-            <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png"></a>
+            <a href="{$layout.profileLink}"><img src="assets/img/profile.png" alt="Profil"></a>
+            <a href="{$layout.friendlistLink}"><img src="assets/img/friends.png" alt="Amis"></a>
+            <a href="{$layout.upcomingLink}"><img src="assets/img/calendar.png" alt="Evenements"></a>
+            <a href="{$layout.pmLink}"><img src="assets/img/msg.png" alt="Messagerie"> ({$layout.pmUnread})</a>
+            <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png" alt="Déconnexion"></a>
         @else@
             <form action="{$loginAction}" class="headlogin" method="POST">
                 <input name="username" type="text" placeholder="Nom d'utilisateur" />
@@ -46,7 +46,7 @@ $layout.notification?
         <a href="{$layout.createEventsLink}">Créer un événement</a>
         ?$layout.adminLink - <a href="{$layout.adminLink}">Admninistration</a> $layout.adminLink?
     </div>
-    <div id="content">(( content ))</div>
+    (( content ))
     <footer>
         <p>
             <a href="{$layout.legalLink}">Mentions légales</a> -
