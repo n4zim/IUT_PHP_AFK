@@ -68,6 +68,7 @@ header #user img {
 }
 
 .notification {
+	z-index: 2;
 	position: fixed;
 	bottom: 40px;
 	padding: 20px;
