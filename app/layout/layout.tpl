@@ -22,9 +22,9 @@
         @else@
             <form action="{$loginAction}" class="headlogin" method="POST">
                 <input name="username" type="text" placeholder="Nom d'utilisateur" />
-                <input name="password" type="password" placeholder="Mot de passe" /><br />
-                <input id="h-checkbox-remember" type="checkbox" name="remember" checked="checked"/><label for="f-checkbox-remember">Se souvenir</label><br />
-                <input type="submit" value="Connexion" /><br />
+                <input name="password" type="password" placeholder="Mot de passe" />
+                <input id="h-checkbox-remember" type="hidden" name="remember" />
+                <input type="submit" value="Connexion"/>
             </form>
         $layout.user?
         </div>
