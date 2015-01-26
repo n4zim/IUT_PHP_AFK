@@ -26,10 +26,18 @@ class Home extends Controller {
         $this->afk->view('home', array(
             'eventCount' => $eventModel->countEvents(true),
             'userCount' => $userModel->countUsers(),
-            'events' => $latest,
             'activeCount' => $userModel->countActiveUsers(),
+            'events' => $latest,
             'loginAction' => Helpers::makeUrl('login', 'post'),
             'factions' => $factions
         ));
+    }
+
+    public function legal() {
+        $this->afk->view('legal');
+    }
+
+    public function links() {
+        $this->afk->view('links');
     }
 }

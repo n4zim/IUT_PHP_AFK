@@ -29,6 +29,8 @@ class Layout {
         $data['friendlistLink'] = Helpers::makeUrl('user', 'friendlist');
         $data['pmLink'] = Helpers::makeUrl('pm');
         $data['upcomingLink'] = Helpers::makeUrl('event', 'upcoming');
+        $data['legalLink'] = Helpers::makeUrl('', 'legal');
+        $data['linksLink'] = Helpers::makeUrl('', 'links');
         
         // if admin
         if(isset($_SESSION['u.admin']))
