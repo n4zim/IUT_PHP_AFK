@@ -2,7 +2,7 @@
 {= pageTitle: {$event.Titre} =}
 {{content
 <h2>{$event.Titre}</h2><br />
-?$event.Image <img src="{$event.Image}" /><br /> $event.Image?
+?$event.Image <img src="{$event.Image}" alt="{$event.Titre}" /><br /> $event.Image?
 {br:event.Description}<br />
 Lieu : {$event.Place}<br />
 Prévu pour le {formatDateTime:event.EventDate}<br />
@@ -20,7 +20,7 @@ Organisé par <a href="{$userProfile}">{$event.Username}</a>
 
 <h3>participants</h3>
 [$entrants]
-    <img src="{$FactionLogo}" style="float:left;height: 100px;" />
+    <img src="{$FactionLogo}" style="float:left;height: 100px;" alt="{$FactionName}" />
     {$FactionName}
     <div>
       <a href="{$Url}"><img src="{$Avatar}" style="height: 60px;" /><br />
