@@ -7,7 +7,7 @@
 	<a href="{$writePMLink}" class="globalbutton">Composer un nouveau message</a><br /><br />
 	<h2>Reçus</h2>
 	[$received]
-	<a href="{$Url}">{formatPM:Message}</a><br />
+	<a href="{$Url}">{formatPM:Message}</a>{?( !{$Read} )?}  <strong>NOUVEAU</strong> {/?}<br />
 	Envoyé par {$Sender} à {$Recipient}<br />
 	<em>Le {formatDateTime:Timestamp}</em>
 	<hr />
@@ -15,7 +15,7 @@
 
 	<h2>Envoyés</h2>
 	[$sent]
-	<a href="{$Url}">{formatPM:Message}</a><br />
+	<a href="{$Url}">{formatPM:Message}</a>{?( !{$Read} )?}  <strong>NON LU</strong> {/?}<br />
 	Envoyé par {$Sender} à {$Recipient}<br />
 	<em>Le {formatDateTime:Timestamp}</em>
 	<hr />
