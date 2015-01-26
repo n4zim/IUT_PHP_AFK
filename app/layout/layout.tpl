@@ -20,7 +20,7 @@
             <a href="{$layout.pmLink}"><img src="assets/img/msg.png" alt="Messagerie"> ({$layout.pmUnread})</a>
             <a href="{$layout.logoutLink}"><img src="assets/img/disconnect.png" alt="Déconnexion"></a>
         @else@
-            <form action="{$loginAction}" class="headlogin" method="POST">
+            <form action="{$layout.loginAction}" class="headlogin" method="POST">
                 <input name="username" type="text" placeholder="Nom d'utilisateur" />
                 <input name="password" type="password" placeholder="Mot de passe" />
                 <input id="h-checkbox-remember" type="hidden" name="remember" />
