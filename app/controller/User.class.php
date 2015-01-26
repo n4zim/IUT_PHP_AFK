@@ -83,16 +83,12 @@ class User extends Controller {
         $this->afk->view('user/profile', $data);
     }
 
-    public function editform() {
-
-    }
-
-    public function edit($args) {
+    public function editpost($args) {
         Login::setGoto('user', 'profile');
         Login::checkIfLogguedIn();
 
-        $mandatoryFields = array('mail', 'gender', 'avatar');
-        $protectFields = array('mail', 'avatar');
+        $mandatoryFields = array('gender');
+        $protectFields = array('avatar');
         $mandatoryFieldsNames = array('adresse email', 'sexe', 'URL de l\'avatar');
 
         // check if all fields are set
@@ -101,23 +97,37 @@ class User extends Controller {
             if(empty($_POST[$field]))
                 $error .= "Le champ ".$mandatoryFieldsNames[$key]." est vide.<br />";
         }
-        if($error != "") $this->notifyError($error);
+        if($error != "") {
+            self::notifyError($error);
+        }
 
         // protect fields
         foreach ($protectFields as &$field) {
             $_POST[$field] = htmlentities($_POST[$field]);
         }
 
-        if (!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL))
-            $this->notifyError("L'adresse email n'est pas valide");
-
         $usermodel = new UserModel();
-        $r = $usermodel->edit($_SESSION['u.id'], $_POST);
+        $r = $usermodel->editUser($_SESSION['u.id'], $_POST);
 
         if($r['success']) {
             Helpers::notify('Effectué', 'Modifications enregistrées');
             Helpers::redirect('user', 'profile');
-        } else $this->notifyError('Erreur : '.$r['message']);
+        } else self::notifyError('Erreur : '.$r['message']);
+
+    }
+
+    public function edit($args) {
+        Login::setGoto('user', 'profile');
+        Login::checkIfLogguedIn();
+
+        $um = new UserModel();
+        $data = $um->getUser($_SESSION['u.id']);
+        $data['formAction'] = Helpers::makeUrl('user', 'editpost');
+        $data['IsMale'] = ($data['Gender'] == 'M') ? 'checked="checked" ' : '';
+        $data['IsFemale'] = ($data['Gender'] == 'F') ? 'checked="checked" ' : '';
+        $data['IsGNull'] = ($data['Gender'] == null) ? 'checked="checked" ' : '';
+
+        $this->afk->view('user/edit', $data);
     }
 
     public function friendlist($args) {
@@ -194,5 +204,10 @@ class User extends Controller {
         unset($_SESSION['u.redirectTo']);
         header('Location: '.$r);
         exit;
+    }
+
+    private static function notifyError($error) {
+        Helpers::notify('Erreur', $error, 'error');
+        Helpers::redirect('user', 'profile');
     }
 } 

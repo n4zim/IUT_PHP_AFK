@@ -9,15 +9,15 @@ Prévu pour le {formatDateTime:event.EventDate}<br />
 Posté le {formatDateTime:event.PostDate}<br />
 Récompense : {$event.Reward} cookies<br />
 Organisé par <a href="{$userProfile}">{$event.Username}</a>
-<br />
+<br /><br />
 {?({$event.Subscribed} == 0)?}
-<a href="{$subLink}">S'inscrire</a>
+<a href="{$subLink}"><button class="globalbutton">S'inscrire</button></a>
 @else@
-<a href="{$unsubLink}">Se désinscrire</a>
+<a href="{$unsubLink}"><button class="globalbutton">Se désinscrire</button></a>
 {/?}
-?$editLink <a href="{$editLink}">Éditer</a> $editLink?
-?$doneLink <a href="{$doneLink}">Event terminé</a> $doneLink?
-
+?$editLink <a href="{$editLink}"><button class="globalbutton">Éditer</button></a> $editLink?
+?$doneLink <a href="{$doneLink}"><button class="globalbutton">Event terminé</button></a> $doneLink?
+<br />
 <h3>Participants</h3>
 [$entrants]
       <img src="{$FactionLogo}" style="height:100px;vertical-align:sub;margin-right:30px" alt="Faction de l'utilisateur" />

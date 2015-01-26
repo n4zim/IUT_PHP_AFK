@@ -1,0 +1,23 @@
+{% layout/layout.tpl %}
+{= pageTitle: Modification =}
+{{content
+<section id="content">
+    <h1>Modification</h1>
+
+    <form method="post" action="{$formAction}" class="inscription">
+        <label for="avatar">URL de l'avatar</label><br />
+        <input type="avatar" name="avatar" id="avatar" class="inscription" value="{$Avatar}" /><br />
+        
+        <label for="gender">Sexe</label><br />
+        <input type="radio" name="gender" value="M" id="gender-male" {$IsMale}/>
+        <label for="gender-male">Homme</label>
+        <input type="radio" name="gender" value="F" id="gender-female" {$IsFemale}/>
+        <label for="gender-female">Femme</label>
+        <input type="radio" name="gender" value="UNSPECIFIED" id="gender-null" {$IsGNull}/>
+        <label for="gender-null">Non spécifié</label><br />
+
+        <input type="submit" class="globalbutton">
+    </form>
+
+</section>
+content}}
