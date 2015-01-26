@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>?$pageTitle {$pageTitle} -  $pageTitle?CookieCatch AFK</title>
+    <meta name="keywords" content="CookieCatch, AFK, cookie" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="assets/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/top.css"/>
