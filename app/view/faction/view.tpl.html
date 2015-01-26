@@ -1,17 +1,20 @@
 {% layout/layout.tpl %}
 {= pageTitle: {$faction.Name} =}
 {{content
-<div>
-  <a href="{$faction.Url}"><img src="{$faction.Logo}" style="height: 120px;" /><br />
-  {$faction.Name}</a><br />
-  {$faction.Description}<br />
-  {$faction.Score} cookies
-</div>
+<section id="content">
+	<h1>Classe des {$faction.Name}</h1>
+	<div>
+	  <a href="{$faction.Url}"><img src="{$faction.Logo}" style="height: 120px;" /><br />
+	  </a><br />
+	  {$faction.Description}<br />
+	  {$faction.Score} cookies
+	</div>
 
-<h2>Liste des membres de la faction</h2>
-<ul>
-[$members]
-<li><a href="{$Url}">{$Username}</li>
-[/$members]
-</ul>
+	<h2>Liste des membres de la faction</h2>
+	<ul>
+	[$members]
+	<li><a href="{$Url}">{$Username}</li>
+	[/$members]
+	</ul>
+</section>
 content}}
